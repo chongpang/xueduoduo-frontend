@@ -1,0 +1,103 @@
+.logout-btn {
+  font-size: 24px;
+  padding: 32px 15px 10px 0px;
+  text-align: right;
+  height: 75px;
+  color: white;
+}
+
+.dashboard-btn {
+  padding: 25px 10px 25px 25px;
+  font-size: 32px;
+  text-align: left;
+  height: 75px;
+}
+
+#app-container {
+  background-image: url(/imgs/spring.png) !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+  background-size: cover !important;
+}
+
+#body {
+  margin-top: 10px !important;
+  padding-top: 0px !important;
+  margin-bottom: 15px !important;
+}
+
+.rubix-timeline-title {
+  background: transparent;
+}
+
+.rubix-panel-controls {
+  display: none;
+}
+
+.bg-hoverblue {
+  opacity: 0.75;
+}
+
+html {
+  position: relative !important;
+  min-height: 100% !important;
+}
+
+#footer {
+  position: absolute !important;
+  background-color: transparent !important;
+  text-align: center;
+  left: 0;
+  bottom: 0;
+  height: 60px;
+  width: 100%;
+  padding-top: 25px !important;
+  margin-bottom: 10px;
+}
+
+#navbar {
+  z-index: 9999999999999;
+}
+
+@media (max-width: 400px) {
+  /* CSS goes here */
+  #navbar {
+    //left: 0px;
+  }
+}
+
+.cursor-hand {
+  cursor: pointer;
+}
+
+.btn {
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.xdd-logo {
+  padding: 25px 0 0 25px !important;
+}
+
+.text-align-left {
+  text-align: left !important;
+}
+
+.text-align-right {
+  text-align: right !important;
+}
+
+.marginLeft25 {
+  margin-left: -25px !important;
+}
+
+.text-center-important {
+  text-align: center !important;
+}
+
+
+
+
+

@@ -4,7 +4,6 @@ import compression from 'compression';
 import cookieParser from 'cookie-parser';
 
 import React from 'react';
-import ReactDOMServer from 'react-dom/server';
 
 import routes from './src/routes';
 import { renderHTMLString } from '@sketchpixy/rubix/lib/node/router';
@@ -36,37 +35,6 @@ function renderHTML(req, res) {
     }
   });
 }
-
-/** BEGIN X-EDITABLE ROUTES */
-
-app.get('/xeditable/groups', function(req, res) {
-  res.send([
-    {value: 0, text: 'Guest'},
-    {value: 1, text: 'Service'},
-    {value: 2, text: 'Customer'},
-    {value: 3, text: 'Operator'},
-    {value: 4, text: 'Support'},
-    {value: 5, text: 'Admin'}
-  ]);
-});
-
-app.get('/xeditable/status', function(req, res) {
-  res.status(500).end();
-});
-
-app.post('/xeditable/address', function(req, res) {
-  res.status(200).end();
-});
-
-app.post('/dropzone/file-upload', function(req, res) {
-  res.status(200).end();
-});
-
-/** END X-EDITABLE ROUTES */
-
-app.post('/dropzone/file-upload', function(req, res) {
-  res.status(200).end();
-});
 
 app.get('/', RubixAssetMiddleware('ltr'), (req, res, next) => {
   renderHTML(req, res);

@@ -8,8 +8,6 @@ import { Grid, Row, Col, MainContainer } from '@sketchpixy/rubix';
 
 /* Pages */
 import Login from './routes/Login';
-import Signup from './routes/Signup';
-import Lock from './routes/Lock';
 
 class App extends React.Component {
   render() {
@@ -45,9 +43,7 @@ const routes = (
  */
 const basicRoutes = (
   <Route>
-    <Route path='lock' component={Lock} />
     <Route path='login' component={Login} />
-    <Route path='signup' component={Signup} />
   </Route>
 );
 

@@ -1,0 +1,55 @@
+
+.padding-col{
+	padding-left: 10px;
+	padding-right:10px;
+}
+
+
+.thumbAdd{
+	border:2px dashed orange;
+}
+
+.thumb{
+	margin-left: 5px;
+	margin-right: 15px;
+	height: 100px;
+	width:200px;
+	cursor: pointer;
+	border-radius: 5px;
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+}
+
+.link-style{
+	text-decoration: none;
+	cursor: pointer;
+
+}
+
+.close-btn{
+	float: right;
+	margin-top:-30px;
+	padding-right:8px;
+	font-size:24px;
+}
+
+.close-btn:hover{
+    color: green;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+
+.custom {
+  height: 80px;
+  font-size:20px;
+  color:green;
+  font-family: "Times New Roman", Times, serif;
+  font-style:italic;
+  text-transform:uppercase;
+}
+
+.error-font{
+	color: red;
+}

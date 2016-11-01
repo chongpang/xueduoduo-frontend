@@ -9,7 +9,16 @@ coverage
 # production
 build
 
+server.js
+server.js.map
+
+# tmp
+
+tmp
+
 # misc
 .DS_Store
 .env
 npm-debug.log
+
+dist

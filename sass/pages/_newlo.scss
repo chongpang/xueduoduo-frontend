@@ -1,0 +1,36 @@
+.wizard > .content > .body ul > li {
+    display: inline-block;
+}
+
+.lo-description {
+	width:100%;
+	margin-bottom:10px;
+}
+
+.padding-topdown-1{
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.panel-min-height{
+	min-height:180px;
+}
+
+.trumbowyg-box .editor{
+    min-height: 100px;
+}
+
+.padding-topdown-20{
+	padding-bottom: 20px;
+}
+
+.check-box-fake {
+    -webkit-transition: all .1s .15s cubic-bezier(0.4,0,0.2,1);
+    transition: all .1s .15s cubic-bezier(0.4,0,0.2,1);
+    -webkit-transition-property: transform,border-radius;
+    transition-property: transform,border-radius;
+    border: 8px solid black;
+    left: -8px;
+    position: absolute;
+    top: -8px;
+}

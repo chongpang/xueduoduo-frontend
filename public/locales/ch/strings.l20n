@@ -8,17 +8,153 @@
   it: "意大利人",
   ge: "德语",
   ar: "阿拉伯语",
-  ch: "中国的"
+  ch: "中文"
 }>
 
-<!-- NAVIGATION LANGUAGE MENU - HEADING -->
-<languageMenuHeading '选择一个语言环境'>
+<!-- USEFUL TO KNOW CURRENTLY SELECTED LOCALE -->
+<selectedFlag 'China'>
 
-<!-- SETTINGS MENU - Fluid -->
-<settingsMenuHeading '尺寸'>
-<settingsMenuFluid '流体'>
-<settingsMenuBoxed '盒装 (990px)'>
+<!-- Login -->
+<signinTo '学多多'>
+<signinGuide '您可以使用第三方应用登录'>
+<signupGuide '注册学多多账号'>
+<signinUseXddAccount '或者使用学多多账号登录'>
+<signin '登  录'>
+<resetPassword '请设定新密码'>
+<updateAccount '请设定您的账户信息'>
+<submit '提交'>
 
-<!-- NOTIFICATIONS MENU -->
-<notificationsMenuHeading '您的通知'>
-<notificationsTimeFirst '一个小时前'>
+<!-- Signup -->
+<signup '注册学多多账户'>
+<createAccount '创建账户'>
+<signupGuide '注  册'>
+<hasAccount '已有账户？'>
+<username '用户名'>
+<learner '我是学生'>
+<teacher '我是老师'>
+<parent '我是家长'>
+<tel '手机号码'>
+<email '电子邮件'>
+<hasnotAccount '还没有帐号？'>
+
+<!-- Teacher dashboard -->
+<myclasses '我的班级'>
+<activities '学习动态'>
+<addClass '创建新班级'>
+<inputClassName '请输入班级名称'>
+<requiredField '(*)项目为必填项目'>
+<nameOfClass '班级名称'>
+<selectCourse '请选择课程'>
+<selectAllCourse '选择所有课程'>
+<createClasscomfirm '将为你创建以下班级'>
+<className '班级名称'>
+<coursesName '选中的课程'>
+
+<addCourse '创建新课程'>
+<selectLO '选择知识点'>
+<selectAllLO ' 选择所有知识点'>
+<inputCourseName '请输入课程名称'>
+<createCourseConfirm '将为你创建以下课程'>
+<courseName '课程名称'>
+<losName '选中的知识点'>
+
+<addLO '创建新知识点'>
+<addContent '学习内容'>
+<inputLOName '知识点名称'>
+<createLOConfirm '将为你创建以下知识点'>
+<LOName '知识点名称'>
+<contentsList '追加的知识点'>
+<addQuiz '添加问题'>
+<addQuestion '问题'>
+<addAnswer '回答'>
+<multipleChoice '多项选择'>
+<yesNo 'Yes/No'>
+
+<classHome '班级概要'>
+<classAssignment '作业'>
+<classCurriculum '课程'>
+<classPerformance '评价'>
+<classManage '管理'>
+<overviewQuestionAnswered '回答问题个数'>
+<overviewFirstCorrectRate '首次回答正确率'>
+<overviewAssignmentSubmitted '作业提次数'>
+<overviewStuName '学生姓名'>
+<overviewLastAccess '最近学习时间'>
+<inviteStudent '邀请学生'>
+<learnerId '输入电话号码或者电子邮件, 使用逗号分隔多个'>
+<overvieStatus '学生状态'>
+
+<!-- learner dashboard -->
+<joinNewClass '加入新班级'>
+<jointCourse '学习中的课程'>
+<allCourse '所有课程'>
+<enrollThisCourse '学习此课程'>
+<learnCourse '开始学习'>
+<continueLO '继续'>
+
+
+<!-- common  -->
+<author '作成者'>
+
+<!-- create lo -->
+<addLOContent '知识点内容'>
+<addLODescription '知识点描述'>
+<selectPrerequists '前提知识点'>
+<selectCategory '所属科目'>
+<addTag '添加标签'>
+<addLearningLevel '知识点级别'>
+<comment '评论'>
+<yesNo '对错'>
+<multiChoice '多项选择'>
+<delete '删除'>
+<removeQ '删除问题'>
+<add '追加'>
+<update '更新'>
+<updateCourse '更新课程'>
+<updateClass '更新班级'>
+<editCourse '编辑课程'>
+<courseLos '该课程包含以下知识点：'>
+<addLO '添加知识点'>
+<editLO '编辑知识点'>
+<searchlo '搜索知识点'>
+<updateLO '更新知识点'>
+<addToCourse '添加到课程'>
+<courses '班级所有课程'>
+<editClassBtn '编辑班级'>
+<deleteClass '删除班级'>
+<classCourse '班级所有课程'>
+<addToClass '添加到班级'>
+<selectCourse '选择课程'>
+<searchCourse '搜索课程'>
+<selectCourse '选择课程'>
+<editClass '编辑班级'>
+<question '问题'>
+<confirm '提交'>
+<send '发送'>
+<!- footer -->
+<companyName '学多多（深圳）信息科技有限公司'>
+
+<!- messages -->
+<useridRequired '请输入手机号或Email地址。'>
+<useridMinLen '请最少输入{0}位以上字符的有效电子邮件或电话号码。'>
+<userNameRequired '请输入用户名。'>
+<userNameMinLen '请输入{0}以上字符的用户名。'>
+<passwordMinLen '请输入{0}位字符以上字母，数字和符号組合的密码。'>
+<passwordRequired '请输入字母，数字和符号組合的密码。'>
+<repeatPasswordRequired '请再次输入密码。'>
+<passwordRequiredLogin '请输入密码。'>
+<repeatPassword '请再次输入密码'>
+<password '请输入密码'>
+<userName '请输入用户名'>
+<repeatPasswordNotSame '密码不一致。'>
+<congratulate '恭喜！'>
+<accountReady '您的学多多帐号已经准备就绪，赶快去'>
+<tokenInvalid '无法完成账户验证，错误链接或是验证码已过期'>
+<signupThanks '感谢注册学多多用户'>
+<signuoConfirmGuide '我们已将一封注册确认邮件发往您的邮箱，请按邮件提示完成注册。谢谢'>
+<endmark '。'>
+<joinError '加入班级过程中出错了，请稍后再试或是联系班级管理员'>
+<joinSuccess '您已成功加入班級，您可以马上'>
+<finishCourse '您已经学完课程：{0},要重新开始吗？'>
+
+

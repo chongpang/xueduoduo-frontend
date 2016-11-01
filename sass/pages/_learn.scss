@@ -1,0 +1,51 @@
+
+.lo-content{
+	min-height: 200px;
+}
+
+.lo-answers{
+	margin-top: 20px;
+}
+.lo-answer{
+	border-radius: 0.25rem;
+    border: solid 2px rgba(0,0,0,0.25);
+    margin-top: 10px;
+    min-height: 40px;
+    sensor: hand
+}
+
+.lo-answer:hover{
+    color: green;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.choice-selected{
+    border: solid 2px #73c73d;
+}
+
+.right-answer{
+    background-color: #73c73d;
+    border-color: #73c73d;
+    -webkit-box-shadow: 0 0 0 transparent;
+    -moz-box-shadow: 0 0 0 transparent;
+    box-shadow: 0 0 0 transparent;
+    display: block;
+    color: #fafafa !important;
+}
+
+.wrong-answer{
+    background-color: #e86242;
+    border-color: #e86242;
+    -webkit-box-shadow: 0 0 0 transparent;
+    -moz-box-shadow: 0 0 0 transparent;
+    box-shadow: 0 0 0 transparent;
+    display: block;
+    color: #fafafa !important;
+}
+
+.disabled{
+    cursor: default !important;
+    pointer-events: none;
+}
+

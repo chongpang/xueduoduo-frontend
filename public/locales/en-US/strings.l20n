@@ -11,14 +11,19 @@
   ch: 'Chinese'
 }>
 
-<!-- NAVIGATION LANGUAGE MENU - HEADING -->
-<languageMenuHeading 'CHOOSE A LOCALE'>
+<!-- Login -->
+<signinTo 'Sign in to Xueduoduo'>
+<signinGuide 'You need to sign in for those awesome features'>
+<signupGuide 'Create a Xueduoduo account'>
+<signinUseXddAccount 'or user your Xueduoduo account'>
+<signin 'Sign In'>
 
-<!-- SETTINGS MENU - Fluid -->
-<settingsMenuHeading 'Dimension'>
-<settingsMenuFluid 'Fluid'>
-<settingsMenuBoxed 'Boxed (990px)'>
+<!-- Signup -->
+<signup 'Sign up'>
+<createAccount 'CREATE ACCOUNT'>
+<signupGuide 'SIGN UP WITH'>
+<hasAccount 'Already have an account'>
+<username 'Username'>
+<tel 'Tel'>
+<email 'Email Address'>
 
-<!-- NOTIFICATIONS MENU -->
-<notificationsMenuHeading 'Your notifications'>
-<notificationsTimeFirst 'an hour ago'>

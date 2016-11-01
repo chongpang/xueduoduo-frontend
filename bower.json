@@ -20,6 +20,7 @@
     "tests"
   ],
   "dependencies": {
+    "d3": "3.5.17",
     "moment": "^2.14.1",
     "trumbowyg": "^2.1.0",
     "bootstrap-sass": "^3.3.6",
