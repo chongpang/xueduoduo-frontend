@@ -11,7 +11,6 @@ import {
     Row,
     Col,
     Grid,
-    Icon,
     Form,
     Panel,
     Image,
@@ -19,7 +18,6 @@ import {
     PanelBody,
     FormGroup,
     FormControl,
-    InputGroup,
     PanelHeader,
     MainContainer,
     PanelContainer,
@@ -124,7 +122,7 @@ export default class Login extends React.Component {
                 <Col id="content" xs={12} sm={4} style={{padding: 10}} className="col-sm-offset-4">
                     <Grid>
                         <Row className='text-center'>
-                            <Col sm={4} smOffset={4} xs={10} xsOffset={1} collapseLeft collapseRight>
+                            <Col sm={5} smOffset={3} xs={6} xsOffset={3} collapseLeft collapseRight>
                                 <Image src='/imgs/logo.png' className='img-responsive' alt='xueduoduo'/>
                             </Col>
                         </Row>
@@ -171,33 +169,29 @@ export default class Login extends React.Component {
                                                 </div>
                                                 <div style={{marginTop: 15, marginBottom: 15}}>
                                                     <Form id="signin_form" name="signin_form">
-                                                        <FormGroup controlId='user_id'>
+                                                        <FormGroup bsSize='large' controlId='user_id'>
                                                             <Grid>
                                                                 <Row>
                                                                     <Col xs={12} sm={12}>
-                                                                        <InputGroup bsSize='large'>
                                                                             <FormControl autoFocus type='email'
                                                                                          name='userId'
-                                                                                         className='border-focus-blue col-sm-12 col-xs-12'
+                                                                                         className='border-focus-blue'
                                                                                          onKeyPress={this._handleKeyPress}
                                                                                          placeholder='support@xueduoduo.cn'/>
-                                                                        </InputGroup>
                                                                     </Col>
                                                                 </Row>
                                                             </Grid>
                                                         </FormGroup>
 
-                                                        <FormGroup controlId='password'>
+                                                        <FormGroup bsSize='large' controlId='password'>
                                                             <Grid>
                                                                 <Row>
                                                                     <Col xs={12} sm={12}>
-                                                                        <InputGroup bsSize='large'>
                                                                             <FormControl autoFocus type='password'
                                                                                          name='password'
                                                                                          onKeyPress={this._handleKeyPress}
                                                                                          className='border-focus-blue'
                                                                                          placeholder='Password'/>
-                                                                        </InputGroup>
                                                                     </Col>
                                                                 </Row>
                                                             </Grid>
@@ -219,7 +213,7 @@ export default class Login extends React.Component {
                                                 </div>
                                                 <div className='bg-hoverblue fg-black50 text-center'>
                                                     <div style={{paddingBottom: 30}}>
-                                                        <Entity entity='hasnotAccount'/><Link to='/signup'><Entity
+                                                        <Entity entity='hasnotAccount'/><Link to={::this.getPath('signup')}><Entity
                                                         entity='signup'/></Link>
                                                     </div>
                                                 </div>

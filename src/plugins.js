@@ -10,3 +10,5 @@ import 'js/rubix.js';
 
 import "bower_components/jquery.steps/build/jquery.steps.min.js";
 import "bower_components/jquery-validation/dist/jquery.validate.min.js";
+
+import "js/vendor/xapiwrapper/xapiwrapper.min.js"
