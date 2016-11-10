@@ -17,13 +17,13 @@ export default class Header extends React.Component {
 
     logout() {
 
-        removeUserInfo();
+        store.clear();
 
         this.transitionTo("/");
     }
 
     onDashboard() {
-        var utype = globals.localStorage.getItem('user_type');
+        var utype = store.get('user_type');
 
         if (utype == '0') {
             // learner
@@ -35,17 +35,17 @@ export default class Header extends React.Component {
 
     render() {
 
-        var figure = globals.localStorage.getItem('o_charater');
-        var nickname = globals.localStorage.getItem('o_nickname');
+        var figure = store.get('o_charater');
+        var nickname = store.get('o_nickname');
 
-        var open_type_id = globals.localStorage.getItem('o_openid_type');
+        var open_type_id = store.get('o_openid_type');
 
         if (!figure || open_type_id == '0') {
             figure = '/imgs/avatars/avatar12.png';
         }
 
         if (!nickname || open_type_id == '0') {
-            nickname = globals.localStorage.getItem('user_name');
+            nickname = store.get('user_name');
         }
 
         return (

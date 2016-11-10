@@ -22,7 +22,7 @@ if (module.hot) {
 }
 
 /////////////prod////////////////////////
-var API_HOST = "http://www.xueduoduo.cn:6060";
+window.API_HOST = "http://www.xueduoduo.cn:6060";
 // xAPI
 var conf = {
   "endpoint" : "http://52.39.94.215:8000/data/xAPI/",
@@ -34,7 +34,7 @@ ADL.XAPIWrapper.changeConfig(conf);
 
 var hostname = location.protocol + "//" + location.host;
 
-var XDD_VERBS = {
+window.XDD_VERBS = {
   "signin" : {
     "id" : "http://adlnet.gov/expapi/verbs/logged-in",
     "display" : {"en-US" : "logged-in", "zh-CN" : "登录"}
@@ -81,7 +81,7 @@ var XDD_VERBS = {
   },
 };
 
-var XDD_OBJECTS ={
+window.XDD_OBJECTS ={
   "signin" : {
     "id" : hostname + "/signin",
     "objectType": "Activity",
@@ -222,19 +222,6 @@ function getQuestionObj(qid, q){
   qest.definition.description['zh-CN'] =  '';
 
   return qest;
-}
-
-function removeUserInfo(){
-  localStorage.removeItem("access_token");
-  localStorage.removeItem("user_type");
-  localStorage.removeItem("current_class");
-  localStorage.removeItem("current_course");
-  localStorage.removeItem("user_id");
-  localStorage.removeItem("user_name");
-  localStorage.removeItem("o_access_token");
-  localStorage.removeItem("o_openid_type");
-  localStorage.removeItem("o_charater");
-  localStorage.removeItem("o_nickname");
 }
 
 function hideHeader( offset_v ){

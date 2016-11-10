@@ -26,6 +26,7 @@ import {
 
 @withRouter
 export default class Login extends React.Component {
+
     back(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -42,7 +43,7 @@ export default class Login extends React.Component {
 
     componentDidMount() {
 
-        UserStore.addChangeListener(this._onSignCallBack);
+        UserStore.addChangeListener(this._onSignCallBack.bind(this));
 
         setTimeout(function () {
             $("#signin_form").validate({
@@ -88,11 +89,11 @@ export default class Login extends React.Component {
             ActivityActionCreator.saveAcitivity(XDD_VERBS['signin'], XDD_OBJECTS['signin'], {"success": true});
 
             if (payload.userType == '1') {
-
-                this.transitionTo('/teacher/dashboard');
+                this.props.router.push(this.getPath('teacher/dashboard'));
 
             } else if (payload.userType == '0') {
-                this.transitionTo('/learner/dashboard')
+
+                this.props.router.push(this.getPath('teacher/dashboard'));
             } else if (payload.userType == '2') {
                 alert('Parent dashboard is under developing. Thank you !')
             }
@@ -176,7 +177,7 @@ export default class Login extends React.Component {
                                                                             <FormControl autoFocus type='email'
                                                                                          name='userId'
                                                                                          className='border-focus-blue'
-                                                                                         onKeyPress={this._handleKeyPress}
+                                                                                         onKeyPress={this._handleKeyPress.bind(this)}
                                                                                          placeholder='support@xueduoduo.cn'/>
                                                                     </Col>
                                                                 </Row>
@@ -189,7 +190,7 @@ export default class Login extends React.Component {
                                                                     <Col xs={12} sm={12}>
                                                                             <FormControl autoFocus type='password'
                                                                                          name='password'
-                                                                                         onKeyPress={this._handleKeyPress}
+                                                                                         onKeyPress={this._handleKeyPress.bind(this)}
                                                                                          className='border-focus-blue'
                                                                                          placeholder='Password'/>
                                                                     </Col>
@@ -203,7 +204,7 @@ export default class Login extends React.Component {
                                                                     <Col xs={12} sm={12}>
                                                                         <Button outlined lg type='button' id="signin"
                                                                                 bsStyle='blue'
-                                                                                block onClick={this.signin}><Entity
+                                                                                block onClick={this.signin.bind(this)}><Entity
                                                                             entity='signin'/></Button>
                                                                     </Col>
                                                                 </Row>
