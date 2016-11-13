@@ -1,11 +1,8 @@
-import { Link, State, Navigation } from 'react-router';
-
-import { Router } from 'react-router';
-
+import React from 'react';
 import classNames from 'classnames';
+import {Link, withRouter} from 'react-router';
+import {Entity} from '@sketchpixy/rubix/lib/L20n';
 
-import Header from 'common/header';
-import Footer from 'common/footer';
 
 import CourseActionCreator from 'actions/CourseActionCreator';
 import CourseStore from 'stores/CourseStore';
@@ -14,22 +11,41 @@ import ClassStore from 'stores/ClassStore';
 
 import CourseThumb from 'components/coursethumb';
 
-import LoremIpsum from 'global/jsx/loremipsum';
 import ReactStyle from 'global/jsx/react-styles/src/ReactStyle.jsx';
 var XddConstants = require('constants/XddConstants');
 var ActionTypes = XddConstants.ActionTypes;
 
+import {
+    Row,
+    Col,
+    Grid,
+    Form,
+    Panel,
+    PanelBody,
+    FormGroup,
+    PanelHeader,
+    PanelContainer,
 
-var Body = React.createClass({
-  mixins: [State, Navigation],
-  getInitialState: function(){
-    return {
+} from '@sketchpixy/rubix';
+
+@withRouter
+export default class Login extends React.Component {
+  back(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.router.goBack();
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
       checkAll : false,
       checkedCourses: [],
       checkedCourseIds: []
-    }
-  },
-  componentDidMount: function() {
+    };
+  }
+
+  componentDidMount() {
 
     CourseStore.addChangeListener(this._onCourseCallBack);
     ClassStore.addChangeListener(this._onClassCallBack);
@@ -106,8 +122,9 @@ var Body = React.createClass({
       self._onCheckAll();
     });
 
-  },
-  _onCourseCallBack :function(){
+  }
+
+  _onCourseCallBack(){
 
     var payload = CourseStore.getPayload();
     var result = payload.result;
@@ -121,8 +138,9 @@ var Body = React.createClass({
       }
     }
 
-  },
-  _onClassCallBack: function(){
+  }
+
+  _onClassCallBack(){
     var payload = ClassStore.getPayload();
     var result = payload.result;
     if(payload.type == ActionTypes.CREATE_CLASS){
@@ -132,10 +150,9 @@ var Body = React.createClass({
         alert(result.message);
       }
     }
-  },
+  }
 
-
-  _onCheckAll: function(){
+  _onCheckAll(){
 
    if (!$('#select-all-course').is(':checked')) {
       $('#select-all-course').prop('checked', false);
@@ -150,23 +167,22 @@ var Body = React.createClass({
 
       this.state.checkAll = true;
     }
-  },
+  }
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
       if($.isFunction(this._onCourseCallBack)){
         CourseStore.removeChangeListener(this._onCourseCallBack);
       }
       if($.isFunction(this._onClassCallBack)){
         CourseStore.removeChangeListener(this._onClassCallBack);
       }
-  },
-  render: function() {
+  }
+
+  render() {
 
   var courseThumb = React.createElement(CourseThumb, {ref:'courseRefs', courses: [], parent: this, allowAdd: false, allowCheck:true });
 
     return (
-      <Container id='body'>
-        <div id="fakeLoader"></div>
         <Grid>
           <Row>
             <Col sm={10} className='col-sm-offset-1 padding-col'>
@@ -241,10 +257,9 @@ var Body = React.createClass({
             </Col>
           </Row>
         </Grid>
-      </Container>
     );
   }
-});
+}
 
 export default class extends React.Component {
   render() {

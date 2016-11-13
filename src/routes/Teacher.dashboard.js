@@ -3,8 +3,6 @@ import classNames from 'classnames';
 import {Link, withRouter} from 'react-router';
 import {Entity} from '@sketchpixy/rubix/lib/L20n';
 
-import Header from '../common/Header';
-import Footer from '../common/Footer';
 import ClassThumb from '../components/Classthumb';
 import ClassAction from '../actions/ClassActionCreator';
 import ClassStore from '../stores/ClassStore';
@@ -26,7 +24,6 @@ import {
     Button,
     PanelBody,
     PanelHeader,
-    MainContainer,
     PanelContainer,
 
 } from '@sketchpixy/rubix';
@@ -48,16 +45,16 @@ export default class TeacherDashboard extends React.Component {
     }
 
     componentDidMount() {
-        ClassStore.addChangeListener(this._onClassCallBack);
+        ClassStore.addChangeListener(this._onClassCallBack.bind(this));
         ClassAction.getClasses();
 
-        ActivityStore.addChangeListener(this._onActivityCallBack);
+        ActivityStore.addChangeListener(this._onActivityCallBack.bind(this));
 
         setTimeout(function () {
             ActivityAction.getActivities();
         }, 100);
 
-        hideHeader(190);
+        //hideHeader(190);
 
     }
 
@@ -72,8 +69,14 @@ export default class TeacherDashboard extends React.Component {
 
         e.stopPropagation();
 
-        this.transitionTo('/teacher/class/new');
+        this.props.route.push(this.getPath('teacher/class/new'));
 
+    }
+
+    getPath(path) {
+        var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
+        path = `/${dir}/${path}`;
+        return path;
     }
 
     _onActivityCallBack() {
@@ -93,7 +96,8 @@ export default class TeacherDashboard extends React.Component {
         var result = payload.result;
         if (payload.type == ActionTypes.GET_CLASSES) {
             if (result.retcode == 0) {
-                self.refs['classthumb_ref']._setClasses(result.classes);
+
+                self.refs['classthumb_ref'].setState({classes: result.classes});
             } else {
                 alert(result.message);
             }
@@ -110,7 +114,7 @@ export default class TeacherDashboard extends React.Component {
                 <PanelContainer>
                     <Panel>
                         <PanelBody className='thumb thumbAdd text-center'>
-                            <Button bsStyle='xddgreen' onClick={ this._onClick }><Entity entity='addClass'/></Button>
+                            <Button bsStyle='xddgreen' onClick={ this._onClick.bind(this) }><Entity entity='addClass'/></Button>
                         </PanelBody>
                     </Panel>
                 </PanelContainer>
@@ -125,50 +129,44 @@ export default class TeacherDashboard extends React.Component {
         });
 
         return (
-            <MainContainer id='container' className={classes}>
-                <Header />
-                <MainContainer id='body'>
-                    <Grid>
-                        <Row>
-                            <Col xs={12} sm={6} className='col-sm-offset-1 padding-col'>
-                                <PanelContainer>
-                                    <Panel>
-                                        <PanelHeader>
-                                            <Grid>
-                                                <Row>
-                                                    <Col xs={12}>
-                                                        <h3><Entity entity='myclasses'/></h3>
-                                                    </Col>
-                                                </Row>
-                                            </Grid>
-                                        </PanelHeader>
-                                        <PanelBody className="triggerElement">
-                                            { classthumb }
-                                        </PanelBody>
-                                    </Panel>
-                                </PanelContainer>
-                            </Col>
-                            <Col xs={12} sm={4} className='padding-col'>
-                                <PanelContainer>
-                                    <Panel>
-                                        <PanelHeader>
-                                            <Grid>
-                                                <Row>
-                                                    <Col xs={12}>
-                                                        <h3><Entity entity='activities'/></h3>
-                                                    </Col>
-                                                </Row>
-                                            </Grid>
-                                        </PanelHeader>
-                                        { this.state.activities }
-                                    </Panel>
-                                </PanelContainer>
-                            </Col>
-                        </Row>
-                    </Grid>
-                </MainContainer>
-                <Footer/>
-            </MainContainer>
+            <Grid>
+                <Row>
+                    <Col xs={12} sm={6} className='col-sm-offset-1 padding-col'>
+                        <PanelContainer>
+                            <Panel>
+                                <PanelHeader>
+                                    <Grid>
+                                        <Row>
+                                            <Col xs={12}>
+                                                <h3><Entity entity='myclasses'/></h3>
+                                            </Col>
+                                        </Row>
+                                    </Grid>
+                                </PanelHeader>
+                                <PanelBody className="triggerElement">
+                                    { classthumb }
+                                </PanelBody>
+                            </Panel>
+                        </PanelContainer>
+                    </Col>
+                    <Col xs={12} sm={4} className='padding-col'>
+                        <PanelContainer>
+                            <Panel>
+                                <PanelHeader>
+                                    <Grid>
+                                        <Row>
+                                            <Col xs={12}>
+                                                <h3><Entity entity='activities'/></h3>
+                                            </Col>
+                                        </Row>
+                                    </Grid>
+                                </PanelHeader>
+                                { this.state.activities }
+                            </Panel>
+                        </PanelContainer>
+                    </Col>
+                </Row>
+            </Grid>
         );
     }
 }

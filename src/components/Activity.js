@@ -1,32 +1,35 @@
 import React from 'react';
-import classNames from 'classnames';
+import {withRouter} from 'react-router';
 
+import {
+    PanelBody,
+    TimelineView,
+    TimelineHeader,
+    TimelineBody,
+    TimelineItem,
+    TimelineIcon,
+    TimelineTitle
 
+} from '@sketchpixy/rubix';
 
-var Activity = React.createClass({
+@withRouter
+export default class Activity extends React.Component {
 
-  getInitialState: function(){
-	   return {
-      statements: []
+    constructor(props) {
+        super(props);
+        this.state = {
+            statements: []
+        };
     }
-  },
-
-  componentDidMount: function() {
 
 
-  },
-  componentWillUnmount: function() {
+    render() {
 
-  },
-
-  render() {
-
-  	var self = this;
-  	var statements = this.props.statements;
-
+    var statements = this.props.statements;
+    var index = 0;
     if ( statements && statements.length > 0) {
       statements = statements.map(function (obj) {
-
+        index++;
         var actor = "", verb = "", object = "", result = "";
 
         if(obj.statement.actor && obj.statement.actor.name){
@@ -47,6 +50,8 @@ var Activity = React.createClass({
             }
         }
 
+        var key = "timeline_view_" + index;
+
         if(obj.statement.result){
             result = obj.statement.result.success;
             if(result){
@@ -59,12 +64,12 @@ var Activity = React.createClass({
         if(actor && verb){
           var timestamp = moment(obj.statement.timestamp).format("dddd, MMMM Do YYYY, h:mm:ss A");
           return (
-              <TimelineView className='tl-blue'>
+              <TimelineView key={ key } className='tl-blue'>
                 <TimelineItem>
                   <TimelineHeader>
                     <TimelineIcon className='bg-blue fg-white' glyph='icon-fontello-chat-1' />
                     <TimelineTitle>
-                { timestamp }
+                        { timestamp }
                     </TimelineTitle>
                   </TimelineHeader>
                   <TimelineBody>
@@ -82,12 +87,10 @@ var Activity = React.createClass({
     }
 
     return(
-    		<PanelBody className='text-center'>
-    		{ statements }
-    		</PanelBody>
-    	);
+            <PanelBody className='text-center'>
+            { statements }
+            </PanelBody>
+        );
 
-  }
-});
-
-module.exports = Activity;
+    }
+}

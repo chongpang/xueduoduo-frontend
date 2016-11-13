@@ -2,29 +2,25 @@ import React from 'react';
 
 import {IndexRoute, Route} from 'react-router';
 
-import {Grid, Row, Col, MainContainer} from '@sketchpixy/rubix';
+import {MainContainer} from '@sketchpixy/rubix';
 
 /* Common Components */
 
 /* Pages */
 import Login from './routes/Login';
 import Signup from './routes/Signup';
+
+import Header from './common/Header';
+import Footer from './common/Footer';
 import TeacherDashBoard from './routes/Teacher.dashboard';
 
 class App extends React.Component {
     render() {
         return (
             <MainContainer {...this.props}>
-                <Sidebar />
-                <Header />
+                <Header/>
                 <div id='body'>
-                    <Grid>
-                        <Row>
-                            <Col xs={12}>
-                                {this.props.children}
-                            </Col>
-                        </Row>
-                    </Grid>
+                    {this.props.children}
                 </div>
                 <Footer />
             </MainContainer>
@@ -37,6 +33,7 @@ class App extends React.Component {
  */
 const routes = (
     <Route component={App}>
+        <Route path='teacher/dashboard' component={TeacherDashBoard}/>
     </Route>
 );
 
@@ -47,8 +44,6 @@ const basicRoutes = (
     <Route>
         <Route path='signin' component={Login}/>
         <Route path='signup' component={Signup}/>
-        <Route path='teacher/dashboard' component={TeacherDashBoard} />
-
     </Route>
 );
 

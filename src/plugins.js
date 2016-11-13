@@ -16,3 +16,5 @@ import "js/vendor/xapiwrapper/xapiwrapper.min.js"
 import "js/vendor/notify.js"
 
 import "js/vendor/store.min.js"
+
+import "bower_components/moment/min/moment.min.js"

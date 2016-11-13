@@ -1,10 +1,9 @@
 import React from 'react';
-
+import {Entity} from '@sketchpixy/rubix/lib/L20n';
 import {
     Row,
     Col,
-    Grid,
-    MainContainer
+    Grid
 } from '@sketchpixy/rubix';
 
 export default class extends React.Component {
@@ -22,14 +21,12 @@ export default class extends React.Component {
   }
   render() {
     return (
-      <MainContainer id='footer'>
-        <Grid><Row>
+        <Grid id='footer'><Row>
         <Col xs={12} sm={12} className='beian_info'>
             <a target="_blank" href="http://www.xueduoduo.io"><Entity entity='companyName'/> - v{this.state.version}</a><br/>
             <a target="_blank" href="http://www.miibeian.gov.cn/">粤ICP备16072087号</a>
         </Col>
         </Row></Grid>
-      </MainContainer>
     );
   }
 }

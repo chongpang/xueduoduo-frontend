@@ -93,7 +93,7 @@ export default class Login extends React.Component {
 
             } else if (payload.userType == '0') {
 
-                this.props.router.push(this.getPath('teacher/dashboard'));
+                this.props.router.push(this.getPath('learner/dashboard'));
             } else if (payload.userType == '2') {
                 alert('Parent dashboard is under developing. Thank you !')
             }
@@ -150,7 +150,7 @@ export default class Login extends React.Component {
                                                         <div style={{paddingLeft: 15}}>
                                                             <a href="https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=101356780&redirect_uri=http%3A%2F%2Fxueduoduo.cn%2Fqqlogin&scope=get_user_info"
                                                                id="qqLoginBtn"><Image className='img-responsive'
-                                                                                      src="http://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_4.png"/></a>
+                                                                                      src="/imgs/qq_login_img.png"/></a>
                                                         </div>
                                                     </Col>
                                                     <Col xs={6} sm={6}>
@@ -174,11 +174,11 @@ export default class Login extends React.Component {
                                                             <Grid>
                                                                 <Row>
                                                                     <Col xs={12} sm={12}>
-                                                                            <FormControl autoFocus type='email'
-                                                                                         name='userId'
-                                                                                         className='border-focus-blue'
-                                                                                         onKeyPress={this._handleKeyPress.bind(this)}
-                                                                                         placeholder='support@xueduoduo.cn'/>
+                                                                        <FormControl autoFocus type='email'
+                                                                                     name='userId'
+                                                                                     className='border-focus-blue'
+                                                                                     onKeyPress={this._handleKeyPress.bind(this)}
+                                                                                     placeholder='support@xueduoduo.cn'/>
                                                                     </Col>
                                                                 </Row>
                                                             </Grid>
@@ -188,11 +188,11 @@ export default class Login extends React.Component {
                                                             <Grid>
                                                                 <Row>
                                                                     <Col xs={12} sm={12}>
-                                                                            <FormControl autoFocus type='password'
-                                                                                         name='password'
-                                                                                         onKeyPress={this._handleKeyPress.bind(this)}
-                                                                                         className='border-focus-blue'
-                                                                                         placeholder='Password'/>
+                                                                        <FormControl autoFocus type='password'
+                                                                                     name='password'
+                                                                                     onKeyPress={this._handleKeyPress.bind(this)}
+                                                                                     className='border-focus-blue'
+                                                                                     placeholder='Password'/>
                                                                     </Col>
                                                                 </Row>
                                                             </Grid>
@@ -204,7 +204,8 @@ export default class Login extends React.Component {
                                                                     <Col xs={12} sm={12}>
                                                                         <Button outlined lg type='button' id="signin"
                                                                                 bsStyle='blue'
-                                                                                block onClick={this.signin.bind(this)}><Entity
+                                                                                block
+                                                                                onClick={this.signin.bind(this)}><Entity
                                                                             entity='signin'/></Button>
                                                                     </Col>
                                                                 </Row>
@@ -214,7 +215,8 @@ export default class Login extends React.Component {
                                                 </div>
                                                 <div className='bg-hoverblue fg-black50 text-center'>
                                                     <div style={{paddingBottom: 30}}>
-                                                        <Entity entity='hasnotAccount'/><Link to={::this.getPath('signup')}><Entity
+                                                        <Entity entity='hasnotAccount'/><Link
+                                                        to={::this.getPath('signup')}><Entity
                                                         entity='signup'/></Link>
                                                     </div>
                                                 </div>
