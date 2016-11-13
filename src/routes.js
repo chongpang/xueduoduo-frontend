@@ -13,6 +13,7 @@ import Signup from './routes/Signup';
 import Header from './common/Header';
 import Footer from './common/Footer';
 import TeacherDashBoard from './routes/Teacher.dashboard';
+import NewClass from './routes/New.class';
 
 class App extends React.Component {
     render() {
@@ -34,6 +35,7 @@ class App extends React.Component {
 const routes = (
     <Route component={App}>
         <Route path='teacher/dashboard' component={TeacherDashBoard}/>
+        <Route path='teacher/class/new' component={NewClass} />
     </Route>
 );
 

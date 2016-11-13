@@ -27,6 +27,7 @@
     "jquery.steps": "^1.1.0",
     "jquery-validation": "^1.15.0",
     "codemirror": "^5.16.0",
-    "PACE": "pace#~1.0.2"
+    "PACE": "pace#~1.0.2",
+    "fakeLoader": "fakeloader#*"
   }
 }

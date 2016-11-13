@@ -22,8 +22,9 @@ export default class ClassThumb extends React.Component {
       classes: []
     };
 
-    this._setClasses.bind(this);
+    this.setClasses.bind(this);
   }
+
   back(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -49,7 +50,7 @@ export default class ClassThumb extends React.Component {
     return path;
   }
 
-  _setClasses(classes){
+  setClasses(classes){
 
       this.setState({classes: classes});
   }
@@ -66,11 +67,11 @@ export default class ClassThumb extends React.Component {
 
     var classthumb = this.state.classes.map(function (myclass) {
       return (
-            <Col xs={12} sm={4}>
+            <Col xs={12} sm={4} key={ myclass.id  }>
               <PanelContainer>
               <Panel>
                 <PanelBody className='bg-orange thumb'>
-                  <a style={{cursor: 'pointer'}} id= { myclass.id } herf="#" onClick={ self.onOpenClass.bind(self, myclass.id) }>{ myclass.title }</a>
+                  <a style={{cursor: 'pointer'}} id= { myclass.id } href="#" onClick={ self.onOpenClass.bind(self, myclass.id) }>{ myclass.title }</a>
                 </PanelBody>
               </Panel>
               </PanelContainer>

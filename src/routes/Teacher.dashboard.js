@@ -34,7 +34,8 @@ export default class TeacherDashboard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            activities: null
+            activities: [],
+            classes: [],
         };
     }
 
@@ -52,9 +53,7 @@ export default class TeacherDashboard extends React.Component {
 
         setTimeout(function () {
             ActivityAction.getActivities();
-        }, 100);
-
-        //hideHeader(190);
+        }, 500);
 
     }
 
@@ -69,7 +68,7 @@ export default class TeacherDashboard extends React.Component {
 
         e.stopPropagation();
 
-        this.props.route.push(this.getPath('teacher/class/new'));
+        this.props.router.push(this.getPath('teacher/class/new'));
 
     }
 
@@ -96,8 +95,7 @@ export default class TeacherDashboard extends React.Component {
         var result = payload.result;
         if (payload.type == ActionTypes.GET_CLASSES) {
             if (result.retcode == 0) {
-
-                self.refs['classthumb_ref'].setState({classes: result.classes});
+                self.setState({classes: result.classes});
             } else {
                 alert(result.message);
             }
@@ -106,9 +104,6 @@ export default class TeacherDashboard extends React.Component {
     }
 
     render() {
-        var classes = classNames({
-            'container-open': this.props.open
-        });
         var action = (
             <Col xs={12} sm={4}>
                 <PanelContainer>
@@ -121,13 +116,7 @@ export default class TeacherDashboard extends React.Component {
             </Col>
         );
 
-        var classthumb = React.createElement(ClassThumb, {
-            ref: 'classthumb_ref',
-            classes: [],
-            parent: this,
-            action: action
-        });
-
+        var self = this;
         return (
             <Grid>
                 <Row>
@@ -144,7 +133,9 @@ export default class TeacherDashboard extends React.Component {
                                     </Grid>
                                 </PanelHeader>
                                 <PanelBody className="triggerElement">
-                                    { classthumb }
+                                    <ClassThumb
+                                        action= { action }
+                                        classes={ self.state.classes}/>
                                 </PanelBody>
                             </Panel>
                         </PanelContainer>

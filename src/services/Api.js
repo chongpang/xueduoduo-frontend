@@ -5,6 +5,8 @@
 
 var NO_TOKEN_REQUIRED_REQ = ['/api/v1/sigininwithqq','/api/v1/signup', '/api/v1/signin','/api/v1/sendsms','/api/v1/confirm','/api/v1/class/join','/api/v1/updateuser'];
 
+/////////////prod////////////////////////
+var API_HOST = "http://www.xueduoduo.cn:6060";
 
 var Api = {
 

@@ -21,8 +21,6 @@ if (module.hot) {
   });
 }
 
-/////////////prod////////////////////////
-window.API_HOST = "http://www.xueduoduo.cn:6060";
 // xAPI
 var conf = {
   "endpoint" : "http://52.39.94.215:8000/data/xAPI/",

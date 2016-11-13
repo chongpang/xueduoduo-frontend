@@ -43,6 +43,17 @@ export default class Login extends React.Component {
 
     componentDidMount() {
 
+        if(store.get('access_token')){
+            if (store.get('user_type') == '1') {
+                this.props.router.push(this.getPath('teacher/dashboard'));
+            } else if (store.get('user_type') == '0') {
+                this.props.router.push(this.getPath('learner/dashboard'));
+            } else if (store.get('user_type') == '2') {
+                alert('Parent dashboard is under developing. Thank you !')
+            }
+            return;
+        }
+
         UserStore.addChangeListener(this._onSignCallBack.bind(this));
 
         setTimeout(function () {

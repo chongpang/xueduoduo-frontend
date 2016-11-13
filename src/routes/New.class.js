@@ -1,7 +1,7 @@
 import React from 'react';
-import classNames from 'classnames';
-import {Link, withRouter} from 'react-router';
-import {Entity} from '@sketchpixy/rubix/lib/L20n';
+import ReactDOM from 'react-dom';
+import {withRouter} from 'react-router';
+import l20n, {Entity} from '@sketchpixy/rubix/lib/L20n';
 
 
 import CourseActionCreator from 'actions/CourseActionCreator';
@@ -9,9 +9,8 @@ import CourseStore from 'stores/CourseStore';
 import ClassActionCreator from 'actions/ClassActionCreator';
 import ClassStore from 'stores/ClassStore';
 
-import CourseThumb from 'components/coursethumb';
+import CourseThumb from 'components/Coursethumb';
 
-import ReactStyle from 'global/jsx/react-styles/src/ReactStyle.jsx';
 var XddConstants = require('constants/XddConstants');
 var ActionTypes = XddConstants.ActionTypes;
 
@@ -19,17 +18,20 @@ import {
     Row,
     Col,
     Grid,
+    Table,
     Form,
     Panel,
+    Checkbox,
     PanelBody,
     FormGroup,
+    FormControl,
     PanelHeader,
     PanelContainer,
 
 } from '@sketchpixy/rubix';
 
 @withRouter
-export default class Login extends React.Component {
+export default class NewClass extends React.Component {
   back(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -41,33 +43,15 @@ export default class Login extends React.Component {
     this.state = {
       checkAll : false,
       checkedCourses: [],
-      checkedCourseIds: []
+      checkedCourseIds: [],
+      courses: []
     };
   }
 
   componentDidMount() {
 
-    CourseStore.addChangeListener(this._onCourseCallBack);
-    ClassStore.addChangeListener(this._onClassCallBack);
-    // get courses getCourses
-    CourseActionCreator.searchCourses('');
-
-    var isLtr = $('html').attr('dir') === 'ltr';
-    var styles = {};
-    var self = this;
-
-    if(isLtr) {
-      styles['#wizard-2 .form-border'] = {
-        borderRight: '1px solid #ddd'
-      };
-    } else {
-      styles['#wizard-2 .form-border'] = {
-        borderLeft: '1px solid #ddd'
-      };
-    }
-
-    ReactStyle.addRules(ReactStyle.create(styles));
-
+    CourseStore.addChangeListener(this._onCourseCallBack.bind(this));
+    ClassStore.addChangeListener(this._onClassCallBack.bind(this));
 
     $("#form-2").validate({
       rules: {
@@ -81,7 +65,11 @@ export default class Login extends React.Component {
       onStepChanging: function (event, currentIndex, newIndex) {
         $('#form-2').validate().settings.ignore = ':disabled,:hidden';
 
-        if(currentIndex == 1){
+        if(currentIndex == 0) {
+          // get courses getCourses
+          CourseActionCreator.searchCourses('');
+
+        }else if(currentIndex == 1){
 
           var  coursesname = "";
  
@@ -97,7 +85,7 @@ export default class Login extends React.Component {
 
           $('#showcoursenames').text(coursesname);
           $('#showclassname').text($('#classtitle').val());
-          $('#showauthor').text(localStorage.getItem("user_name"));
+          $('#showauthor').text(store.get("user_name"));
         }
 
         return $('#form-2').valid();
@@ -128,11 +116,18 @@ export default class Login extends React.Component {
 
     var payload = CourseStore.getPayload();
     var result = payload.result;
+    var self = this;
 
     if(payload.type == ActionTypes.SEARCH_COURSE){  
       if(result.retcode ==  0){
-           // need refactor!!! why child component can not access transitionTo of parent conment
-          this.refs['courseRefs'].setCourses(result.courses);
+        ReactDOM.render(
+            <CourseThumb
+                parent={ self }
+                courses={ result.courses}
+                allowAdd={ false }
+                allowCheck= { true } />,
+            document.getElementById('courses_holder')
+        );
       }else{
         alert(result.message);
       }
@@ -145,11 +140,17 @@ export default class Login extends React.Component {
     var result = payload.result;
     if(payload.type == ActionTypes.CREATE_CLASS){
       if(result.retcode == 0){
-        this.transitionTo('/teacher/dashboard');
+        this.props.router.push(this.getPath('teacher/dashboard'));
       }else{
         alert(result.message);
       }
     }
+  }
+
+  getPath(path) {
+    var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
+    path = `/${dir}/${path}`;
+    return path;
   }
 
   _onCheckAll(){
@@ -178,9 +179,10 @@ export default class Login extends React.Component {
       }
   }
 
-  render() {
+  render(){
 
-  var courseThumb = React.createElement(CourseThumb, {ref:'courseRefs', courses: [], parent: this, allowAdd: false, allowCheck:true });
+    var inputClassName = l20n.ctx.getSync('inputClassName');
+    var selectAllCourse = l20n.ctx.getSync('selectAllCourse');
 
     return (
         <Grid>
@@ -206,8 +208,8 @@ export default class Login extends React.Component {
                             <Row>
                               <Col sm={7} xs={12} collapseLeft xsOnlyCollapseRight>
                                 <FormGroup>
-                                  <Label htmlFor='classtitle'><Entity entity='inputClassName' /> *</Label>
-                                  <Input type='text' id='classtitle' name='title' className='required' />
+                                  <label> { inputClassName } *</label>
+                                  <FormControl type='text' id='classtitle' name='title' className='required' />
                                 </FormGroup>
                               </Col>
                               <Col sm={4} xs={6} collapseRight>
@@ -223,8 +225,8 @@ export default class Login extends React.Component {
                         <div>
                           <div className=''>
                             <h4><Entity entity='selectCourse'/></h4>
-                            <Checkbox id='select-all-course'><Entity entity='selectAllCourse' /></Checkbox>
-                            {courseThumb}
+                            <Checkbox id='select-all-course'>{ selectAllCourse }</Checkbox>
+                            <div id='courses_holder'/>
                           </div>
                         </div>
                         <h1>Confirm</h1>
@@ -234,15 +236,15 @@ export default class Login extends React.Component {
                               <Table>
                               <tbody>
                                 <tr>
-                                  <th><Entity entity='className'/></th>
+                                  <th>{ l20n.ctx.getSync('className') }<Entity entity='className'/></th>
                                   <td id='showclassname'>A Class Name</td>
                                 </tr>
                                 <tr>
-                                  <th><Entity entity='coursesName'/></th>
+                                  <th>{ l20n.ctx.getSync('coursesName') }<Entity entity='coursesName'/></th>
                                   <td id='showcoursenames'>Otto</td>
                                 </tr>
                                 <tr>
-                                  <th><Entity entity='author'/></th>
+                                  <th>{l20n.ctx.getSync('author') }<Entity entity='author'/></th>
                                   <td id='showauthor'>Otto</td>
                                 </tr>
                               </tbody>
@@ -257,22 +259,6 @@ export default class Login extends React.Component {
             </Col>
           </Row>
         </Grid>
-    );
-  }
-}
-
-export default class extends React.Component {
-  render() {
-    var classes = classNames({
-      'container-open': this.props.open
-    });
-
-    return (
-      <Container id='container' className={classes}>
-        <Header />
-        <Body />
-        <Footer />
-      </Container>
     );
   }
 }
