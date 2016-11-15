@@ -21,3 +21,5 @@ import "bower_components/moment/min/moment.min.js"
 
 import "bower_components/fakeLoader/fakeLoader.min.js"
 
+import "bower_components/filament-tablesaw/dist/tablesaw.js"
+

@@ -28,6 +28,7 @@
     "jquery-validation": "^1.15.0",
     "codemirror": "^5.16.0",
     "PACE": "pace#~1.0.2",
-    "fakeLoader": "fakeloader#*"
+    "fakeLoader": "fakeloader#*",
+    "filament-tablesaw": "tablesaw#^2.0.3"
   }
 }

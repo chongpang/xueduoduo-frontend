@@ -1,35 +1,38 @@
+
 import React from 'react';
-import classNames from 'classnames';
-import MultiChoice from 'components/multichoice';
-import Yesno from 'components/yesno';
-import TextAnswer from 'components/textanswer';
+import {withRouter} from 'react-router';
+
+import MultiChoice from 'components/Multichoice';
+import Yesno from 'components/Yesno';
+import TextAnswer from 'components/Textanswer';
 
 
-var Answer = React.createClass({
+@withRouter
+export default class Answer extends React.Component {
 
-  getInitialState: function(){
-	   return {
-      answerType: null,
-      quiz: null
+    constructor(props) {
+        super(props);
+        this.state = {
+            answerType: null,
+            quiz: null
+        };
     }
-  },
 
-  componentDidMount: function() {
+    back(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.props.router.goBack();
+    }
 
 
-  },
-  componentWillUnmount: function() {
-
-  },
-
-  setQuiz: function(q){
+  setQuiz(q){
     this.setState({quiz: q, answerType: q.qtype});
-  },
+  }
 
-  setAnswerType: function(type){
+  setAnswerType(type){
   	this.setState({answerType: type});
 
-  },
+  }
 
   render() {
 
@@ -52,6 +55,4 @@ var Answer = React.createClass({
 
     return answer;
   }
-});
-
-module.exports = Answer;
+}

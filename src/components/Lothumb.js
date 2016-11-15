@@ -1,27 +1,28 @@
 import React from 'react';
+import {withRouter} from 'react-router';
 
 import {
     Row,
     Col,
     Grid,
     Panel,
+    Button,
     Checkbox,
     PanelBody,
     PanelContainer,
 
 } from '@sketchpixy/rubix';
 
-export default class ClassThumb extends React.Component {
+@withRouter
+export default class LOThumb extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            courses: null,
+            los: [],
             allowAdd: true,
             allowCheck: true,
         };
-
-        this.setCourses.bind(this);
     }
 
     _onClick(e) {
@@ -30,103 +31,100 @@ export default class ClassThumb extends React.Component {
 
         e.stopPropagation();
 
-        this.props.router.push(this.getPath('teacher/course/new'));
+        this.props.router.push(this.getPath('teacher/lo/new'));
 
     }
 
-    _onChange(courseid) {
+    _onChange(loid) {
 
-        var checkedCourses = this.props.parent.state.checkedCourses;
+        var checkedlos = this.props.parent.state.checkedLOs;
 
-        if ($('#' + courseid).is(':checked')) {
-            checkedCourses.push(this.getCourseById(courseid));
+        var v = $('#' + loid).val();
+
+        if ($('#' + loid).is(':checked')) {
+            checkedlos.push(this.getLOObj(loid));
 
         } else {
-            checkedCourses.splice(this.getCourseIndex(checkedCourses, courseid), 1);
+            checkedlos.splice(this.getLOIndex(checkedlos, loid), 1);
         }
 
-        this.props.parent.setState({checkedCourses: checkedCourses});
+        this.props.parent.setState({checkedLOs: checkedlos});
 
-        if (this.state.courses.length == this.props.parent.state.checkedCourses.length) {
-            $('#select-all-course').prop('checked', true);
+        if (this.props.los.length == this.props.parent.state.checkedLOs.length) {
+            $('#select-all-los').prop('checked', true);
             this.props.parent.setState({checkAll: true});
         } else {
-            $('#select-all-course').prop('checked', false);
+            $('#select-all-los').prop('checked', false);
             this.props.parent.setState({checkAll: false});
         }
 
     }
 
-    _onRemoveCourse(cid) {
+    _onRemoveLO(loid) {
         var st = this.state;
         // remove from search result
-        for (var i = st.courses.length - 1; i >= 0; i--) {
-            var index = this.getCourseIndex(st.courses, cid);
+        for (var i = st.los.length - 1; i >= 0; i--) {
+            var index = this.getLOIndex(st.los, loid);
             if (index > -1) {
-                st.courses.splice(index, 1);
+                st.los.splice(index, 1);
             }
         }
 
         this.setState(st);
     }
 
-    _onCourseChange(flag) {
+    _onLOChange(flag) {
 
-        var checkedCourses = this.props.parent.state.checkedCourses;
+        var checkedLos = this.props.parent.state.checkedLOs;
         var st = this.state;
         if (flag) {
             // add to course
-            st.courses.push.apply(st.courses, checkedCourses);
+            st.los.push.apply(st.los, checkedLos);
 
         } else if (flag == 0) {
 
             // remove from search result
-            for (var i = checkedCourses.length - 1; i >= 0; i--) {
-                var cid = checkedCourses[i].id;
-                var index = this.getCourseIndex(st.courses, cid);
+            for (var i = checkedLos.length - 1; i >= 0; i--) {
+                var loid = checkedLos[i].id;
+                var index = this.getLOIndex(st.los, loid);
                 if (index > -1) {
-                    st.courses.splice(index, 1);
+                    st.los.splice(index, 1);
                 }
             }
         }
         this.setState(st);
     }
 
-    getCourseById(cid) {
+    getLOObj(loid) {
 
-        for (var i = this.state.courses.length - 1; i >= 0; i--) {
-            if (this.state.courses[i].id == cid) {
-                return this.state.courses[i];
+        for (var i = this.state.los.length - 1; i >= 0; i--) {
+            if (this.state.los[i].id == loid) {
+                return this.state.los[i];
             }
         }
     }
 
-    getCourseIndex(courses, cid) {
+    getLOIndex(los, loid) {
 
-        for (var i = courses.length - 1; i >= 0; i--) {
-            if (this.state.courses[i].id == cid) {
+        for (var i = los.length - 1; i >= 0; i--) {
+            if (this.state.los[i].id == loid) {
                 return i;
             }
         }
     }
 
-    getCourses() {
-        return this.state.courses;
+    getLOs() {
+        return this.state.los;
     }
 
-    setCourses(courses) {
+    setLos(los) {
         var st = this.state;
-        st.courses = courses;
+        st.los = los;
         this.setState(st);
     }
 
-    _onEditCourse(cid) {
-
-        if (1 == localStorage.getItem('user_type')) {
-
-            this.props.router.push(this.getPath('teacher/course/edit/' + cid));
-        }
-
+    _onEditLO(loid) {
+        this.props.router.push(this.getPath('teacher/lo/edit/' + loid));
     }
 
     getPath(path) {
@@ -137,11 +135,8 @@ export default class ClassThumb extends React.Component {
 
     render() {
 
-        if (this.props.courses.length > 0) {
-            this.state.courses = this.props.courses
-        }
-
-        var len = this.state.courses.length
+        var len = this.state.los.length
+        var lothumb = null;
 
         if (typeof this.props.allowAdd !== 'undefined') {
             this.state.allowAdd = this.props.allowAdd;
@@ -150,22 +145,21 @@ export default class ClassThumb extends React.Component {
             this.state.allowCheck = this.props.allowCheck;
         }
 
-        var coursethumb = null;
         var self = this;
 
         if (len > 0) {
-            coursethumb = this.state.courses.map(function (mycourse) {
+            lothumb = this.state.los.map(function (mylo) {
                 if (self.state.allowCheck) {
                     return (
-                        <Col xs={12} sm={3} key={ mycourse.id }>
+                        <Col xs={12} sm={3}>
                             <PanelContainer>
-                                <Panel className="bg-hoverblue">
+                                <Panel>
                                     <PanelBody>
-                                        <Checkbox id={ mycourse.id } className="checkbox-course"
-                                                  onChange={self._onChange.bind(self, mycourse.id)}>
+                                        <Checkbox id={ mylo.id } className="checkbox-lo"
+                                                  onChange={self._onChange.bind(this, mylo.id)}>
                                             <div className='bg-orange thumb'>
                                                 <a href="#"
-                                                   onClick={ self._onEditCourse.bind(self, mycourse.id) }>{ mycourse.title }</a>
+                                                   onClick={ self._onEditLO.bind(self, mylo.id) }>{ mylo.title }</a>
                                             </div>
                                         </Checkbox>
                                     </PanelBody>
@@ -175,15 +169,15 @@ export default class ClassThumb extends React.Component {
                     );
                 } else {
                     return (
-                        <Col xs={12} sm={3} key={ mycourse.id }>
+                        <Col xs={12} sm={3}>
                             <PanelContainer>
                                 <Panel>
                                     <PanelBody>
                                         <div className='bg-orange thumb'>
-                                            <a className="icon-ikons-close close-btn" href="#"
-                                               onClick={ self._onRemoveCourse.bind(self, mycourse.id) }></a>
-                                            <a href="#"
-                                               onClick={ self._onEditCourse.bind(self, mycourse.id) }>{ mycourse.title }</a>
+                                            <a className="icon-ikons-close close-btn" herf="#"
+                                               onClick={ self._onRemoveLO.bind(self, mylo.id) }></a>
+                                            <a herf="#" id={ mylo.id }
+                                               onClick={ self._onEditLO.bind(self, mylo.id) }>{ mylo.title }</a>
                                         </div>
                                     </PanelBody>
                                 </Panel>
@@ -192,20 +186,20 @@ export default class ClassThumb extends React.Component {
                     );
                 }
 
+
             });
         }
-
         if (this.state.allowAdd) {
             return (
                 <Grid>
                     <Row>
-                        { coursethumb }
-                        <Col sx={6} sm={3}>
+                        { lothumb }
+                        <Col xs={12} sm={3} style={{marginTop: 12}}>
                             <PanelContainer>
                                 <Panel>
                                     <PanelBody className='thumb thumbAdd text-center'>
-                                        <Button style={{marginTop: 15}} bsStyle='xddgreen'
-                                                onClick={ this._onClick }><Entity entity='addCourse'/></Button>
+                                        <Button bsStyle='xddgreen' onClick={ this._onClick.bind(this) }><Entity
+                                            entity='addLO'/></Button>
                                     </PanelBody>
                                 </Panel>
                             </PanelContainer>
@@ -217,10 +211,11 @@ export default class ClassThumb extends React.Component {
             return (
                 <Grid>
                     <Row>
-                        { coursethumb }
+                        { lothumb }
                     </Row>
                 </Grid>
             );
         }
+
     }
 }

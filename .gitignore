@@ -14,7 +14,7 @@ server.js.map
 
 # tmp
 
-tmp
+/tmp/
 
 # misc
 .DS_Store
