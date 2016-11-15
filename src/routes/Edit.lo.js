@@ -277,7 +277,7 @@ export default class EditLO extends React.Component {
 		                            	<Grid>
                                     <Row>
                                       <Col xs={12}>
-		                             	        <Input type='text' id='lotitle' name='title' className='required' />
+		                             	        <FormControl type='text' id='lotitle' name='title' className='required' />
 		                             	    </Col>
 		                                </Row>
 		                               </Grid>

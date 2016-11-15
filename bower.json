@@ -22,13 +22,15 @@
   "dependencies": {
     "d3": "3.5.17",
     "moment": "^2.14.1",
-    "trumbowyg": "^2.1.0",
+    "trumbowyg": "^2.4.1",
     "bootstrap-sass": "^3.3.6",
     "jquery.steps": "^1.1.0",
     "jquery-validation": "^1.15.0",
     "codemirror": "^5.16.0",
     "PACE": "pace#~1.0.2",
     "fakeLoader": "fakeloader#*",
-    "filament-tablesaw": "tablesaw#^2.0.3"
+    "filament-tablesaw": "tablesaw#^2.0.3",
+    "jquery-tokeninput": "^1.7.0",
+    "bootstrap-tokenfield": "^0.12.1"
   }
 }

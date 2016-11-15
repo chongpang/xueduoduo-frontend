@@ -1,6 +1,6 @@
 import React from 'react';
 import {withRouter} from 'react-router';
-import {Entity} from '@sketchpixy/rubix/lib/L20n';
+import l20n,{Entity} from '@sketchpixy/rubix/lib/L20n';
 
 import CourseActionCreator from 'actions/CourseActionCreator';
 import CourseStore from 'stores/CourseStore';
@@ -22,7 +22,6 @@ import {
     Button,
     Form,
     Panel,
-    Label,
     PanelBody,
     FormGroup,
     InputGroup,
@@ -42,7 +41,11 @@ export default class EditCourse extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            courseLOs: [],
+            searchLOs: []
+
+        };
     }
 
     componentDidMount() {
@@ -50,7 +53,7 @@ export default class EditCourse extends React.Component {
         var cid = this.props.router.params.cid;
 
         // keep selected classid
-        storage.set('current_course', this.props.router.params.cid);
+        store.set('current_course', this.props.router.params.cid);
 
         CourseStore.addChangeListener(this._onCourseCallBack.bind(this));
 
@@ -64,6 +67,12 @@ export default class EditCourse extends React.Component {
         $('#select-all-los').change(function () {
             self._onCheckAll();
         });
+
+        this._isMounted = true;
+    }
+
+    componentWillUnmount(){
+        this._isMounted = false;
     }
 
     _onCheckAll() {
@@ -138,7 +147,10 @@ export default class EditCourse extends React.Component {
         var result = payload.result;
         if (payload.type == ActionTypes.GET_LO) {
             if (result.retcode == 0) {
-                this.refs['courseLOContainer'].setLos(result.los);
+
+                if(this._isMounted){
+                    this.setState({courseLOs: result.los});
+                }
 
             } else {
                 $("#coursetitle").notify(result.message, {
@@ -147,7 +159,10 @@ export default class EditCourse extends React.Component {
             }
         } else if (payload.type == ActionTypes.SEARCH_LO) {
             if (result.retcode == 0) {
-                this.refs['searchLOContainer'].setLos(result.los);
+
+                if(this._isMounted){
+                    this.setState({searchLOs: result.los});
+                }
             } else {
                 alert(result.message);
             }
@@ -171,22 +186,6 @@ export default class EditCourse extends React.Component {
     }
 
     render() {
-
-        var courseLOContainer = React.createElement(LOThumb, {
-            ref: 'courseLOContainer',
-            los: [],
-            parent: this,
-            allowAdd: true,
-            allowCheck: false
-        });
-
-        var searchLOContainer = React.createElement(LOThumb, {
-            ref: 'searchLOContainer',
-            los: [],
-            parent: this,
-            allowAdd: false,
-            allowCheck: true
-        });
         var self = this;
         return (
             <Grid>
@@ -209,8 +208,7 @@ export default class EditCourse extends React.Component {
                                             <Row>
                                                 <Col sm={6} xs={12}>
                                                     <FormGroup>
-                                                        <Label htmlFor='coursetitle'><Entity entity='courseName'/>
-                                                        </Label>
+                                                        <Entity entity="courseName" />
                                                         <FormControl type='text' id='coursetitle' name='title'
                                                                      className='required'/>
                                                     </FormGroup>
@@ -218,24 +216,27 @@ export default class EditCourse extends React.Component {
                                             </Row>
                                             <Row>
                                                 <Col sm={12} xs={12}>
-                                                    <Label><Entity entity='courseLos'/> </Label>
+                                                    <Entity entity="courseLos" />
                                                 </Col>
                                             </Row>
                                             <Row>
                                                 <Col sm={12} xs={12}>
-                                                    { courseLOContainer }
+                                                    <LOThumb los= { self.state.courseLOs}
+                                                    parent= { self }
+                                                    allowAdd= { true }
+                                                    allowCheck={ false } />
                                                 </Col>
                                             </Row>
                                             <Row>
                                                 <Col xs={2} sm={1}>
                                                     <Button bsStyle='xddgreen' className='update_course_btn'
-                                                            onClick={ self._onUpdateCourse.bind(self) }><Entity
-                                                        entity='updateCourse'/></Button>
+                                                            onClick={ self._onUpdateCourse.bind(self) }>
+                                                        { l20n.ctx.getSync('updateCourse') }</Button>
                                                 </Col>
                                             </Row>
                                             <Row>
                                                 <Col xs={12} sm={2} style={{paddingTop: 20, paddingBottom: 10}}>
-                                                    <Label><Entity entity='addLO'/> </Label>
+                                                    <Entity entity="addLO" />
                                                 </Col>
                                             </Row>
                                             <Row>
@@ -245,7 +246,7 @@ export default class EditCourse extends React.Component {
                                                                      placeholder='Enter keywords here ...'/>
                                                         <Button bsStyle='xddgreen'
                                                                 onClick={ self._onSearchLO.bind(self) }>
-                                                            <span><Entity entity='searchlo'/> </span>
+                                                            <span> { l20n.ctx.getSync('searchlo') }</span>
                                                             <Icon bundle='fontello' glyph='search'/>
                                                         </Button>
                                                     </InputGroup>
@@ -253,20 +254,23 @@ export default class EditCourse extends React.Component {
                                             </Row>
                                             <Row>
                                                 <Col sm={7} xs={12}>
-                                                    <FormControl id='select-all-los' type="checkbox"/> <Entity
-                                                    entity='selectAllLO'/>
+                                                    <FormControl id='select-all-los' type="checkbox"/>
+                                                    { l20n.ctx.getSync('selectAllLO') }
                                                 </Col>
                                             </Row>
                                             <Row>
                                                 <Col sm={12} xs={12}>
-                                                    { searchLOContainer }
+                                                    <LOThumb los= { self.state.searchLOs}
+                                                             parent= { self }
+                                                             allowAdd= { false }
+                                                             allowCheck={ true } />
                                                 </Col>
                                             </Row>
                                             <Row>
                                                 <Col xs={2} sm={1}>
                                                     <Button bsStyle='xddgreen' style={{marginTop: 10, marginBottom: 15}}
-                                                            onClick={ self._onAddLOToCourse.bind(self) }><Entity
-                                                        entity='addToCourse'/></Button>
+                                                            onClick={ self._onAddLOToCourse.bind(self) }>
+                                                        { l20n.ctx.getSync('addToCourse') }</Button>
                                                 </Col>
                                             </Row>
                                         </Grid>

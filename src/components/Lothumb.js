@@ -1,5 +1,6 @@
 import React from 'react';
 import {withRouter} from 'react-router';
+import {Entity} from '@sketchpixy/rubix/lib/L20n';
 
 import {
     Row,
@@ -135,9 +136,11 @@ export default class LOThumb extends React.Component {
 
     render() {
 
-        var len = this.state.los.length
-        var lothumb = null;
+        if(this.props.los.length > 0){
+            this.state.los = this.props.los;
+        }
 
+        var len = this.state.los.length
         if (typeof this.props.allowAdd !== 'undefined') {
             this.state.allowAdd = this.props.allowAdd;
         }
@@ -146,12 +149,13 @@ export default class LOThumb extends React.Component {
         }
 
         var self = this;
+        var lothumb = null;
 
         if (len > 0) {
             lothumb = this.state.los.map(function (mylo) {
                 if (self.state.allowCheck) {
                     return (
-                        <Col xs={12} sm={3}>
+                        <Col xs={12} sm={3} key= { mylo.id } >
                             <PanelContainer>
                                 <Panel>
                                     <PanelBody>
@@ -169,14 +173,14 @@ export default class LOThumb extends React.Component {
                     );
                 } else {
                     return (
-                        <Col xs={12} sm={3}>
+                        <Col xs={12} sm={3} key={ mylo.id } >
                             <PanelContainer>
                                 <Panel>
                                     <PanelBody>
                                         <div className='bg-orange thumb'>
-                                            <a className="icon-ikons-close close-btn" herf="#"
+                                            <a className="icon-ikons-close close-btn" href="#"
                                                onClick={ self._onRemoveLO.bind(self, mylo.id) }></a>
-                                            <a herf="#" id={ mylo.id }
+                                            <a href="#" id={ mylo.id }
                                                onClick={ self._onEditLO.bind(self, mylo.id) }>{ mylo.title }</a>
                                         </div>
                                     </PanelBody>

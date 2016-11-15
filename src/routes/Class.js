@@ -204,17 +204,17 @@ export default class ViewClass extends React.Component {
 
     _onEditCourse(cid) {
 
-        this.props.router.push(self.getPath('teacher/course/edit/' + cid));
+        this.props.router.push(this.getPath('teacher/course/edit/' + cid));
     }
 
     _onCreateCourse() {
 
-        this.props.router.push(self.getPath('teacher/course/new'));
+        this.props.router.push(this.getPath('teacher/course/new'));
     }
 
     _onEditClass(cid) {
 
-        this.props.router.push(self.getPath('teacher/class/edit/' + cid));
+        this.props.router.push(this.getPath('teacher/class/edit/' + cid));
     }
 
     _onDeleteClass() {

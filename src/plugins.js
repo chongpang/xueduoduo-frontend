@@ -23,3 +23,8 @@ import "bower_components/fakeLoader/fakeLoader.min.js"
 
 import "bower_components/filament-tablesaw/dist/tablesaw.js"
 
+import "bower_components/jquery-tokeninput/build/jquery.tokeninput.min.js"
+
+import "bower_components/bootstrap-tokenfield/dist/bootstrap-tokenfield.min.js"
+
+import "bower_components/trumbowyg/dist/trumbowyg.min.js"

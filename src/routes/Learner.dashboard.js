@@ -42,7 +42,7 @@ export default class LearnerDashboard extends React.Component {
   }
 
   componentDidMount() {
-    ClassStore.addChangeListener(this._onClassCallBack).bind(this);
+    ClassStore.addChangeListener(this._onClassCallBack.bind(this));
     ClassAction.getClasses();
 
     ActivityStore.addChangeListener(this._onActivityCallBack.bind(this));
