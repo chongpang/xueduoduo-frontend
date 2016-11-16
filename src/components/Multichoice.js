@@ -3,6 +3,7 @@ import React from 'react';
 import {
     Row,
     Col,
+    Icon,
     Grid,
     Checkbox,
     ButtonGroup,
@@ -65,7 +66,7 @@ export default class MultiChoice extends React.Component {
                 dchecked = "checked";
             }
             return (
-                <Grid>
+                <Grid key={ 'choice-' + (index + 1)  }>
                     <Row className='answer-option padding-topdown-20'>
                         <Col xs={6}>
                             <Row>

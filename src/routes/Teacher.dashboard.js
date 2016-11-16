@@ -54,11 +54,16 @@ export default class TeacherDashboard extends React.Component {
             ActivityAction.getActivities();
         }, 500);
 
+        this._isMounted = true;
+
     }
 
     componentWillUnmount() {
         ClassStore.removeChangeListener(this._onClassCallBack);
         ActivityStore.removeChangeListener(this._onActivityCallBack);
+
+        this._isMounted = false;
+
     }
 
     _onClick(e) {
@@ -84,7 +89,9 @@ export default class TeacherDashboard extends React.Component {
 
             var activities = React.createElement(Activities, {statements: result.Statements});
 
-            this.setState({activities: activities});
+            if(this._isMounted){
+                this.setState({activities: activities});
+            }
         }
     }
 
@@ -94,7 +101,9 @@ export default class TeacherDashboard extends React.Component {
         var result = payload.result;
         if (payload.type == ActionTypes.GET_CLASSES) {
             if (result.retcode == 0) {
-                self.setState({classes: result.classes});
+                if(self._isMounted){
+                    self.setState({classes: result.classes});
+                }
             } else {
                 alert(result.message);
             }

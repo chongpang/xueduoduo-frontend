@@ -71,10 +71,6 @@ export default class EditCourse extends React.Component {
         this._isMounted = true;
     }
 
-    componentWillUnmount(){
-        this._isMounted = false;
-    }
-
     _onCheckAll() {
 
         if (!$('#select-all-los').is(':checked')) {
@@ -178,6 +174,9 @@ export default class EditCourse extends React.Component {
         if ($.isFunction(this._onLOCallBack)) {
             LOStore.removeChangeListener(this._onLOCallBack);
         }
+
+        this._isMounted = false;
+
     }
 
     _onSearchLO() {

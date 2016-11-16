@@ -66,6 +66,8 @@ export default class ViewClass extends React.Component {
         // keep selected classid
         store.set('current_class', this.props.router.params.cid);
 
+        this._isMounted = true;
+
     }
 
     componentWillUnmount() {
@@ -73,6 +75,8 @@ export default class ViewClass extends React.Component {
         if ($.isFunction(this._onClassCallBack)) {
             ClassStore.removeChangeListener(this._onClassCallBack);
         }
+
+        this._isMounted =false;
 
     }
 
@@ -131,7 +135,9 @@ export default class ViewClass extends React.Component {
 
                 }
 
-                self.setState({courseThumbs: courseThumbs, learner_rows: learner_rows, stuCount: stuCount});
+                if(self._isMounted) {
+                    self.setState({courseThumbs: courseThumbs, learner_rows: learner_rows, stuCount: stuCount});
+                }
 
             }
 
@@ -158,7 +164,9 @@ export default class ViewClass extends React.Component {
                     );
                 });
 
-                self.setState({menuitems: menuitems, selected: selected});
+                if(self._isMounted){
+                    self.setState({menuitems: menuitems, selected: selected});
+                }
             }
 
         } else if (payload.type == ActionTypes.DELETE_CLASS) {

@@ -128,7 +128,7 @@ export default class Quiz extends React.Component {
             <div>
                 {
                     this.state.quizs.map((quiz, index) => (
-                        <Grid>
+                        <Grid key= { 'quiz-' + (index + 1) } >
                             <Row className="padding-topdown-20">
                                 <Col xs={12}>
 

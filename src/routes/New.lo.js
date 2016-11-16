@@ -3,15 +3,6 @@ import {withRouter} from 'react-router';
 import {Entity} from '@sketchpixy/rubix/lib/L20n';
 import LOStore from 'stores/LOStore';
 
-import LOActionCreator from 'actions/LOActionCreator';
-
-import Quiz from 'components/Quiz';
-
-var XddConstants = require('constants/XddConstants');
-var ActionTypes = XddConstants.ActionTypes;
-
-var $tokenbox = null;
-
 import {
     Row,
     Col,
@@ -27,6 +18,17 @@ import {
     PanelContainer,
 
 } from '@sketchpixy/rubix';
+
+
+import LOActionCreator from 'actions/LOActionCreator';
+
+import Quiz from 'components/Quiz';
+
+var XddConstants = require('constants/XddConstants');
+var ActionTypes = XddConstants.ActionTypes;
+
+var $tokenbox = null;
+
 
 @withRouter
 export default class NewLO extends React.Component {

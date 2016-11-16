@@ -15,6 +15,8 @@ var $prerequisitesbox = null;
 var $tokenbox = null;
 var $categorybox = null;
 
+var API_HOST = "http://localhost:8081";
+
 import {
     Row,
     Col,
@@ -64,13 +66,13 @@ export default class EditLO extends React.Component {
 
     this.setContent();
 
-    var tokenContainer = $(this.refs.tokeninputContainer.getDOMNode());
+    var tokenContainer = $(this.tokeninputContainer);
     $tokenbox = $('<input />').prop('name', 'tags');
     tokenContainer.append($tokenbox);
 
-     $tokenbox.tokenfield();
+    $tokenbox.tokenfield();
     
-    var $prerequisitesContainer = $(this.refs.prerequistitsContainer.getDOMNode());
+    var $prerequisitesContainer = $(this.prerequistitsContainer);
     $prerequisitesbox = $('<input />').prop('name', 'prerequisites');
     $prerequisitesContainer.append($prerequisitesbox);
     $prerequisitesbox.tokenInput(API_HOST + '/api/v1/searchlo',{
@@ -94,7 +96,7 @@ export default class EditLO extends React.Component {
       }
     );
 
-    var $categoryContainer = $(this.refs.categoryContainer.getDOMNode());
+    var $categoryContainer = $(this.categoryContainer);
     $categorybox = $('<input />').prop('name', 'category');
     $categoryContainer.append($categorybox);
     $categorybox.tokenInput(API_HOST + '/api/v1/searchlo',{
@@ -124,8 +126,6 @@ export default class EditLO extends React.Component {
     $('.token-input-list').css('margin-bottom','15px');
     $('.token-input-list').css('min-height','60px');
 
-    hideHeader(190);
-    $("#navbar").css("opacity",1);
   }
 	_onLOCallBack(){
 
@@ -228,7 +228,7 @@ export default class EditLO extends React.Component {
   }
 
   _onUpdateLO(){
-  	LOActionCreator.updateLO(this.context.router.state.params.loid);
+  	LOActionCreator.updateLO(this.props.router.params.loid);
   }
 
   render() {
@@ -379,7 +379,7 @@ export default class EditLO extends React.Component {
                                     <Grid>
                                       <Row>
                                         <Col xs={12}>
-                                          <div ref="prerequistitsContainer"></div>
+                                            <div ref={(prerequistitsContainer) => this.prerequistitsContainer = prerequistitsContainer} />
                                         </Col>
                                       </Row>
                                     </Grid>
@@ -405,7 +405,7 @@ export default class EditLO extends React.Component {
                                     <Grid>
                                       <Row>
                                         <Col xs={12}>
-                                          <div ref="categoryContainer"></div>
+                                            <div ref={(categoryContainer) => this.categoryContainer = categoryContainer} />
                                         </Col>
                                       </Row>
                                     </Grid>                             
@@ -431,7 +431,7 @@ export default class EditLO extends React.Component {
                                     <Grid>
                                       <Row>
                                         <Col xs={12}>
-                                          <div ref="tokeninputContainer"></div>
+                                            <div ref={(tokeninputContainer) => this.tokeninputContainer = tokeninputContainer} />
                                         </Col>
                                       </Row>
                                     </Grid>
@@ -450,7 +450,7 @@ export default class EditLO extends React.Component {
                                       </Row>
                                       <Row>
                                         <Col xs={12}>
-                                            <DropdownButton outlined bsStyle="xddgreen" title={lo.learningLevel} id={`dropdown-basic`} onSelect={ this.handleSelection.bind(this) }>
+                                            <DropdownButton outlined bsStyle="xddgreen" title="Select grade" id="select_grade" onSelect={ this.handleSelection.bind(this) }>
                                                 <MenuItem eventKey="1" active>grade 1</MenuItem>
                                                 <MenuItem eventKey="2">grade 2</MenuItem>
                                                 <MenuItem eventKey="3">grade 3</MenuItem>

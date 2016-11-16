@@ -24,6 +24,9 @@ export default class LOThumb extends React.Component {
             allowAdd: true,
             allowCheck: true,
         };
+
+        this._onChange = this._onChange.bind(this);
+        this._onClick = this._onClick.bind(this);
     }
 
     _onClick(e) {
