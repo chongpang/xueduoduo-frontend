@@ -75,7 +75,7 @@ export default class MultiChoice extends React.Component {
                                               name={ self.props['answerTo'] + '-choice-' + (index + 1) + '-correct'}/></Col>
                                 <Col xs={10} collapseLeft>
                                     <textarea rows='2' name={ self.props['answerTo'] + '-choice-' + (index + 1)  }
-                                              placeholder='New choice...'>{choice.content}</textarea>
+                                              placeholder='New choice...' defaultValue={choice.content} />
                                 </Col>
                             </Row>
                         </Col>

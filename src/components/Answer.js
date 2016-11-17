@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {withRouter} from 'react-router';
 
@@ -13,7 +12,6 @@ export default class Answer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            answerType: null,
             quiz: null
         };
     }
@@ -25,34 +23,22 @@ export default class Answer extends React.Component {
     }
 
 
-  setQuiz(q){
-    this.setState({quiz: q, answerType: q.qtype});
-  }
+    render() {
 
-  setAnswerType(type){
-  	this.setState({answerType: type});
+        if (this.props.quiz != null) {
+            this.state.quiz = this.props.quiz;
+        }
 
-  }
+        var answer = null;
 
-  render() {
+        if (this.state.quiz.qtype == 1) {
+            answer = React.createElement(MultiChoice, this.props);
+        } else if (this.state.quiz.qtype == 2) {
+            answer = React.createElement(Yesno, this.props);
+        } else if (this.state.quiz.qtype == 3) {
+            answer = React.createElement(TextAnswer, this.props);
+        }
 
-  	var answerType = this.state.answerType;
-  	var answer = null;
-
-    if(!answerType){
-      answerType = this.props.quiz.qtype;
-      this.state.answerType = answerType;
-      this.state.quiz = this.props.quiz;
+        return answer;
     }
-  	
-  	if(answerType == 1){
-		  answer = React.createElement(MultiChoice,this.props);
-  	}else if (answerType == 2){
-  		answer = React.createElement(Yesno,this.props);
-  	}else if (answerType == 3){
-  		answer = React.createElement(TextAnswer,this.props);
-  	}
-
-    return answer;
-  }
 }
