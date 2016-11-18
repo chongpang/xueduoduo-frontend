@@ -1,6 +1,7 @@
 import React from 'react';
 import {
-    Col
+    Col,
+    Radio
 
 } from '@sketchpixy/rubix';
 

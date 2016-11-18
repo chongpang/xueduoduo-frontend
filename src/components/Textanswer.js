@@ -22,7 +22,7 @@ export default class Textanswer extends React.Component {
         return (
             <Col xs={12} sm={12}>
                 <textarea style={{width: '75%', height: '80px'}}
-                          name={ this.props['answerTo'] + '-textanswer' } value={ { textanswer } } />
+                          name={ this.props['answerTo'] + '-textanswer' } defaultValue={ textanswer } />
             </Col>
         );
     }

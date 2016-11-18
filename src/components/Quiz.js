@@ -82,7 +82,7 @@ export default class Quiz extends React.Component {
 
         for (var i = quizs.length - 1; i >= 0; i--) {
             var quiz = quizs[i];
-            if (quiz.name == qindex) {
+            if (('quiz-' + (i+1) )== qindex) {
                 quiz.qtype = answerType;
                 quizs[i] = quiz;
                 this.setState({quizs: quizs});

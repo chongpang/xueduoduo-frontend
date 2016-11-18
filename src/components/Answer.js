@@ -29,6 +29,8 @@ export default class Answer extends React.Component {
             this.state.quiz = this.props.quiz;
         }
 
+        console.log(this.state.quiz)
+
         var answer = null;
 
         if (this.state.quiz.qtype == 1) {
