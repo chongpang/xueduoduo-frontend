@@ -17,6 +17,8 @@ export default class MultiChoice extends React.Component {
         this.state = {
             choices: []
         };
+
+        this.addChoice = this.addChoice.bind(this);
     }
 
     addChoice() {
@@ -81,7 +83,7 @@ export default class MultiChoice extends React.Component {
                         </Col>
                         <Col xs={6} collapseLeft>
                             <ButtonGroup>
-                                <a onClick={ self.addChoice }><Icon className={'fg-orange'} style={{fontSize: 28}}
+                                <a onClick={ self.addChoice.bind(this) }><Icon className={'fg-orange'} style={{fontSize: 28}}
                                                                     glyph='icon-fontello-plus'/></a>
                                 <a style={{paddingLeft: 10}}
                                    onClick={ self.removeChoice.bind(this, 'choice-' + (index + 1)) }><Icon

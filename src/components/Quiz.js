@@ -82,7 +82,7 @@ export default class Quiz extends React.Component {
 
         for (var i = quizs.length - 1; i >= 0; i--) {
             var quiz = quizs[i];
-            if (('quiz-' + (i+1) )== qindex) {
+            if (('quiz-' + (i + 1) ) == qindex) {
                 quiz.qtype = answerType;
                 quizs[i] = quiz;
                 this.setState({quizs: quizs});
@@ -110,56 +110,75 @@ export default class Quiz extends React.Component {
             this.state.quizs = this.props.quizs;
 
         }
-        return (
-            <div>
-                {
-                    this.state.quizs.map((quiz, index) => (
-                        <Grid key={ 'quiz-' + (index + 1) }>
-                            <Row className="padding-topdown-20">
-                                <Col xs={12}>
 
-                                    <Row>
-                                        <Col>
-                                            <div className="question-editor" id={ 'quiz-' + (index + 1) }
-                                                 name={'quiz-' + (index + 1) }>{ this.setQuestion.bind(this, 'quiz-' + (index + 1), quiz.question) }</div>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        { React.createElement(Answer, {
-                                            "answerTo": 'quiz-' + (index + 1),
-                                            'quiz': quiz
-                                        })}
-                                    </Row>
-                                    <Row>
-                                        <Col xs={12}>
-                                            <ButtonGroup>
-                                                <Button bsStyle='darkorange' onClick={this.addChild.bind(this)}><Entity
-                                                    entity="addQuiz"/></Button>
+        if (this.state.quizs.length > 0) {
 
-                                                <DropdownButton outlined bsStyle="darkorange" dropup
-                                                                title={ l20n.ctx.getSync("multiChoice")}
-                                                                id={ 'dropdown-quiz' + (index + 1) }
-                                                                onSelect={ this.handleSelection.bind(this, 'quiz-' + (index + 1)) }>
-                                                    <MenuItem eventKey="1" active><Entity
-                                                        entity="multiChoice"/></MenuItem>
-                                                    <MenuItem eventKey="2"><Entity entity="yesNo"/></MenuItem>
-                                                    <MenuItem eventKey="3"><Entity entity="comment"/></MenuItem>
 
-                                                </DropdownButton>
-                                                <FormControl type="hidden" name={'quiz-' + (index + 1) + "-qtype"}
-                                                             defaultValue={ quiz.qtype }/>
-                                                <Button bsStyle='orange'
-                                                        onClick={this.removeQ.bind(this, 'quiz-' + (index + 1))}><Entity
-                                                    entity="removeQ"/></Button>
-                                            </ButtonGroup>
-                                        </Col>
-                                    </Row>
-                                </Col>
-                            </Row>
-                        </Grid>
-                    ))
-                }
-            </div>
-        );
+            return (
+                <div>
+                    {
+                        this.state.quizs.map((quiz, index) => (
+                            <Grid key={ 'quiz-' + (index + 1) }>
+                                <Row className="padding-topdown-20">
+                                    <Col xs={12}>
+
+                                        <Row>
+                                            <Col>
+                                                <div className="question-editor" id={ 'quiz-' + (index + 1) }
+                                                     name={'quiz-' + (index + 1) }>{ this.setQuestion.bind(this, 'quiz-' + (index + 1), quiz.question) }</div>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            { React.createElement(Answer, {
+                                                "answerTo": 'quiz-' + (index + 1),
+                                                'quiz': quiz
+                                            })}
+                                        </Row>
+                                        <Row>
+                                            <Col xs={12}>
+                                                <ButtonGroup>
+                                                    <Button bsStyle='darkorange'
+                                                            onClick={this.addChild.bind(this)}><Entity
+                                                        entity="addQuiz"/></Button>
+
+                                                    <DropdownButton outlined bsStyle="darkorange" dropup
+                                                                    title={ l20n.ctx.getSync("multiChoice")}
+                                                                    id={ 'dropdown-quiz' + (index + 1) }
+                                                                    onSelect={ this.handleSelection.bind(this, 'quiz-' + (index + 1)) }>
+                                                        <MenuItem eventKey="1" active><Entity
+                                                            entity="multiChoice"/></MenuItem>
+                                                        <MenuItem eventKey="2"><Entity entity="yesNo"/></MenuItem>
+                                                        <MenuItem eventKey="3"><Entity entity="comment"/></MenuItem>
+
+                                                    </DropdownButton>
+                                                    <FormControl type="hidden" name={'quiz-' + (index + 1) + "-qtype"}
+                                                                 defaultValue={ quiz.qtype }/>
+                                                    <Button bsStyle='orange'
+                                                            onClick={this.removeQ.bind(this, 'quiz-' + (index + 1))}><Entity
+                                                        entity="removeQ"/></Button>
+                                                </ButtonGroup>
+                                            </Col>
+                                        </Row>
+                                    </Col>
+                                </Row>
+                            </Grid>
+                        ))
+                    }
+                </div>
+            );
+        } else {
+            return (
+                <Grid>
+                    <Row className="padding-topdown-20">
+                        <ButtonGroup>
+                            <Button bsStyle='darkorange'
+                                    onClick={this.addChild.bind(this)}><Entity
+                                entity="addQuiz"/></Button>
+                        </ButtonGroup>
+                    </Row>
+                </Grid>
+            );
+
+        }
     }
 }
