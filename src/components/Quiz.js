@@ -23,10 +23,6 @@ export default class Quiz extends React.Component {
         };
     }
 
-    setQuizs(quizs) {
-        this.setState({quizs: quizs});
-    }
-
     addChild() {
         // State change will cause component re-render
         var quizs = this.state.quizs;
