@@ -1,4 +1,12 @@
-bower_components/
+/bower_components/
 .DS_Store
 fonts/*
-!fonts/pace.css
+css/*
+!css/pace.css
+js/*
+!js/vendor/
+!js/jquery.js
+!js/l20n.js
+!js/modernizr.js
+!js/perfect-scrollbar.js
+!js/rubix.js
