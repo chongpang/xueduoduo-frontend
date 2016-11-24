@@ -40,7 +40,7 @@ app.get('/', RubixAssetMiddleware('ltr'), (req, res, next) => {
   renderHTML(req, res);
 });
 
-app.get('/ltr/*', RubixAssetMiddleware('ltr'), (req, res, next) => {
+app.get('/*', RubixAssetMiddleware('ltr'), (req, res, next) => {
   renderHTML(req, res);
 });
 

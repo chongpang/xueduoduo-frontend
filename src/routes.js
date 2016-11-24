@@ -105,12 +105,7 @@ const combinedRoutes = (
 export default (
     <Route>
         <Route path='/' component={Login}/>
+        { combinedRoutes }
 
-        <Route path='/ltr'>
-            {combinedRoutes}
-        </Route>
-        <Route path='/rtl'>
-            {combinedRoutes}
-        </Route>
     </Route>
 );
