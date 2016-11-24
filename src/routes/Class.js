@@ -180,7 +180,7 @@ export default class ViewClass extends React.Component {
                 });
 
                 setTimeout(function () {
-                    self.props.router.push(self.getPath('/teacher/dashboard'));
+                    self.props.router.push('/teacher/dashboard');
                 }, 3000);
             } else {
                 $(".delete_class_btn").notify(payload.result.message, {
@@ -215,28 +215,22 @@ export default class ViewClass extends React.Component {
 
     _onEditCourse(cid) {
 
-        this.props.router.push(this.getPath('teacher/course/edit/' + cid));
+        this.props.router.push('/teacher/course/edit/' + cid);
     }
 
     _onCreateCourse() {
 
-        this.props.router.push(this.getPath('teacher/course/new'));
+        this.props.router.push('/teacher/course/new');
     }
 
     _onEditClass(cid) {
 
-        this.props.router.push(this.getPath('teacher/class/edit/' + cid));
+        this.props.router.push('/teacher/class/edit/' + cid);
     }
 
     _onDeleteClass() {
 
         ClassActionCreator.deleteClass(this.state.currentClass.id);
-    }
-
-    getPath(path) {
-        var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
-        path = `/${dir}/${path}`;
-        return path;
     }
 
     render() {

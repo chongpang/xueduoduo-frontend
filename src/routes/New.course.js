@@ -113,7 +113,7 @@ export default class NewCourse extends React.Component {
             if (result.retcode == 0) {
                 var classId = storage.get('current_class');
                 if (classId) {
-                    this.props.router.push(this.getPath('teacher/class/edit/' + classId));
+                    this.props.router.push('/teacher/class/edit/' + classId);
                 } else {
                     this.props.router.goBack();
                 }
@@ -165,12 +165,6 @@ export default class NewCourse extends React.Component {
         if ($.isFunction(this._onLOCallBack)) {
             LOStore.removeChangeListener(this._onLOCallBack);
         }
-    }
-
-    getPath(path) {
-        var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
-        path = `/${dir}/${path}`;
-        return path;
     }
 
     render() {

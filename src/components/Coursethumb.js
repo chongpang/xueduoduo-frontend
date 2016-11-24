@@ -30,7 +30,7 @@ export default class ClassThumb extends React.Component {
 
         e.stopPropagation();
 
-        this.props.router.push(this.getPath('teacher/course/new'));
+        this.props.router.push('/teacher/course/new');
 
     }
 
@@ -124,15 +124,9 @@ export default class ClassThumb extends React.Component {
 
         if (1 == localStorage.getItem('user_type')) {
 
-            this.props.router.push(this.getPath('teacher/course/edit/' + cid));
+            this.props.router.push('/teacher/course/edit/' + cid);
         }
 
-    }
-
-    getPath(path) {
-        var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
-        path = `/${dir}/${path}`;
-        return path;
     }
 
     render() {

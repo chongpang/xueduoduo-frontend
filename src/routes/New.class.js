@@ -140,17 +140,11 @@ export default class NewClass extends React.Component {
     var result = payload.result;
     if(payload.type == ActionTypes.CREATE_CLASS){
       if(result.retcode == 0){
-        this.props.router.push(this.getPath('teacher/dashboard'));
+        this.props.router.push('/teacher/dashboard');
       }else{
         alert(result.message);
       }
     }
-  }
-
-  getPath(path) {
-    var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
-    path = `/${dir}/${path}`;
-    return path;
   }
 
   _onCheckAll(){

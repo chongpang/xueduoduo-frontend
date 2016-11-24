@@ -71,14 +71,8 @@ export default class TeacherDashboard extends React.Component {
 
         e.stopPropagation();
 
-        this.props.router.push(this.getPath('teacher/class/new'));
+        this.props.router.push('/teacher/class/new');
 
-    }
-
-    getPath(path) {
-        var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
-        path = `/${dir}/${path}`;
-        return path;
     }
 
     _onActivityCallBack() {

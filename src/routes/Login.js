@@ -48,9 +48,9 @@ export default class Login extends React.Component {
 
         if(store.get('access_token')){
             if (store.get('user_type') == '1') {
-                this.props.router.push(this.getPath('teacher/dashboard'));
+                this.props.router.push('/teacher/dashboard');
             } else if (store.get('user_type') == '0') {
-                this.props.router.push(this.getPath('learner/dashboard'));
+                this.props.router.push('/learner/dashboard');
             } else if (store.get('user_type') == '2') {
                 alert('Parent dashboard is under developing. Thank you !')
             }
@@ -103,11 +103,11 @@ export default class Login extends React.Component {
             ActivityActionCreator.saveAcitivity(xGlobal.XDD_VERBS['signin'], xGlobal.XDD_OBJECTS['signin'], {"success": true});
 
             if (payload.userType == '1') {
-                this.props.router.push(this.getPath('teacher/dashboard'));
+                this.props.router.push('/teacher/dashboard');
 
             } else if (payload.userType == '0') {
 
-                this.props.router.push(this.getPath('learner/dashboard'));
+                this.props.router.push('/learner/dashboard');
             } else if (payload.userType == '2') {
                 alert('Parent dashboard is under developing. Thank you !')
             }
@@ -118,12 +118,6 @@ export default class Login extends React.Component {
                 position: 'top', className: "error", autoHideDelay: 7000
             });
         }
-    }
-
-    getPath(path) {
-        var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
-        path = `/${dir}/${path}`;
-        return path;
     }
 
     render() {
@@ -216,7 +210,7 @@ export default class Login extends React.Component {
                                                             <Grid>
                                                                 <Row>
                                                                     <Col xs={12} sm={12}>
-                                                                        <Button outlined lg type='button' id="signin"
+                                                                        <Button lg type='button' id="signin"
                                                                                 bsStyle='blue'
                                                                                 block
                                                                                 onClick={this.signin.bind(this)}><Entity
@@ -230,7 +224,7 @@ export default class Login extends React.Component {
                                                 <div className='bg-hoverblue fg-black50 text-center'>
                                                     <div style={{paddingBottom: 30}}>
                                                         <Entity entity='hasnotAccount'/><Link
-                                                        to={::this.getPath('signup')}><Entity
+                                                        to='/signup'><Entity
                                                         entity='signup'/></Link>
                                                     </div>
                                                 </div>

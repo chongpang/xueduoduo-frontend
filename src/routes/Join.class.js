@@ -48,7 +48,7 @@ export default class JoinClass extends React.Component {
         var result = UserStore.getPayload();
         var self = this;
         if (result.retcode == 1) {
-            self.props.router.push('signupviainvite', {user: result.userid})
+            self.props.router.push('/signupviainvite', {user: result.userid})
         } else {
 
             store.clear();
@@ -62,7 +62,7 @@ export default class JoinClass extends React.Component {
                 msg.className = "alert-success";
 
                 setTimeout(function () {
-                    self.props.router.push(self.getPath('learner/dashboard'));
+                    self.props.router.push('/learner/dashboard');
                 }, 5000);
 
             } else {
@@ -74,13 +74,6 @@ export default class JoinClass extends React.Component {
             }
             this.setState({message: msg});
         }
-    }
-
-
-    getPath(path) {
-        var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
-        path = `/${dir}/${path}`;
-        return path;
     }
 
     render() {

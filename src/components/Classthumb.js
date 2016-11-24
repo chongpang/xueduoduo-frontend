@@ -36,18 +36,12 @@ export default class ClassThumb extends React.Component {
 
     var utype = localStorage.getItem('user_type');
     if(utype == "0"){
-      this.props.router.push(this.getPath('learner/class/' + this.state.selectedClassId ));
+      this.props.router.push('/learner/class/' + this.state.selectedClassId );
 
     }else{
-      this.props.router.push(this.getPath('teacher/class/' + this.state.selectedClassId ));
+      this.props.router.push('/teacher/class/' + this.state.selectedClassId );
     }
 
-  }
-
-  getPath(path) {
-    var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
-    path = `/${dir}/${path}`;
-    return path;
   }
 
   setClasses(classes){

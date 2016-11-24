@@ -35,7 +35,7 @@ export default class LOThumb extends React.Component {
 
         e.stopPropagation();
 
-        this.props.router.push(this.getPath('teacher/lo/new'));
+        this.props.router.push('/teacher/lo/new');
 
     }
 
@@ -128,13 +128,7 @@ export default class LOThumb extends React.Component {
     }
 
     _onEditLO(loid) {
-        this.props.router.push(this.getPath('teacher/lo/edit/' + loid));
-    }
-
-    getPath(path) {
-        var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
-        path = `/${dir}/${path}`;
-        return path;
+        this.props.router.push('/teacher/lo/edit/' + loid);
     }
 
     render() {

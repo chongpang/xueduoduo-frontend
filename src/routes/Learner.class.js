@@ -239,14 +239,8 @@ export default class LearnerClass extends React.Component {
         this.state.selected_course_id = cid;
         this.state.selected_course_title = ctitle;
 
-        this.props.router.push(this.getPath('learner/learn/' + this.state.selected_course_id));
+        this.props.router.push('/learner/learn/' + this.state.selected_course_id);
 
-    }
-
-    getPath(path) {
-        var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
-        path = `/${dir}/${path}`;
-        return path;
     }
 
     render() {

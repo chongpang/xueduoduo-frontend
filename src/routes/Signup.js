@@ -172,12 +172,6 @@ export default class Login extends React.Component {
         UserActionCreator.sendSMS();
     }
 
-    getPath(path) {
-        var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
-        path = `/${dir}/${path}`;
-        return path;
-    }
-
     render() {
 
         var classes = classNames({
@@ -290,7 +284,7 @@ export default class Login extends React.Component {
                                                                 <Row>
                                                                     <Col xs={12} sm={12}>
                                                                         <Button type='button' id="signup_btn" lg
-                                                                                bsStyle='xddblue' block
+                                                                                bsStyle='blue'
                                                                                 onClick={this.signup}><Entity
                                                                             entity='createAccount'/></Button>
                                                                     </Col>
@@ -303,7 +297,7 @@ export default class Login extends React.Component {
                                                      style={{padding: 10}}>
                                                     <div style={{marginTop: 0}}>
                                                         <Entity entity='hasAccount'/><Link
-                                                        to={::this.getPath('signin')}><Entity
+                                                        to='/signin'><Entity
                                                         entity='signin'/></Link>
                                                     </div>
                                                 </div>

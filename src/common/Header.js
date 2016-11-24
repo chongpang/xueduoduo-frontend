@@ -36,16 +36,10 @@ export default class Header extends React.Component {
 
         if (utype == '0') {
             // learner
-            this.props.router.push(this.getPath("learner/dashboard"));
+            this.props.router.push("/learner/dashboard");
         } else if (utype == '1') {
-            this.props.router.push(this.getPath("teacher/dashboard"));
+            this.props.router.push("/teacher/dashboard");
         }
-    }
-
-    getPath(path) {
-        var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
-        path = `/${dir}/${path}`;
-        return path;
     }
 
     render() {

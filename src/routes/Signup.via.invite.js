@@ -94,16 +94,10 @@ export default class SignupViaInvite extends React.Component {
 
         var res = UserStore.getPayload();
         if (res.retcode == 0) {
-            this.props.router.push(this.getPath('/learner/joinclass?token=' + res.token));
+            this.props.router.push('/learner/joinclass?token=' + res.token);
         } else {
             alert(res.message);
         }
-    }
-
-    getPath(path) {
-        var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
-        path = `/${dir}/${path}`;
-        return path;
     }
 
     render() {
