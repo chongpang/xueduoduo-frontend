@@ -14,7 +14,6 @@ import {
 
 } from '@sketchpixy/rubix';
 
-
 @withRouter
 export default class SignupViaInvite extends React.Component {
 

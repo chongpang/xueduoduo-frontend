@@ -10,7 +10,7 @@ import ClassActionCreator from 'actions/ClassActionCreator';
 import ActivityActionCreator from 'actions/ActivityActionCreator';
 var XddConstants = require('constants/XddConstants');
 var ActionTypes = XddConstants.ActionTypes;
-
+var store = require('store');
 
 import {
     Row,
@@ -50,17 +50,21 @@ export default class LearnerClass extends React.Component {
 
     componentDidMount() {
 
-        ClassStore.addChangeListener(this._onGetClassCallBack.bing(this));
+        ClassStore.addChangeListener(this._onGetClassCallBack.bind(this));
         ClassActionCreator.getClassInfo(this.props.router.params.cid);
 
         ClassActionCreator.getClasses();
 
         // keep selected classid
-        storage.set('current_class', this.props.router.params.cid);
+        store.set('current_class', this.props.router.params.cid);
+
+        this._isMounted = true;
 
     }
 
     componentWillUnmount() {
+
+        this._isMounted = false;
 
         if (this._onEnrollCourseCallBack != null)
             LearnerStore.removeChangeListener(this._onEnrollCourseCallBack);
@@ -77,7 +81,7 @@ export default class LearnerClass extends React.Component {
         course.id = cid;
         course.title = ctitle;
         this.state.selectedCourse = course;
-        LearnerStore.addChangeListener(this._onEnrollCourseCallBack);
+        LearnerStore.addChangeListener(this._onEnrollCourseCallBack.bind(this));
         LearnerActionCreator.enrollCourse(cid);
 
     }
@@ -108,14 +112,14 @@ export default class LearnerClass extends React.Component {
                                 courseThumbs = courses.map(function (c) {
                                     checkID[c.id] = true;
                                     return (
-                                        <Col sm={6}>
+                                        <Col sm={6} key={ "course-" + c.id }>
                                             <PanelContainer>
                                                 <Panel>
                                                     <PanelBody className='bg-orange classThumb'>
                                                         <Grid>
                                                             <Row>
                                                                 <Col xs={12}>
-                                                                    <a id={ c.id } herf="#">{ c.title }</a>
+                                                                    <a id={ c.id } href="#">{ c.title }</a>
                                                                 </Col>
                                                             </Row>
                                                             <Row>
@@ -146,14 +150,14 @@ export default class LearnerClass extends React.Component {
                                         return null
                                     }
                                     return (
-                                        <Col sm={6}>
+                                        <Col sm={6} key={ "course-thumb-" + c.id }>
                                             <PanelContainer>
                                                 <Panel>
                                                     <PanelBody className='bg-orange classThumb'>
                                                         <Grid>
                                                             <Row>
                                                                 <Col xs={12}>
-                                                                    <a id={c.id} herf="#">{ c.title }</a>
+                                                                    <a id={c.id} href="#">{ c.title }</a>
                                                                 </Col>
                                                             </Row>
                                                             <Row>
@@ -175,7 +179,9 @@ export default class LearnerClass extends React.Component {
                         }
                     }
 
-                    this.setState({courseThumbs: courseThumbs, courseThumbsAll: courseThumbsAll});
+                    if (this._isMounted) {
+                        this.setState({courseThumbs: courseThumbs, courseThumbsAll: courseThumbsAll});
+                    }
                 }
             } else {
                 alert(result.message);
@@ -203,7 +209,10 @@ export default class LearnerClass extends React.Component {
                     );
                 });
 
-                this.setState({menuitems: menuitems, selected: selected});
+                if (this._isMounted) {
+                    this.setState({menuitems: menuitems, selected: selected});
+                }
+
             }
         }
     }

@@ -1,7 +1,6 @@
 import React from 'react';
 import {Link, withRouter} from 'react-router';
 
-
 import CourseStore from 'stores/CourseStore';
 import CourseActionCreator from 'actions/CourseActionCreator';
 
@@ -11,6 +10,10 @@ import LearnerActionCreator from 'actions/LearnerActionCreator'
 import ActivityActionCreator from 'actions/ActivityActionCreator';
 
 import LearningObject from 'components/Learningobject'
+
+var store = require('store');
+var xGlobal = require('xGlobal');
+
 
 import {
     Row,
@@ -54,9 +57,15 @@ export default class LearnerDashboard extends React.Component {
 
         store.set('current_course', this.props.router.params.cid);
 
+        this._isMounted = true;
+
     }
 
     componentWillUnmount() {
+
+        this._isMounted = false;
+
+
         if (this._onCourseCallBack != null) {
             CourseStore.removeChangeListener(this._onCourseCallBack);
         }
@@ -73,9 +82,12 @@ export default class LearnerDashboard extends React.Component {
             var startLO = payload.lo;
             var lo_component = React.createElement(LearningObject, {LO: startLO, parent: self});
 
-            this.setState({lo_component: lo_component});
+            if (self._isMounted) {
+                self.setState({lo_component: lo_component});
 
-            ActivityActionCreator.saveAcitivity(XDD_VERBS['attempted'], getLearningObj(startLO), {});
+            }
+
+            ActivityActionCreator.saveAcitivity(xGlobal.XDD_VERBS['attempted'], ActivityActionCreator.getLearningObj(startLO), {});
 
         } else {
             $(".start-learn-btn").notify(payload.message, {

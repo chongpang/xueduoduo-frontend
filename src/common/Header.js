@@ -2,6 +2,8 @@ import React from 'react';
 
 import {withRouter} from 'react-router';
 
+var store = require('store');
+
 import {
     Row,
     Col,

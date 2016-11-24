@@ -8,6 +8,8 @@ import UserStore from '../stores/UserStore'
 import ActivityActionCreator from '../actions/ActivityActionCreator';
 import Message from '../components/Message';
 
+var xGlobal = require('xGlobal');
+
 import {
     Row,
     Col,
@@ -53,7 +55,7 @@ export default class Login extends React.Component {
 
     componentDidMount() {
 
-        UserStore.addChangeListener(this._onSignupCallBack);
+        UserStore.addChangeListener(this._onSignupCallBack.bind(this));
 
         setTimeout(function () {
             $("#signup").validate({
@@ -110,7 +112,7 @@ export default class Login extends React.Component {
         var payload = UserStore.getPayload();
         if (payload.retcode == 0) {
 
-            ActivityActionCreator.saveAcitivity(XDD_VERBS['signup'], XDD_OBJECTS['signup'], {"success": true});
+            ActivityActionCreator.saveAcitivity(xGlobal.XDD_VERBS['signup'], xGlobal.XDD_OBJECTS['signup'], {"success": true});
 
             var msg = {};
             msg.header = l20n.ctx.getSync('signupThanks');
@@ -150,18 +152,20 @@ export default class Login extends React.Component {
     }
 
     _onCheckFormat(el) {
-        var v = el.target.value;
-        if (v && v.match(/^(((13[0-9]{1})|159|153)+\d{8})$/)) {
-            $('#phone_verify').removeClass('hidden');
-            $('#user_id').val("+86" + v);
-            $('#phone_verify').show();
-        } else if (v && v.match(/^(090|080|070|050)+\d{8}$/)) {
-            $('#phone_verify').removeClass('hidden');
-            $('#user_id').val("+81" + v.substr(1));
-            $('#phone_verify').show();
-        } else {
-            $('#phone_verify').hide();
-        }
+
+        // SMS registration not used
+        // var v = el.target.value;
+        // if (v && v.match(/^(((13[0-9]{1})|159|153)+\d{8})$/)) {
+        //     $('#phone_verify').removeClass('hidden');
+        //     $('#user_id').val("+86" + v);
+        //     $('#phone_verify').show();
+        // } else if (v && v.match(/^(090|080|070|050)+\d{8}$/)) {
+        //     $('#phone_verify').removeClass('hidden');
+        //     $('#user_id').val("+81" + v.substr(1));
+        //     $('#phone_verify').show();
+        // } else {
+        //     $('#phone_verify').hide();
+        // }
     }
 
     _sendSMS() {
@@ -213,22 +217,22 @@ export default class Login extends React.Component {
                                                                    style={{paddingLeft: 25, paddingRight: 25}}>
                                                             <FormControl type='text' name='userId' id='user_id'
                                                                          className='border-focus-blue'
-                                                                         onChange={this._onCheckFormat}
-                                                                         placeholder='手机号或Email地址'
-                                                                         onKeyPress={this._handleKeyPress}/>
+                                                                         onChange={this._onCheckFormat.bind(this)}
+                                                                         placeholder='support@xueduoduo.cn'
+                                                                         onKeyPress={this._handleKeyPress.bind(this)}/>
                                                         </FormGroup>
                                                         <FormGroup bsSize='large'
                                                                    style={{paddingLeft: 25, paddingRight: 25}}>
                                                             <FormControl autoFocus type='text' name='userName'
                                                                          id='user_name'
                                                                          className='border-focus-blue' placeholder='用户名'
-                                                                         onKeyPress={this._handleKeyPress}/>
+                                                                         onKeyPress={this._handleKeyPress.bind(this)}/>
                                                         </FormGroup>
                                                         <FormGroup bsSize='large'
                                                                    style={{paddingLeft: 25, paddingRight: 25}}>
                                                             <FormControl type='password' name='password' id='password'
                                                                          className='border-focus-blue' placeholder='密码'
-                                                                         onKeyPress={this._handleKeyPress}/>
+                                                                         onKeyPress={this._handleKeyPress.bind(this)}/>
                                                         </FormGroup>
                                                         <FormGroup bsSize='large'
                                                                    style={{paddingLeft: 25, paddingRight: 25}}>
@@ -236,7 +240,7 @@ export default class Login extends React.Component {
                                                                          id='repeat_password'
                                                                          className='border-focus-blue'
                                                                          placeholder='请再次输入密码'
-                                                                         onKeyPress={this._handleKeyPress}/>
+                                                                         onKeyPress={this._handleKeyPress.bind(this)}/>
                                                         </FormGroup>
                                                         <FormGroup bsSize='large' id="phone_verify" className="hidden">
                                                             <Grid>
@@ -247,12 +251,12 @@ export default class Login extends React.Component {
                                                                                      id='verify_code'
                                                                                      className='border-focus-blue'
                                                                                      placeholder='验证码'
-                                                                                     onKeyPress={this._handleKeyPress}/>
+                                                                                     onKeyPress={this._handleKeyPress.bind(this)}/>
 
                                                                     </Col>
                                                                     <Col xs={3} collapseRight style={{paddingLeft: 15}}>
                                                                         <Button type="button" id="send_sms"
-                                                                                onClick={this._sendSMS} lg
+                                                                                onClick={this._sendSMS.bind(this)} lg
                                                                                 bsStyle='xddblue'>发送</Button>
                                                                     </Col>
                                                                 </Row>

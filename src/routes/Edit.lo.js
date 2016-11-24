@@ -15,7 +15,7 @@ var $prerequisitesbox = null;
 var $tokenbox = null;
 var $categorybox = null;
 
-var API_HOST = "http://localhost:8081";
+var xGlobal = require('xGlobal');
 
 import {
     Row,
@@ -75,7 +75,7 @@ export default class EditLO extends React.Component {
         var $prerequisitesContainer = $(this.prerequistitsContainer);
         $prerequisitesbox = $('<input />').prop('name', 'prerequisites');
         $prerequisitesContainer.append($prerequisitesbox);
-        $prerequisitesbox.tokenInput(API_HOST + '/api/v1/searchlo', {
+        $prerequisitesbox.tokenInput(xGlobal.API_HOST + '/api/v1/searchlo', {
                 queryParam: "keywords",
                 crossDomain: true,
                 onResult (results) {
@@ -100,7 +100,7 @@ export default class EditLO extends React.Component {
         var $categoryContainer = $(this.categoryContainer);
         $categorybox = $('<input />').prop('name', 'category');
         $categoryContainer.append($categorybox);
-        $categorybox.tokenInput(API_HOST + '/api/v1/searchlo', {
+        $categorybox.tokenInput(xGlobal.API_HOST + '/api/v1/searchlo', {
                 queryParam: "keywords",
                 crossDomain: true,
                 onResult (results) {

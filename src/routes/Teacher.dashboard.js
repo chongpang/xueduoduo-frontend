@@ -14,7 +14,6 @@ import Activities from '../components/Activity'
 var XddConstants = require('../constants/XddConstants');
 var ActionTypes = XddConstants.ActionTypes;
 
-
 import {
     Row,
     Col,
@@ -89,7 +88,7 @@ export default class TeacherDashboard extends React.Component {
 
             var activities = React.createElement(Activities, {statements: result.Statements});
 
-            if(this._isMounted){
+            if (this._isMounted) {
                 this.setState({activities: activities});
             }
         }
@@ -101,7 +100,7 @@ export default class TeacherDashboard extends React.Component {
         var result = payload.result;
         if (payload.type == ActionTypes.GET_CLASSES) {
             if (result.retcode == 0) {
-                if(self._isMounted){
+                if (self._isMounted) {
                     self.setState({classes: result.classes});
                 }
             } else {
@@ -142,7 +141,7 @@ export default class TeacherDashboard extends React.Component {
                                 </PanelHeader>
                                 <PanelBody className="triggerElement">
                                     <ClassThumb
-                                        action= { action }
+                                        action={ action }
                                         classes={ self.state.classes}/>
                                 </PanelBody>
                             </Panel>

@@ -7,6 +7,7 @@ import UserStore from 'stores/UserStore'
 import Message from 'components/Message';
 import l20n from '@sketchpixy/rubix/lib/L20n';
 
+var store = require('store');
 
 @withRouter
 export default class JoinClass extends React.Component {
@@ -71,7 +72,7 @@ export default class JoinClass extends React.Component {
                 msg.link = "";
                 msg.className = "alert-danger";
             }
-            this.refs['msg'].setMessage(msg);
+            this.setState({message: msg});
         }
     }
 
@@ -83,10 +84,9 @@ export default class JoinClass extends React.Component {
     }
 
     render() {
-        var msg = React.createElement(Message, {ref: "msg"});
         return (
             <div>
-                { msg }
+                <Message message={ this.state.message } />
             </div>
         );
     }

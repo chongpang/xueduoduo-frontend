@@ -13,6 +13,7 @@ import LOThumb from 'components/Lothumb';
 var XddConstants = require('constants/XddConstants');
 var ActionTypes = XddConstants.ActionTypes;
 
+var store = require('store');
 
 import {
     Row,

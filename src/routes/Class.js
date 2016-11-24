@@ -1,5 +1,6 @@
 import React from 'react';
 import {withRouter} from 'react-router';
+
 import l20n, {Entity} from '@sketchpixy/rubix/lib/L20n';
 
 import ClassStore from 'stores/ClassStore';
@@ -9,6 +10,8 @@ import TeacherStore from 'stores/TeacherStore'
 import ClassActionCreator from 'actions/ClassActionCreator';
 var XddConstants = require('constants/XddConstants');
 var ActionTypes = XddConstants.ActionTypes;
+
+var store = require('store');
 
 import {
     Row,
@@ -103,7 +106,7 @@ export default class ViewClass extends React.Component {
                         if (len > 0) {
                             courseThumbs = courses.map(function (c) {
                                 return (
-                                    <Col xs={6} sm={3} key={ c.id }>
+                                    <Col xs={6} sm={3} key={ "course-" + c.id }>
                                         <PanelContainer>
                                             <Panel>
                                                 <PanelBody className='bg-orange thumb'>
@@ -123,7 +126,7 @@ export default class ViewClass extends React.Component {
                     if (stuCount > 0) {
                         learner_rows = learners.map(function (learner) {
                             return (
-                                <tr>
+                                <tr key={ "row-" + learner.userId}>
                                     <td>{ learner.userId }</td>
                                     <td>1</td>
                                     <td>1 minitue ago</td>

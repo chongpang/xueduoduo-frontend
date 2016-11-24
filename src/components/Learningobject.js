@@ -1,14 +1,20 @@
 import React from 'react';
 import {withRouter} from 'react-router';
 
+import l20n, {Entity} from '@sketchpixy/rubix/lib/L20n';
+
 import LOAction from 'actions/LOActionCreator';
 import LOStore from 'stores/LOStore'
 import ActivityActionCreator from 'actions/ActivityActionCreator';
+
+var store = require('store');
+var xGlobal = require('xGlobal');
 
 import {
     Grid,
     Row,
     Col,
+    Radio,
     Panel,
     Button,
     FormControl,
@@ -25,10 +31,13 @@ export default class Learningobject extends React.Component {
             currentLO: null,
             userAnwser: []
         };
+
+
+        this._onChooseAnswer = this._onChooseAnswer.bind(this);
     }
 
     componentDidMount() {
-        LOStore.addChangeListener(this._onAdaptCallback);
+        LOStore.addChangeListener(this._onAdaptCallback.bind(this));
     }
 
     componentWillUnmount() {
@@ -66,7 +75,7 @@ export default class Learningobject extends React.Component {
             }
         }
 
-        ActivityActionCreator.saveAcitivity(XDD_VERBS['completed'], getLearningObj({id: loid, title: title}), result);
+        ActivityActionCreator.saveAcitivity(xGlobal.XDD_VERBS['completed'], ActivityActionCreator.getLearningObj({id: loid, title: title}), result);
 
     }
 
@@ -80,12 +89,12 @@ export default class Learningobject extends React.Component {
         var res = payload.result;
         var self = this;
         if (res != null && res.retcode == 0) {
-            if (res.lo.id == this.state.currentLO.id) {
+            if (res.lo.id == self.state.currentLO.id) {
                 // finished
                 vex.dialog.confirm({
-                    message: $.validator.format(translate('finishCourse'), $('#course-title').html()),
-                    showCloseButto: true,
-                    appendLocation: $('#lo-content'),
+                    message: $.validator.format(l20n.ctx.getSync('finishCourse'), $('#course-title').html()),
+                    showCloseButton: false,
+                    //appendLocation: $('#lo-content'),
                     callback: (value) => {
                         //vex.dialog.alert(value ? 'Successfully destroyed the planet.' : 'Chicken.');
                         if (value) {
@@ -93,15 +102,15 @@ export default class Learningobject extends React.Component {
                             location.reload();
                         } else {
                             $('.vex').remove();
-                            self.props.parent.transitionTo('/learner/class/' + localStorage.getItem('current_class'));
+                            self.props.parent.transitionTo('/learner/class/' + store.get('current_class'));
                         }
                     }
                 });
                 return;
             } else {
-                this.setState({currentLO: res.lo});
+                self.setState({currentLO: res.lo});
 
-                ActivityActionCreator.saveAcitivity(XDD_VERBS['attempted'], getLearningObj(res.lo), {});
+                ActivityActionCreator.saveAcitivity(XDD_VERBS['attempted'], ActivityActionCreator.getLearningObj(res.lo), {});
             }
         }
     }
@@ -137,6 +146,10 @@ export default class Learningobject extends React.Component {
      */
 
     _onChooseAnswer(qtype, qindex, choice, correct, q) {
+
+        var self = this;
+
+        console.log(self);
         var result = {"success": false};
         var correct = $.map(correct, function (value) {
             return [value];
@@ -158,28 +171,27 @@ export default class Learningobject extends React.Component {
             if (!selected) {
                 choices.push(choice);
                 $("#lo-answer-" + qindex + "-" + choice).addClass('choice-selected');
-                this.state.userAnwser[qindex - 1].choices = choices;
+                self.state.userAnwser[qindex - 1].choices = choices;
             }
 
             if (correct.length > 0) {
                 if (correct.length == choices.length) {
 
-                    var equal = this.arraysEqual(correct, choices)
+                    var equal = self.arraysEqual(correct, choices)
                     if (equal) {
-                        this.state.userAnwser[qindex - 1].answer = "1";
+                        self.state.userAnwser[qindex - 1].answer = "1";
                         result = {"success": true};
                     } else {
-                        this.state.userAnwser[qindex - 1].answer = "0";
+                        self.state.userAnwser[qindex - 1].answer = "0";
                     }
 
                     // mark result correct is green, wrong is red
-                    this._finishOneQ(qindex, correct, choices);
+                    self._finishOneQ(qindex, correct, choices);
                 }
             }
 
         } else if (qtype == "2") {
 
-            var answerOri = correct;
             if (choice) choice = choice.toLowerCase();
             if (correct.length > 0) {
                 correct = correct[0].toLowerCase();
@@ -187,18 +199,19 @@ export default class Learningobject extends React.Component {
             var userChoice = [];
             userChoice.push(choice);
             if (choice == correct) {
-                this.state.userAnwser[qindex - 1].answer = "1";
+                self.state.userAnwser[qindex - 1].answer = "1";
                 $("#lo-answer-" + qindex).addClass('right-answer');
+
                 result = {"success": true};
             } else {
-                this.state.userAnwser[qindex - 1].answer = "0";
+                self.state.userAnwser[qindex - 1].answer = "0";
                 $("#lo-answer-" + qindex).addClass('wrong-answer');
             }
 
 
         } else if (qtype == "3") {
             if ($("#textAnswerInput").val()) {
-                this.state.userAnwser[qindex - 1].answer = "1";
+                self.state.userAnwser[qindex - 1].answer = "1";
                 $("#lo-answer-" + qindex).addClass('right-answer');
                 result = {"success": true};
             } else {
@@ -206,7 +219,7 @@ export default class Learningobject extends React.Component {
             }
         }
 
-        ActivityActionCreator.saveAcitivity(XDD_VERBS['answered'], getQuestionObj(this.state.currentLO.id + "-" + qindex, q), result);
+        ActivityActionCreator.saveAcitivity(xGlobal.XDD_VERBS['answered'], ActivityActionCreator.getQuestionObj(self.state.currentLO.id + "-" + qindex, q), result);
 
     }
 
@@ -231,7 +244,6 @@ export default class Learningobject extends React.Component {
             }
         });
 
-        var thisNode = this.getDOMNode();
         TweenMax.to($('.right-answer'), 1.0, {scale: 1.05, repeat: 1, yoyo: true});
 
 
@@ -250,7 +262,7 @@ export default class Learningobject extends React.Component {
                     answerComponent = q.choices.map(function (c, j) {
                         j = j + 1;
                         return (
-                            <Col xs={12} className="lo-answer" id={ "lo-answer-" + i + "-" + j }>
+                            <Col xs={12} className="lo-answer" id={ "lo-answer-" + i + "-" + j } key={ "lo-answer-" + i + "-" + j }>
                                 <div dangerouslySetInnerHTML={{__html: c.content}}
                                      onClick={ self._onChooseAnswer.bind(this, q.qtype, i, j, q.answer, q.question) }/>
                             </Col>
@@ -258,14 +270,14 @@ export default class Learningobject extends React.Component {
                     });
 
                     answerComponent = (
-                        <Row style={{padding: 25}}>
+                        <Row style={{padding: 25}} key={ "lo-answer-" + i }>
                             { answerComponent }
                         </Row>
                     );
                 } else if (q.qtype == "2") {
                     answerComponent = (
-                        <Row>
-                            <Col xs={9} id={ "lo-answer-" + i}>
+                        <Row key={ "lo-answer-" + i } style={{padding: 25}}>
+                            <Col xs={9} id={ "lo-answer-" + i} >
                                 <Radio value='Yes' name="answeryesno"
                                        onClick={ self._onChooseAnswer.bind(this, q.qtype, i, 'yes', q.answer, q.question) }>
                                     Yes
@@ -278,10 +290,10 @@ export default class Learningobject extends React.Component {
                         </Row>);
                 } else if (q.qtype == "3") {
                     answerComponent = (
-                        <Row>
-                            <Col xs={10} className="" id={ "lo-answer-" + i}>
+                        <Row key={ "lo-answer-" + i } style={{padding: 25}}>
+                            <Col xs={10} className="" id={ "lo-answer-" + i} >
                                 <FormControl type='text' id='textAnswerInput' name='comment'
-                                       placeholder="Please input your comment here!" className='required'/>
+                                             placeholder="Please input your comment here!" className='required'/>
                             </Col>
                             <Col xs={2}>
                                 <Button bsStyle='xddgreen'
@@ -294,11 +306,11 @@ export default class Learningobject extends React.Component {
                 }
 
                 return (
-                    <Panel>
+                    <Panel key={ "question-" + i }>
                         <PanelBody>
-                            <Row>
+                            <Row style={{padding: 25}}>
                                 <Col xs={12}>
-                                    <Entity entity="question"/>: {{i}}:
+                                    <Entity entity="question"/>: {i}:
                                     <div dangerouslySetInnerHTML={{__html: q.question}}/>
                                 </Col>
                             </Row>
@@ -322,10 +334,11 @@ export default class Learningobject extends React.Component {
         this.state.userAnwser = [];
         var lo = null;
 
+        console.log(this.props.LO);
         if (this.props.LO) {
             lo = this.props.LO;
             this.state.currentLO = lo;
-            this.props.LO = null;
+            //this.props.LO = null;
         } else {
             lo = this.state.currentLO;
         }

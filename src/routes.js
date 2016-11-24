@@ -68,7 +68,6 @@ const routes = (
         <Route path='teacher/lo/:loid' component={ViewLO} />
 
         <Route path='learner/dashboard' component={LearnerDashBoard} />
-        <Route path='learner/joinclass' component={JoinClass} />
         <Route path='learner/class/:cid' component={LearnerClass} />
         <Route path='learner/learn/:cid' component={LearnerLearn} />
 
@@ -88,6 +87,7 @@ const basicRoutes = (
         <Route path='signup' component={Signup}/>
         <Route path='weixinlogin' component={WeixinLogin} />
         <Route path='qqlogin' component={QQLogin} />
+        <Route path='learner/joinclass' component={JoinClass} />
     </Route>
 );
 
