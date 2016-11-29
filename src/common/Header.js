@@ -7,6 +7,7 @@ var store = require('store');
 import {
     Row,
     Col,
+    Grid,
     Image
 } from '@sketchpixy/rubix';
 
@@ -58,36 +59,40 @@ export default class Header extends React.Component {
         }
 
         return (
-            <Row>
-                <Col xs={12}>
-                    <Row>
-                        <Col xs={5} sm={2} className='col-sm-offset-1' style={{marginTop: 20}}>
-                            <Image src='/imgs/logo200x200.png' alt='xueduoduo'/>
-                        </Col>
-                        <Col xs={1} sm={1} className='logout-btn col-xs-offset-3'
-                             style={{fontSize: 30}}>
-                            <a href="#" onClick={this.onDashboard.bind(this)}>
-                                <span className="rubix-icon fontello icon-fontello-home-1 fg-pink"></span>
-                            </a>
-                        </Col>
-                        <Col xs={1} sm={1} className='logout-btn col-sm-offset-3'
-                             style={{marginLeft: 10}}>
+                <nav>
+                    <Grid>
+                        <Row>
+                            <Col xs={12}>
+                                <Row>
+                                    <Col xs={5} sm={2} className='col-sm-offset-1' style={{marginTop: 20}}>
+                                        <Image src='/imgs/logo200x200.png' alt='xueduoduo'/>
+                                    </Col>
+                                    <Col xs={1} sm={1} className='logout-btn col-xs-offset-3'
+                                         style={{fontSize: 30}}>
+                                        <a href="#" onClick={this.onDashboard.bind(this)}>
+                                            <span className="rubix-icon fontello icon-fontello-home-1 fg-pink"></span>
+                                        </a>
+                                    </Col>
+                                    <Col xs={1} sm={1} className='logout-btn col-sm-offset-3'
+                                         style={{marginLeft: 10}}>
                                             <span className="qc_item figure"><img src={ figure } width="30"
                                                                                   height="30"/></span>
-                        </Col>
-                        <Col xs={1} sm={2} className='hidden-xs logout-btn text-align-left'
-                             style={{marginTop: 5}}>
-                            <span className="qc_item nickname">{ nickname }</span>
-                        </Col>
-                        <Col xs={1} sm={1} className="logout-btn text-center-important"
-                             style={{marginTop: 6, marginLeft: 10}}>
-                            <a href="#" onClick={ this.logout.bind(this) }>
-                                <span className="rubix-icon fontello icon-fontello-off-1 fg-pink"/>
-                            </a>
-                        </Col>
-                    </Row>
-                </Col>
-            </Row>
+                                    </Col>
+                                    <Col xs={1} sm={2} className='hidden-xs logout-btn text-align-left'
+                                         style={{marginTop: 5}}>
+                                        <span className="qc_item nickname">{ nickname }</span>
+                                    </Col>
+                                    <Col xs={1} sm={1} className="logout-btn text-center-important"
+                                         style={{marginTop: 6, marginLeft: 10}}>
+                                        <a href="#" onClick={ this.logout.bind(this) }>
+                                            <span className="rubix-icon fontello icon-fontello-off-1 fg-pink"/>
+                                        </a>
+                                    </Col>
+                                </Row>
+                            </Col>
+                        </Row>
+                    </Grid>
+                </nav>
         );
     }
 }

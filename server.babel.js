@@ -48,6 +48,6 @@ app.get('/rtl/*', RubixAssetMiddleware('rtl'), (req, res, next) => {
   renderHTML(req, res);
 });
 
-app.listen(port, () => {
+app.listen(port,'localhost', () => {
   console.log(`Node.js app is running at http://localhost:${port}/`);
 });

@@ -168,9 +168,6 @@ export default class EditCourse extends React.Component {
     }
 
     componentWillUnmount() {
-        if ($.isFunction(this._onGetCourseCallBack)) {
-            CourseStore.removeChangeListener(this._onGetCourseCallBack);
-        }
 
         if ($.isFunction(this._onLOCallBack)) {
             LOStore.removeChangeListener(this._onLOCallBack);
@@ -231,7 +228,7 @@ export default class EditCourse extends React.Component {
                                                 <Col xs={2} sm={1}>
                                                     <Button bsStyle='xddgreen' className='update_course_btn'
                                                             onClick={ self._onUpdateCourse.bind(self) }>
-                                                        { l20n.ctx.getSync('updateCourse') }</Button>
+                                                        <Entity entity="updateCourse" /></Button>
                                                 </Col>
                                             </Row>
                                             <Row>
@@ -246,7 +243,7 @@ export default class EditCourse extends React.Component {
                                                                      placeholder='Enter keywords here ...'/>
                                                         <Button bsStyle='xddgreen'
                                                                 onClick={ self._onSearchLO.bind(self) }>
-                                                            <span> { l20n.ctx.getSync('searchlo') }</span>
+                                                                <Entity entity="searchlo" />
                                                             <Icon bundle='fontello' glyph='search'/>
                                                         </Button>
                                                     </InputGroup>
@@ -255,7 +252,7 @@ export default class EditCourse extends React.Component {
                                             <Row>
                                                 <Col sm={7} xs={12}>
                                                     <FormControl id='select-all-los' type="checkbox"/>
-                                                    { l20n.ctx.getSync('selectAllLO') }
+                                                    <Entity entity="selectAllLO" />
                                                 </Col>
                                             </Row>
                                             <Row>
@@ -270,7 +267,7 @@ export default class EditCourse extends React.Component {
                                                 <Col xs={2} sm={1}>
                                                     <Button bsStyle='xddgreen' style={{marginTop: 10, marginBottom: 15}}
                                                             onClick={ self._onAddLOToCourse.bind(self) }>
-                                                        { l20n.ctx.getSync('addToCourse') }</Button>
+                                                        <Entity entity="addToCourse" /></Button>
                                                 </Col>
                                             </Row>
                                         </Grid>

@@ -1,6 +1,6 @@
 import React from 'react';
 import {withRouter} from 'react-router';
-import {Entity} from '@sketchpixy/rubix/lib/L20n';
+import l20n,{Entity} from '@sketchpixy/rubix/lib/L20n';
 
 import CourseActionCreator from 'actions/CourseActionCreator';
 import CourseStore from 'stores/CourseStore';
@@ -20,13 +20,17 @@ import {
     Grid,
     Table,
     Form,
+    Label,
     Panel,
     PanelBody,
+    FormControl,
     FormGroup,
     PanelHeader,
     PanelContainer,
 
 } from '@sketchpixy/rubix';
+
+var store = require('store');
 
 @withRouter
 export default class NewCourse extends React.Component {
@@ -38,10 +42,34 @@ export default class NewCourse extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            los:[],
+            strings:{
+                "inputCourseName":"Input course name",
+                "selectAllLO": "Select all learning object",
+                "courseName": "Course name" ,
+                "losName" : "Learning objects",
+                "author": "Author"
+            }
+        };
     }
 
     componentDidMount() {
+
+        this._isMounted = true;
+        var self = this;
+
+        setTimeout(function () {
+            self.setState({
+                strings:{
+                    "inputCourseName": l20n.ctx.getSync('inputCourseName'),
+                    "selectAllLO": l20n.ctx.getSync('selectAllLO'),
+                    "courseName": l20n.ctx.getSync('courseName'),
+                    "losName" : l20n.ctx.getSync('losName'),
+                    "author": l20n.ctx.getSync('author'),
+                }
+            });
+        },200);
 
         CourseStore.addChangeListener(this._onCourseCallBack.bind(this));
         LOStore.addChangeListener(this._onLOCallBack.bind(this));
@@ -78,7 +106,7 @@ export default class NewCourse extends React.Component {
 
                     $('#showlonames').text(losnames);
                     $('#showcoursename').text($('#coursetitle').val());
-                    $('#showauthor').text(storage.get("user_name"));
+                    $('#showauthor').text(store.get("user_name"));
 
                 }
                 return $('#form-2').valid();
@@ -94,7 +122,7 @@ export default class NewCourse extends React.Component {
                     spinner: "spinner3",//Options: 'spinner1', 'spinner2', 'spinner3', 'spinner4', 'spinner5', 'spinner6', 'spinner7'
                     bgColor: "rgba(0, 0, 0, 0.2)" //Hex, RGB or RGBA colors
                 });
-                CourseActionCreator.createCourse(self.state.checkedLOids, localStorage.getItem('current_class'));
+                CourseActionCreator.createCourse(self.state.checkedLOids, store.get('current_class'));
             }
         });
 
@@ -111,7 +139,7 @@ export default class NewCourse extends React.Component {
         var result = payload.result;
         if (payload.type == ActionTypes.CREATE_COURSE) {
             if (result.retcode == 0) {
-                var classId = storage.get('current_class');
+                var classId = store.get('current_class');
                 if (classId) {
                     this.props.router.push('/teacher/class/edit/' + classId);
                 } else {
@@ -127,11 +155,16 @@ export default class NewCourse extends React.Component {
 
     _onLOCallBack() {
 
+        var self = this;
+
         var payload = LOStore.getPayload();
         var result = payload.result;
         if (payload.type == ActionTypes.SEARCH_LO) {
             if (result.retcode == 0) {
-                this.refs['lothumbContainer'].setLos(result.los);
+
+                if(self._isMounted){
+                    self.setState({los: result.los});
+                }
 
             } else {
                 alert(result.message);
@@ -158,6 +191,8 @@ export default class NewCourse extends React.Component {
     }
 
     componentWillUnmount() {
+        this._isMounted = false;
+
         if ($.isFunction(this._onCourseCallBack)) {
             CourseStore.removeChangeListener(this._onCourseCallBack);
         }
@@ -169,13 +204,9 @@ export default class NewCourse extends React.Component {
 
     render() {
 
-        var lothumbContainer = React.createElement(LOThumb, {
-            ref: "lothumbContainer",
-            los: [],
-            parent: this,
-            allowAdd: false,
-            allowCheck: true
-        });
+        var self = this;
+
+        console.log(this.state.los);
 
         return (
             <Grid>
@@ -201,9 +232,8 @@ export default class NewCourse extends React.Component {
                                                     <Row>
                                                         <Col sm={7} xs={12} collapseLeft xsOnlyCollapseRight>
                                                             <FormGroup>
-                                                                <Label htmlFor='coursetitle'><Entity
-                                                                    entity='inputCourseName'/> *</Label>
-                                                                <Input type='text' id='coursetitle' name='title'
+                                                                <Label htmlFor='coursetitle'>{ self.state.strings.inputCourseName } *</Label>
+                                                                <FormControl type='text' id='coursetitle' name='title'
                                                                        className='required'/>
                                                             </FormGroup>
                                                         </Col>
@@ -223,12 +253,17 @@ export default class NewCourse extends React.Component {
                                                     <Grid>
                                                         <Row>
                                                             <Col sm={7} xs={12}>
-                                                                <input id='select-all-los' type="checkbox"/> <Entity
-                                                                entity='selectAllLO'/>
+                                                                <FormControl id='select-all-los' type="checkbox"/> { self.state.strings.selectAllLO }
                                                             </Col>
                                                         </Row>
                                                     </Grid>
-                                                    { lothumbContainer }
+
+                                                    <LOThumb
+                                                        los={ self.state.los }
+                                                        parent= { self }
+                                                        allowAdd={ false }
+                                                        allowCheck={ true }
+                                                    />
                                                 </div>
                                             </div>
                                             <h1>Confirm</h1>

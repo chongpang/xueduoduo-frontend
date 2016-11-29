@@ -132,6 +132,8 @@ export default class EditLO extends React.Component {
 
     _onLOCallBack() {
 
+        var self = this;
+
         var payload = LOStore.getPayload();
         var result = payload.result;
 
@@ -148,21 +150,24 @@ export default class EditLO extends React.Component {
                 });
             }
         } else if (payload.type == ActionTypes.SEARCH_LO) {
+
             if (result.retcode == 0) {
                 if (result.los.length == 1) {
 
-                    if (this._isMounted) {
-                        this.setState({lo: result.los[0]});
-                        this.setContent();
-                        this._getLODetails(result.los[0]);
+                    if (self._isMounted) {
+                        self.setState({lo: result.los[0]});
+
+                        self.setContent();
+                        self._getLODetails(result.los[0]);
 
                         // show saved tags
                         var tags = result.los[0].tags;
                         $tokenbox.tokenfield('setTokens', tags);
                         $categorybox.tokenInput("add", {"id": "1", "title": "Math"});
-                    }
 
-                    $("#lotitle").val(result.los[0].title);
+                        $("#lotitle").val(result.los[0].title);
+
+                    }
 
                 }
 
@@ -199,7 +204,7 @@ export default class EditLO extends React.Component {
 
     _getLODetails(lo) {
 
-        LOStore.addChangeListener(this._onLOCallBack);
+        LOStore.addChangeListener(this._onLOCallBack.bind(this));
 
         LOActionCreator.getLODetails(lo.prerequisites);
     }
@@ -244,7 +249,7 @@ export default class EditLO extends React.Component {
             this.state.lo = {};
             lo = {};
         }
-        var quiz = React.createElement(Quiz, {'quizs': qs});
+
         return (
             <Grid>
                 <Row>
@@ -335,7 +340,8 @@ export default class EditLO extends React.Component {
                                                             </PanelHeader>
                                                             <PanelBody>
                                                                 <Grid id="question-section">
-                                                                    { quiz }
+                                                                    <Quiz quizs={ qs }/>
+
                                                                 </Grid>
                                                             </PanelBody>
                                                         </Panel>
@@ -361,9 +367,10 @@ export default class EditLO extends React.Component {
                                                                 <Grid>
                                                                     <Row>
                                                                         <Col xs={12}>
-                                          <textarea name="description" className="lo-description"
-                                                    value={lo.description}>
-                                          </textarea>
+                                                                              <textarea name="description"
+                                                                                        className="lo-description"
+                                                                                        value={lo.description}>
+                                                                              </textarea>
                                                                         </Col>
                                                                     </Row>
                                                                 </Grid>
@@ -390,8 +397,7 @@ export default class EditLO extends React.Component {
                                                                 <Grid>
                                                                     <Row>
                                                                         <Col xs={12}>
-                                                                            <div
-                                                                                ref={(prerequistitsContainer) => this.prerequistitsContainer = prerequistitsContainer}/>
+                                                                            <div ref={(prerequistitsContainer) => this.prerequistitsContainer = prerequistitsContainer}/>
                                                                         </Col>
                                                                     </Row>
                                                                 </Grid>
@@ -418,8 +424,7 @@ export default class EditLO extends React.Component {
                                                                 <Grid>
                                                                     <Row>
                                                                         <Col xs={12}>
-                                                                            <div
-                                                                                ref={(categoryContainer) => this.categoryContainer = categoryContainer}/>
+                                                                            <div ref={(categoryContainer) => this.categoryContainer = categoryContainer}/>
                                                                         </Col>
                                                                     </Row>
                                                                 </Grid>
@@ -446,8 +451,7 @@ export default class EditLO extends React.Component {
                                                                 <Grid>
                                                                     <Row>
                                                                         <Col xs={12}>
-                                                                            <div
-                                                                                ref={(tokeninputContainer) => this.tokeninputContainer = tokeninputContainer}/>
+                                                                            <div ref={(tokeninputContainer) => this.tokeninputContainer = tokeninputContainer}/>
                                                                         </Col>
                                                                     </Row>
                                                                 </Grid>

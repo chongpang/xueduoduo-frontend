@@ -110,18 +110,13 @@ export default class Learningobject extends React.Component {
             } else {
                 self.setState({currentLO: res.lo});
 
-                ActivityActionCreator.saveAcitivity(XDD_VERBS['attempted'], ActivityActionCreator.getLearningObj(res.lo), {});
+                ActivityActionCreator.saveAcitivity(xGlobal.XDD_VERBS['attempted'], ActivityActionCreator.getLearningObj(res.lo), {});
             }
         }
     }
 
-    _unescapeHTML(html) {
-        var escapeEl = document.createElement('textarea');
-        escapeEl.innerHTML = html;
-        return escapeEl.textContent;
-    }
-
     arraysEqual(a, b) {
+
 
         if (a === b) return true;
         if (a == null || b == null) return false;
@@ -149,7 +144,6 @@ export default class Learningobject extends React.Component {
 
         var self = this;
 
-        console.log(self);
         var result = {"success": false};
         var correct = $.map(correct, function (value) {
             return [value];
@@ -334,7 +328,6 @@ export default class Learningobject extends React.Component {
         this.state.userAnwser = [];
         var lo = null;
 
-        console.log(this.props.LO);
         if (this.props.LO) {
             lo = this.props.LO;
             this.state.currentLO = lo;

@@ -7,6 +7,7 @@ import {
     Row,
     Col,
     Grid,
+    Label,
     Table,
     Form,
     Panel,
@@ -14,6 +15,7 @@ import {
     PanelBody,
     FormGroup,
     FormControl,
+    DropdownButton,
     PanelHeader,
     PanelContainer,
 
@@ -29,6 +31,11 @@ var ActionTypes = XddConstants.ActionTypes;
 
 var $tokenbox = null;
 
+var store = require('store');
+
+var xGlobal = require('xGlobal');
+
+
 
 @withRouter
 export default class NewLO extends React.Component {
@@ -41,6 +48,11 @@ export default class NewLO extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      strings:{
+          inputLOName: "Input LO Name",
+          addLOContent: "Add LO Content",
+          addQuiz: "Add Quiz"
+      }
     };
   }
   componentDidMount() {
@@ -54,7 +66,7 @@ export default class NewLO extends React.Component {
 
         if(currentIndex == 1){
           $('#showloname').text($('#lotitle').val());
-          $('#showauthor').text(localStorage.getItem("user_name"));
+          $('#showauthor').text(store.get("user_name"));
         }
         return $('#form-2').valid();
       },
@@ -69,7 +81,7 @@ export default class NewLO extends React.Component {
           spinner:"spinner3",//Options: 'spinner1', 'spinner2', 'spinner3', 'spinner4', 'spinner5', 'spinner6', 'spinner7' 
           bgColor: "rgba(0, 0, 0, 0.2)" //Hex, RGB or RGBA colors
         });
-        LOActionCreator.createLO(localStorage.getItem('current_course'));
+        LOActionCreator.createLO(store.get('current_course'));
       }
     });
 
@@ -80,16 +92,16 @@ export default class NewLO extends React.Component {
       dir: $('html').attr('dir')
     }).trumbowyg('html', '');
 
-    var tokenContainer = $(this.refs.tokeninputContainer.getDOMNode());
+    var tokenContainer = $(this.tokeninputContainer);
     $tokenbox = $('<input />').prop('name', 'tags');
     tokenContainer.append($tokenbox);
     $tokenbox.tokenfield();
 
     
-    var $prerequisitesContainer = $(this.refs.prerequistitsContainer.getDOMNode());
+    var $prerequisitesContainer = $(this.prerequistitsContainer);
     var $prerequisitesbox = $('<input />').prop('name', 'prerequisites');
     $prerequisitesContainer.append($prerequisitesbox);
-    $prerequisitesbox.tokenInput(API_HOST + '/api/v1/searchlo',{
+    $prerequisitesbox.tokenInput(xGlobal.API_HOST + '/api/v1/searchlo',{
         queryParam: "keywords",
         crossDomain: true,
         onResult: function (results) {
@@ -110,10 +122,10 @@ export default class NewLO extends React.Component {
       }
     );
 
-    var $categoryContainer = $(this.refs.categoryContainer.getDOMNode());
+    var $categoryContainer = $(this.categoryContainer);
     var $categorybox = $('<input />').prop('name', 'category');
     $categoryContainer.append($categorybox);
-    $categorybox.tokenInput(API_HOST + '/api/v1/searchlo',{
+    $categorybox.tokenInput(xGlobal.API_HOST + '/api/v1/searchlo',{
         queryParam: "keywords",
         crossDomain: true,
         onResult: function (results) {
@@ -149,7 +161,7 @@ export default class NewLO extends React.Component {
            // need refactor!!! why child component can not access transitionTo of parent conment
            //this.transitionTo('/teacher/course/new');
            //this.context.router.goBack();
-           var courseId = localStorage.getItem('current_course');
+           var courseId = store.get('current_course');
            if(courseId){
               this.transitionTo('/teacher/course/edit/' + courseId);
            }else{
@@ -175,7 +187,7 @@ export default class NewLO extends React.Component {
   }
   render() {
 
-    var quiz = React.createElement(Quiz,{'quizs': []});
+    var self = this;
 
     return (
         <Grid>
@@ -202,7 +214,7 @@ export default class NewLO extends React.Component {
                             <Row>
                               <Col sm={7} xs={12} collapseLeft xsOnlyCollapseRight>
                                 <FormGroup>
-                                  <Label htmlFor='coursetitle'><Entity entity='inputLOName' /> *</Label>
+                                  <Label htmlFor='coursetitle'>{ self.state.strings.inputLOName } *</Label>
                                   <FormControl type='text' id='lotitle' name='title' className='required' />
                                 </FormGroup>
                               </Col>
@@ -219,14 +231,14 @@ export default class NewLO extends React.Component {
                         <div>
                           <Grid>
                             <Row>
-                              <Col xs={12}>
+                              <Col xs={12} sm={12}>
                                 <PanelContainer>
                                   <Panel>
                                     <PanelHeader>
                                       <Grid>
                                         <Row>
                                           <Col xs={12}>
-                                            <h3 className='text-left'><Entity entity="addLOContent" /></h3>
+                                              { self.state.strings.addLOContent }
                                           </Col>
                                         </Row>
                                       </Grid>
@@ -246,21 +258,20 @@ export default class NewLO extends React.Component {
                                       <Grid>
                                         <Row>
                                           <Col xs={12}>
-                                            <h3 className='text-left'><Entity entity="addQuiz" /></h3>
+                                              { self.state.strings.addQuiz }
                                           </Col>
                                         </Row>
                                       </Grid>
                                     </PanelHeader>
                                     <PanelBody>
                                       <Grid id="question-section">
-                                        { quiz }
+                                        <Quiz quizs={ [] }/>
                                       </Grid>
                                     </PanelBody>
                                   </Panel>
                                 </PanelContainer>
                               </Col>
                             </Row>
-
                             <Row>
                               <Col xs={12}>
                                <PanelContainer>
@@ -286,7 +297,7 @@ export default class NewLO extends React.Component {
                                   </PanelBody>
                                 </Panel>
                                </PanelContainer>
-                              </Col>                                  
+                              </Col>
                             </Row>
                             <Row>
                               <Col xs={12}>
@@ -305,14 +316,14 @@ export default class NewLO extends React.Component {
                                     <Grid>
                                       <Row>
                                         <Col xs={12}>
-                                          <div ref="prerequistitsContainer"></div>
+                                          <div ref={(prerequistitsContainer) => self.prerequistitsContainer = prerequistitsContainer}/>
                                         </Col>
                                       </Row>
                                     </Grid>
                                   </PanelBody>
                                 </Panel>
                                </PanelContainer>
-                              </Col>                                  
+                              </Col>
                             </Row>
                             <Row>
                               <Col xs={12}>
@@ -331,14 +342,14 @@ export default class NewLO extends React.Component {
                                     <Grid>
                                       <Row>
                                         <Col xs={12}>
-                                          <div ref="categoryContainer"></div>
+                                          <div ref={(categoryContainer) => self.categoryContainer = categoryContainer}/>
                                         </Col>
                                       </Row>
-                                    </Grid>                             
+                                    </Grid>
                                   </PanelBody>
                                 </Panel>
                                </PanelContainer>
-                              </Col>                                  
+                              </Col>
                             </Row>
                             <Row>
                               <Col xs={12}>
@@ -357,15 +368,15 @@ export default class NewLO extends React.Component {
                                     <Grid>
                                       <Row>
                                         <Col xs={12}>
-                                          <div ref="tokeninputContainer"></div>
+                                          <div ref={(tokeninputContainer) => self.tokeninputContainer = tokeninputContainer}/>
                                         </Col>
                                       </Row>
                                     </Grid>
                                   </PanelBody>
                                 </Panel>
                                </PanelContainer>
-                              </Col>                                  
-                            </Row> 
+                              </Col>
+                            </Row>
                             <Row>
                               <Col xs={12}>
                                <PanelContainer>
@@ -383,34 +394,32 @@ export default class NewLO extends React.Component {
                                     <Grid>
                                       <Row>
                                         <Col xs={12}>
-                                            <Dropdown className="padding-topdown-1 select-grade-dropdown">
-                                              <DropdownButton outlined bsStyle='green'>
-                                                <span>Grade 1</span><Caret/>
-                                              </DropdownButton>
-                                              <Menu bsStyle='fg-white' onItemSelect={this.handleSelection.bind(this)}>
-                                                <MenuItem active href='#'>Grade 1</MenuItem>
-                                                <MenuItem href='#'>grade 2</MenuItem>
-                                                <MenuItem href='#'>grade 3</MenuItem>
-                                              
-                                                <MenuItem href='#'>grade 4</MenuItem>
-                                                <MenuItem href='#'>grade 5</MenuItem>
-                                                <MenuItem href='#'>grade 6</MenuItem>
-                                                <MenuItem href='#'>grade 7</MenuItem>
-                                                <MenuItem href='#'>grade 8</MenuItem>
-                                                <MenuItem href='#'>grade 9</MenuItem>
-                                                <MenuItem href='#'>grade 10</MenuItem>
-                                                <MenuItem href='#'>grade 11</MenuItem>
-                                                <MenuItem href='#'>grade 12</MenuItem>
-                                              </Menu>
-                                            </Dropdown>
+                                            <DropdownButton outlined bsStyle="darkorange" dropup
+                                                            title="Select grade" id="select_grade"
+                                                            onSelect={ self.handleSelection.bind(this) }>
+                                              <MenuItem eventKey="1" active>grade 1</MenuItem>
+                                              <MenuItem eventKey="2">grade 2</MenuItem>
+                                              <MenuItem eventKey="3">grade 3</MenuItem>
+                                              <MenuItem eventKey="4">grade 4</MenuItem>
+                                              <MenuItem eventKey="5">grade 5</MenuItem>
+                                              <MenuItem eventKey="6">grade 6</MenuItem>
+                                              <MenuItem eventKey="7">grade 7</MenuItem>
+                                              <MenuItem eventKey="8">grade 8</MenuItem>
+                                              <MenuItem eventKey="9">grade 9</MenuItem>
+                                              <MenuItem eventKey="10">grade 10</MenuItem>
+                                              <MenuItem eventKey="11">grade 11</MenuItem>
+                                              <MenuItem eventKey="12">grade 12</MenuItem>
+                                            </DropdownButton>
+                                            <FormControl type="hidden" name='learningLevel'
+                                                         defaultValue="1"/>
                                         </Col>
                                       </Row>
-                                    </Grid>                           
+                                    </Grid>
                                   </PanelBody>
                                 </Panel>
                                </PanelContainer>
-                              </Col>                                  
-                            </Row>                                                                                                                                    
+                              </Col>
+                            </Row>
                           </Grid>
                         </div>
                         <h1>Confirm</h1>

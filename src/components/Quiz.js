@@ -21,9 +21,13 @@ export default class Quiz extends React.Component {
         this.state = {
             quizs: []
         };
+
+        this.addChild = this.addChild.bind(this);
     }
 
     addChild() {
+
+        console.log("add");
         // State change will cause component re-render
         var quizs = this.state.quizs;
 
@@ -102,18 +106,20 @@ export default class Quiz extends React.Component {
     }
 
     render() {
-        if (this.props.quizs && this.props.quizs.length > 0) {
-            this.state.quizs = this.props.quizs;
+
+        var self = this;
+        if (self.props.quizs && self.props.quizs.length > 0) {
+            self.state.quizs = self.props.quizs;
 
         }
 
-        if (this.state.quizs.length > 0) {
+        if (self.state.quizs.length > 0) {
 
 
             return (
                 <div>
                     {
-                        this.state.quizs.map((quiz, index) => (
+                        self.state.quizs.map((quiz, index) => (
                             <Grid key={ 'quiz-' + (index + 1) }>
                                 <Row className="padding-topdown-20">
                                     <Col xs={12}>
@@ -121,7 +127,7 @@ export default class Quiz extends React.Component {
                                         <Row>
                                             <Col>
                                                 <div className="question-editor" id={ 'quiz-' + (index + 1) }
-                                                     name={'quiz-' + (index + 1) }>{ this.setQuestion.bind(this, 'quiz-' + (index + 1), quiz.question) }</div>
+                                                     name={'quiz-' + (index + 1) }>{ self.setQuestion.bind(self, 'quiz-' + (index + 1), quiz.question) }</div>
                                             </Col>
                                         </Row>
                                         <Row>
@@ -134,13 +140,13 @@ export default class Quiz extends React.Component {
                                             <Col xs={12}>
                                                 <ButtonGroup>
                                                     <Button bsStyle='darkorange'
-                                                            onClick={this.addChild.bind(this)}><Entity
+                                                            onClick={self.addChild.bind(self)}><Entity
                                                         entity="addQuiz"/></Button>
 
                                                     <DropdownButton outlined bsStyle="darkorange" dropup
                                                                     title={ l20n.ctx.getSync("multiChoice")}
                                                                     id={ 'dropdown-quiz' + (index + 1) }
-                                                                    onSelect={ this.handleSelection.bind(this, 'quiz-' + (index + 1)) }>
+                                                                    onSelect={ self.handleSelection.bind(self, 'quiz-' + (index + 1)) }>
                                                         <MenuItem eventKey="1" active><Entity
                                                             entity="multiChoice"/></MenuItem>
                                                         <MenuItem eventKey="2"><Entity entity="yesNo"/></MenuItem>
@@ -150,7 +156,7 @@ export default class Quiz extends React.Component {
                                                     <FormControl type="hidden" name={'quiz-' + (index + 1) + "-qtype"}
                                                                  defaultValue={ quiz.qtype }/>
                                                     <Button bsStyle='orange'
-                                                            onClick={this.removeQ.bind(this, 'quiz-' + (index + 1))}><Entity
+                                                            onClick={self.removeQ.bind(self, 'quiz-' + (index + 1))}><Entity
                                                         entity="removeQ"/></Button>
                                                 </ButtonGroup>
                                             </Col>
@@ -168,8 +174,7 @@ export default class Quiz extends React.Component {
                     <Row className="padding-topdown-20">
                         <ButtonGroup>
                             <Button bsStyle='darkorange'
-                                    onClick={this.addChild.bind(this)}><Entity
-                                entity="addQuiz"/></Button>
+                                    onClick={self.addChild.bind(self)}>Add Quiz</Button>
                         </ButtonGroup>
                     </Row>
                 </Grid>

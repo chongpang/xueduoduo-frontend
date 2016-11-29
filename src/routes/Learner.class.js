@@ -98,11 +98,9 @@ export default class LearnerClass extends React.Component {
                 var courseThumbsAll = null;
                 var courses = [];
                 var allCourses = [];
-                var classInfo = null;
-                var self = this;
+                var classInfo = result;
                 var checkID = {};
 
-                classInfo = result;
                 if (classInfo != null) {
                     if (classInfo.retcode == 0) {
                         courses = classInfo.classInfo.courses;
@@ -125,7 +123,7 @@ export default class LearnerClass extends React.Component {
                                                             <Row>
                                                                 <Col xs={12} className="thumbBody">
                                                                     <Button className="start-learn-btn"
-                                                                            style={{marginBottom: 5}} outlined
+                                                                            style={{marginBottom: 5}} inverse outlined
                                                                             bsStyle='xddgreen'
                                                                             onClick={self._onStartLearn.bind(self, c.id)}><Entity
                                                                         entity='learnCourse'/></Button>{' '}

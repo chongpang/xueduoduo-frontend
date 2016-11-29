@@ -30,6 +30,8 @@ import {
 
 } from '@sketchpixy/rubix';
 
+var store = require("store");
+
 @withRouter
 export default class NewClass extends React.Component {
   back(e) {
@@ -44,11 +46,20 @@ export default class NewClass extends React.Component {
       checkAll : false,
       checkedCourses: [],
       checkedCourseIds: [],
-      courses: []
+      courses: [],
+      strings:{
+        "inputClassName":"Input class name",
+        "selectAllCourse": "Select all course",
+        "className": "Class name" ,
+        "courseName" : "Course name",
+        "author": "Author"
+      }
     };
   }
 
   componentDidMount() {
+
+    var self = this;
 
     CourseStore.addChangeListener(this._onCourseCallBack.bind(this));
     ClassStore.addChangeListener(this._onClassCallBack.bind(this));
@@ -105,10 +116,22 @@ export default class NewClass extends React.Component {
       }
     });
 
-    var self = this;
     $('#select-all-course').change(function(){
       self._onCheckAll();
     });
+
+    setTimeout(function () {
+
+      self.setState({
+        strings: {
+            "inputClassName": l20n.ctx.getSync('inputClassName'),
+            "selectAllCourse": l20n.ctx.getSync('selectAllCourse'),
+            "className":  l20n.ctx.getSync('className'),
+            "courseName":  l20n.ctx.getSync('courseName'),
+            "author": l20n.ctx.getSync('author'),
+        }
+      });
+    }, 500);
 
   }
 
@@ -175,8 +198,7 @@ export default class NewClass extends React.Component {
 
   render(){
 
-    var inputClassName = l20n.ctx.getSync('inputClassName');
-    var selectAllCourse = l20n.ctx.getSync('selectAllCourse');
+    var self = this;
 
     return (
         <Grid>
@@ -202,7 +224,7 @@ export default class NewClass extends React.Component {
                             <Row>
                               <Col sm={7} xs={12} collapseLeft xsOnlyCollapseRight>
                                 <FormGroup>
-                                  <label> { inputClassName } *</label>
+                                  <label> { self.state.strings.inputClassName } *</label>
                                   <FormControl type='text' id='classtitle' name='title' className='required' />
                                 </FormGroup>
                               </Col>
@@ -219,7 +241,7 @@ export default class NewClass extends React.Component {
                         <div>
                           <div className=''>
                             <h4><Entity entity='selectCourse'/></h4>
-                            <Checkbox id='select-all-course'>{ selectAllCourse }</Checkbox>
+                            <Checkbox id='select-all-course'> { self.state.strings.selectAllCourse } </Checkbox>
                             <div id='courses_holder'/>
                           </div>
                         </div>
@@ -230,15 +252,15 @@ export default class NewClass extends React.Component {
                               <Table>
                               <tbody>
                                 <tr>
-                                  <th>{ l20n.ctx.getSync('className') }<Entity entity='className'/></th>
+                                  <th>{ self.state.strings.className }</th>
                                   <td id='showclassname'>A Class Name</td>
                                 </tr>
                                 <tr>
-                                  <th>{ l20n.ctx.getSync('coursesName') }<Entity entity='coursesName'/></th>
+                                  <th>{ self.state.strings.courseName }</th>
                                   <td id='showcoursenames'>Otto</td>
                                 </tr>
                                 <tr>
-                                  <th>{l20n.ctx.getSync('author') }<Entity entity='author'/></th>
+                                  <th>{ self.state.strings.author }</th>
                                   <td id='showauthor'>Otto</td>
                                 </tr>
                               </tbody>

@@ -40,7 +40,7 @@ class App extends React.Component {
         return (
             <MainContainer {...this.props}>
                 <Header/>
-                <div id='body'>
+                <div>
                     {this.props.children}
                 </div>
                 <Footer />

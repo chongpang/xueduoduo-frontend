@@ -283,8 +283,9 @@ export default class Login extends React.Component {
                                                             <Grid>
                                                                 <Row>
                                                                     <Col xs={12} sm={12}>
-                                                                        <Button type='button' id="signup_btn" lg
+                                                                        <Button lg type='button' id="signup_btn"
                                                                                 bsStyle='blue'
+                                                                                block
                                                                                 onClick={this.signup}><Entity
                                                                             entity='createAccount'/></Button>
                                                                     </Col>

@@ -1,4 +1,5 @@
 import React from 'react';
+import {withRouter} from 'react-router';
 
 import {
     Row,
@@ -11,6 +12,9 @@ import {
 
 } from '@sketchpixy/rubix';
 
+var store = require('store');
+
+@withRouter
 export default class ClassThumb extends React.Component {
 
     constructor(props) {
@@ -122,7 +126,7 @@ export default class ClassThumb extends React.Component {
 
     _onEditCourse(cid) {
 
-        if (1 == localStorage.getItem('user_type')) {
+        if (1 == store.get('user_type')) {
 
             this.props.router.push('/teacher/course/edit/' + cid);
         }

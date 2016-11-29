@@ -43,6 +43,9 @@ export default class LearnerDashboard extends React.Component {
     }
 
     componentDidMount() {
+
+        this._isMounted = true;
+
         ClassStore.addChangeListener(this._onClassCallBack.bind(this));
         ClassAction.getClasses();
 
@@ -51,14 +54,12 @@ export default class LearnerDashboard extends React.Component {
         setTimeout(function () {
             ActivityAction.getActivities();
         }, 100);
-
-        this._isMounted = true;
     }
 
     componentWillUnmount() {
         ClassStore.removeChangeListener(this._onClassCallBack);
 
-        this._isMounted = true;
+        this._isMounted = false;
 
     }
 

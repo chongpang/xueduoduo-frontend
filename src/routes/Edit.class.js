@@ -32,6 +32,8 @@ import {
 var XddConstants = require('constants/XddConstants');
 var ActionTypes = XddConstants.ActionTypes;
 
+var store = require('store');
+
 
 @withRouter
 export default class EditClass extends React.Component {
@@ -55,7 +57,7 @@ export default class EditClass extends React.Component {
         var cid = this.props.router.params.cid;
 
         // keep selected classid
-        localStorage.setItem('current_class', this.props.router.params.cid);
+        store.set('current_class', this.props.router.params.cid);
 
         ClassStore.addChangeListener(this._onClassCallBack.bind(this));
         CourseStore.addChangeListener(this._onCourseCallBack.bind(this));

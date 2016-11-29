@@ -8,6 +8,7 @@ import ClassStore from 'stores/ClassStore';
 import TeacherActionCreator from 'actions/TeacherActionCreator';
 import TeacherStore from 'stores/TeacherStore'
 import ClassActionCreator from 'actions/ClassActionCreator';
+
 var XddConstants = require('constants/XddConstants');
 var ActionTypes = XddConstants.ActionTypes;
 
@@ -51,15 +52,32 @@ export default class ViewClass extends React.Component {
             courseThumbs: [],
             selected: null,
             stuCount: 0,
-            learner_rows: []
+            learner_rows: [],
+            strings:{
+                "classHome" : "Class Home",
+                "classCurriculum" : "Class Curriculum",
+                "inviteStudent": "Invite Student",
+                "classManage": "Class Management"
+            }
         };
     }
 
     componentDidMount() {
+        var self = this;
 
         setTimeout(function () {
             $('.tablesaw').table();
-        }, 500);
+
+            self.setState({
+                strings:{
+                    "classHome" : l20n.ctx.getSync("classHome"),
+                    "classCurriculum" : l20n.ctx.getSync("classCurriculum"),
+                    "inviteStudent": l20n.ctx.getSync("inviteStudent"),
+                    "classManage": l20n.ctx.getSync("classManage"),
+                }
+            });
+
+        }, 200);
 
         ClassStore.addChangeListener(this._onClassCallBack.bind(this));
         ClassActionCreator.getClassInfo(this.props.router.params.cid);
@@ -257,8 +275,7 @@ export default class ViewClass extends React.Component {
                                         <Row>
                                             <Col xs={12} sm={12}>
                                                 <Accordion>
-                                                    <BPanel header={ l20n.ctx.getSync('classHome') }
-                                                            eventKey="1">
+                                                    <BPanel header={ self.state.strings.classHome } eventKey="1">
                                                         <PanelContainer>
                                                             <Panel>
                                                                 <PanelHeader className=''>
@@ -304,7 +321,7 @@ export default class ViewClass extends React.Component {
                                                             </Panel>
                                                         </PanelContainer>
                                                     </BPanel>
-                                                    <BPanel header={ l20n.ctx.getSync('classCurriculum') } eventKey="2">
+                                                    <BPanel header={ self.state.strings.classCurriculum } eventKey="2">
                                                         <PanelContainer noOverflow>
                                                             <Panel>
                                                                 <PanelHeader>
@@ -340,7 +357,7 @@ export default class ViewClass extends React.Component {
                                                             </Panel>
                                                         </PanelContainer>
                                                     </BPanel>
-                                                    <BPanel header={ l20n.ctx.getSync('inviteStudent') } eventKey="3">
+                                                    <BPanel header={  self.state.strings.inviteStudent } eventKey="3">
                                                         <PanelContainer noOverflow>
                                                             <Panel>
                                                                 <PanelBody>
@@ -380,7 +397,7 @@ export default class ViewClass extends React.Component {
                                                             </Panel>
                                                         </PanelContainer>
                                                     </BPanel>
-                                                    <BPanel header={ l20n.ctx.getSync('classManage') } eventKey="4">
+                                                    <BPanel header={ self.state.strings.classManage} eventKey="4">
                                                         <PanelContainer noOverflow>
                                                             <Panel>
                                                                 <PanelBody>
