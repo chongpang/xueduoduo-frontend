@@ -1,12 +1,9 @@
 import React from 'react';
-import {withRouter} from 'react-router';
-
 import MultiChoice from 'components/Multichoice';
 import Yesno from 'components/Yesno';
 import TextAnswer from 'components/Textanswer';
 
 
-@withRouter
 export default class Answer extends React.Component {
 
     constructor(props) {
@@ -16,20 +13,11 @@ export default class Answer extends React.Component {
         };
     }
 
-    back(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        this.props.router.goBack();
-    }
-
-
     render() {
 
         if (this.props.quiz != null) {
             this.state.quiz = this.props.quiz;
         }
-
-        console.log(this.state.quiz)
 
         var answer = null;
 

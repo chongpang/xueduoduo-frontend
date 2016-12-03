@@ -28,110 +28,120 @@ import {
 @withRouter
 export default class LearnerDashboard extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      activities: null
-    };
-  }
+    constructor(props) {
+        super(props);
+        this.state = {
+            activities: null,
+            classes: []
+        };
+    }
 
-  back(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    this.props.router.goBack();
-  }
+    back(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.props.router.goBack();
+    }
 
-  componentDidMount() {
-    ClassStore.addChangeListener(this._onClassCallBack.bind(this));
-    ClassAction.getClasses();
+    componentDidMount() {
 
-    ActivityStore.addChangeListener(this._onActivityCallBack.bind(this));
+        this._isMounted = true;
 
-    setTimeout(function() {
-      ActivityAction.getActivities();      
-    }, 100);
-  }
+        ClassStore.addChangeListener(this._onClassCallBack.bind(this));
+        ClassAction.getClasses();
 
-  componentWillUnmount() {
-    ClassStore.removeChangeListener(this._onClassCallBack);
+        ActivityStore.addChangeListener(this._onActivityCallBack.bind(this));
 
-  }
+        setTimeout(function () {
+            ActivityAction.getActivities();
+        }, 100);
+    }
 
-  _onActivityCallBack(){
+    componentWillUnmount() {
+        ClassStore.removeChangeListener(this._onClassCallBack);
 
-    var result = ActivityStore.getPayload().result;
-    if(result.retcode == 0){
-
-      var activities = React.createElement(Activities,{statements: result.Statements});
-
-      this.setState({activities: activities});
+        this._isMounted = false;
 
     }
-  }
 
-  _onClassCallBack(){
+    _onActivityCallBack() {
 
-    var self = this;
+        var result = ActivityStore.getPayload().result;
+        if (result.retcode == 0) {
 
-    var payload = ClassStore.getPayload();
+            var activities = React.createElement(Activities, {statements: result.Statements});
 
-    var result = payload.result;
-    if(payload.type == ActionTypes.GET_CLASSES){
-      if(result.retcode ==  0){
+            if (this._isMounted) {
 
-          self.refs['classthumb_ref']._setClasses(result.classes);
-      }else{
-        alert(result.message);
-      }
+                this.setState({activities: activities});
 
+            }
+
+        }
     }
-  }
+
+    _onClassCallBack() {
+
+        var self = this;
+
+        var payload = ClassStore.getPayload();
+
+        var result = payload.result;
+        if (payload.type == ActionTypes.GET_CLASSES) {
+            if (result.retcode == 0) {
+
+                if (self._isMounted) {
+                    self.setState({classes: result.classes});
+                }
+            } else {
+                alert(result.message);
+            }
+
+        }
+    }
 
 
-  render() {
-    var self = this;
+    render() {
+        var self = this;
 
-    var classthumb = React.createElement(ClassThumb,{ref: 'classthumb_ref', classes: [], parent: this /*,action: action*/});
-
-    return (
-        <Grid>
-          <Row>
-            <Col xs={12} sm={6} className='col-sm-offset-1 padding-col'>
-              <PanelContainer>
-                <Panel>
-                  <PanelHeader>
-                    <Grid>
-                      <Row>
-                        <Col xs={12}>
-                          <h3><Entity entity='myclasses'/></h3>
-                        </Col>
-                      </Row>
-                    </Grid>
-                  </PanelHeader>
-                  <PanelBody id="classthumb" className="triggerElement">
-                    { classthumb }
-                  </PanelBody>
-                </Panel>
-              </PanelContainer>
-            </Col>
-            <Col xs={12} sm={4} className='padding-col'>
-              <PanelContainer>
-                <Panel>
-                  <PanelHeader>
-                    <Grid>
-                      <Row>
-                        <Col xs={12}>
-                          <h3><Entity entity='activities'/></h3>
-                        </Col>
-                      </Row>
-                    </Grid>
-                  </PanelHeader>
-                  { this.state.activities }
-                </Panel>
-              </PanelContainer>
-            </Col>
-          </Row>
-        </Grid>
-    );
-  }
+        return (
+            <Grid>
+                <Row>
+                    <Col xs={12} sm={6} className='col-sm-offset-1 padding-col'>
+                        <PanelContainer>
+                            <Panel>
+                                <PanelHeader>
+                                    <Grid>
+                                        <Row>
+                                            <Col xs={12}>
+                                                <h3><Entity entity='myclasses'/></h3>
+                                            </Col>
+                                        </Row>
+                                    </Grid>
+                                </PanelHeader>
+                                <PanelBody className="triggerElement">
+                                    <ClassThumb classes={ self.state.classes}/>
+                                </PanelBody>
+                            </Panel>
+                        </PanelContainer>
+                    </Col>
+                    <Col xs={12} sm={4} className='padding-col'>
+                        <PanelContainer>
+                            <Panel>
+                                <PanelHeader>
+                                    <Grid>
+                                        <Row>
+                                            <Col xs={12}>
+                                                <h3><Entity entity='activities'/></h3>
+                                            </Col>
+                                        </Row>
+                                    </Grid>
+                                </PanelHeader>
+                                { this.state.activities }
+                            </Panel>
+                        </PanelContainer>
+                    </Col>
+                </Row>
+            </Grid>
+        );
+    }
 }

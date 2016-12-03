@@ -76,12 +76,12 @@ export default class MultiChoice extends React.Component {
                                     <Checkbox defaultChecked={ dchecked }
                                               name={ self.props['answerTo'] + '-choice-' + (index + 1) + '-correct'}/></Col>
                                 <Col xs={10} collapseLeft>
-                                    <textarea rows='2' name={ self.props['answerTo'] + '-choice-' + (index + 1)  }
+                                    <textarea className="question-input" rows='2' name={ self.props['answerTo'] + '-choice-' + (index + 1)  }
                                               placeholder='New choice...' defaultValue={choice.content} />
                                 </Col>
                             </Row>
                         </Col>
-                        <Col xs={6} collapseLeft>
+                        <Col xs={5} collapseLeft>
                             <ButtonGroup>
                                 <a onClick={ self.addChoice.bind(this) }><Icon className={'fg-orange'} style={{fontSize: 28}}
                                                                     glyph='icon-fontello-plus'/></a>

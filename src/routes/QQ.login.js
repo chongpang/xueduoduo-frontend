@@ -48,10 +48,10 @@ export default class QQLogin extends React.Component {
 
             if (payload.userType == '1') {
 
-                self.props.router.push(self.getPath('/teacher/dashboard'));
+                self.props.router.push('/teacher/dashboard');
 
             } else if (payload.userType == '0') {
-                self.props.router.push(self.getPath('/learner/dashboard'));
+                self.props.router.push('/learner/dashboard');
             } else if (payload.userType == '2') {
                 alert('Parent dashboard is under developing. Thank you !')
             }
@@ -62,12 +62,6 @@ export default class QQLogin extends React.Component {
                 position: 'top', className: "error", autoHideDelay: 7000
             });
         }
-    }
-
-    getPath(path) {
-        var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
-        path = `/${dir}/${path}`;
-        return path;
     }
 
     render() {

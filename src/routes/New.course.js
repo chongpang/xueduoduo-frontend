@@ -1,6 +1,8 @@
-import React from 'react';
+import React from 'react'
+    ;
+import ReactDOM from 'react-dom';
 import {withRouter} from 'react-router';
-import {Entity} from '@sketchpixy/rubix/lib/L20n';
+import l20n, {Entity} from '@sketchpixy/rubix/lib/L20n';
 
 import CourseActionCreator from 'actions/CourseActionCreator';
 import CourseStore from 'stores/CourseStore';
@@ -21,12 +23,16 @@ import {
     Table,
     Form,
     Panel,
+    Checkbox,
     PanelBody,
+    FormControl,
     FormGroup,
     PanelHeader,
     PanelContainer,
 
 } from '@sketchpixy/rubix';
+
+var store = require('store');
 
 @withRouter
 export default class NewCourse extends React.Component {
@@ -38,25 +44,177 @@ export default class NewCourse extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            los: [],
+            checkedLOs: [],
+        };
     }
 
     componentDidMount() {
 
-        CourseStore.addChangeListener(this._onCourseCallBack.bind(this));
-        LOStore.addChangeListener(this._onLOCallBack.bind(this));
-
-        LOActionCreator.getLOs();
+        this._isMounted = true;
 
         var self = this;
 
-        $("#form-2").validate({
-            rules: {
-                confirm_password: {
-                    equalTo: "#password"
+        setTimeout(function () {
+            self.renderCreateCourseForm();
+
+            self.loadComponent();
+
+        }, 200);
+
+    }
+
+    _onCourseCallBack() {
+
+        var payload = CourseStore.getPayload();
+        var result = payload.result;
+        if (payload.type == ActionTypes.CREATE_COURSE) {
+            if (result.retcode == 0) {
+                var classId = store.get('current_class');
+                if (classId) {
+                    this.props.router.push('/teacher/class/edit/' + classId);
+                } else {
+                    this.props.router.goBack();
                 }
+
+            } else {
+                alert(result.message);
             }
-        });
+        }
+
+    }
+
+    _onLOCallBack() {
+
+        var self = this;
+
+        var payload = LOStore.getPayload();
+        var result = payload.result;
+
+        if (payload.type == ActionTypes.SEARCH_LO) {
+            if (result.retcode == 0) {
+
+                if (self._isMounted) {
+
+                    ReactDOM.render(
+                        <LOThumb
+                            los={ result.los }
+                            parent={ self }
+                            allowAdd={ false }
+                            allowCheck={ true }
+                        />,
+                        document.getElementById('loHolder')
+                    );
+                }
+
+            } else {
+                alert(result.message);
+            }
+        }
+
+    }
+
+    _onCheckAll() {
+        var self = this;
+
+        if (!$('#select-all-los').is(':checked')) {
+            $('#select-all-los').prop('checked', false);
+
+            $('.checkbox-lo input').prop('checked', false);
+            $('.checkbox-lo input').val('');
+            self.state.checkAll = false;
+        } else {
+            $('#select-all-los').prop('checked', true);
+
+            $('.checkbox-lo input').prop('checked', true);
+
+            self.state.checkAll = true;
+        }
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
+
+        if ($.isFunction(this._onCourseCallBack)) {
+            CourseStore.removeChangeListener(this._onCourseCallBack);
+        }
+
+        if ($.isFunction(this._onLOCallBack)) {
+            LOStore.removeChangeListener(this._onLOCallBack);
+        }
+    }
+
+    renderCreateCourseForm() {
+
+        var self = this;
+
+        ReactDOM.render(
+            <Form id='form-2'>
+                <div id='wizard-2'>
+                    <h1><Entity entity="courseName"/></h1>
+                    <div>
+                        <Grid>
+                            <Row>
+                                <Col sm={7} xs={12} collapseLeft xsOnlyCollapseRight>
+                                    <FormGroup>
+                                        <Entity entity="inputCourseName"/>
+                                        <FormControl type='text' id='coursetitle' name='title'
+                                                     className='required'/>
+                                    </FormGroup>
+                                </Col>
+                            </Row>
+                        </Grid>
+                    </div>
+
+                    <h1><Entity entity='selectLOs'/></h1>
+                    <div>
+                        <div className=''>
+                            <h4><Entity entity='selectLO'/></h4>
+                            <Grid>
+                                <Row>
+                                    <Col sm={7} xs={12}>
+                                        <Checkbox id='select-all-los'>
+                                            <Entity entity="selectAllLO"/>
+                                        </Checkbox>
+                                    </Col>
+                                </Row>
+                            </Grid>
+                            <div id="loHolder"/>
+                        </div>
+                    </div>
+                    <h1><Entity entity='confirmation'/></h1>
+                    <div>
+                        <div className=''>
+                            <h3><Entity entity='createCourseConfirm'/></h3>
+                            <Table>
+                                <tbody>
+                                <tr>
+                                    <th><Entity entity='courseName'/></th>
+                                    <td id='showcoursename'>A Course Name</td>
+                                </tr>
+                                <tr>
+                                    <th><Entity entity='losName'/></th>
+                                    <td id='showlonames'>Otto</td>
+                                </tr>
+                                <tr>
+                                    <th><Entity entity='author'/></th>
+                                    <td id='showauthor'>Otto</td>
+                                </tr>
+                                </tbody>
+                            </Table>
+                        </div>
+                    </div>
+                </div>
+            </Form>
+            ,
+            document.getElementById('createCourseForm')
+        );
+    }
+
+    loadComponent() {
+
+        var self = this;
 
         $('#wizard-2').steps({
             onStepChanging: function (event, currentIndex, newIndex) {
@@ -78,8 +236,11 @@ export default class NewCourse extends React.Component {
 
                     $('#showlonames').text(losnames);
                     $('#showcoursename').text($('#coursetitle').val());
-                    $('#showauthor').text(storage.get("user_name"));
+                    $('#showauthor').text(store.get("user_name"));
 
+                } else if (currentIndex == 0) {
+                    LOStore.addChangeListener(self._onLOCallBack.bind(self));
+                    LOActionCreator.getLOs();
                 }
                 return $('#form-2').valid();
             },
@@ -94,94 +255,18 @@ export default class NewCourse extends React.Component {
                     spinner: "spinner3",//Options: 'spinner1', 'spinner2', 'spinner3', 'spinner4', 'spinner5', 'spinner6', 'spinner7'
                     bgColor: "rgba(0, 0, 0, 0.2)" //Hex, RGB or RGBA colors
                 });
-                CourseActionCreator.createCourse(self.state.checkedLOids, localStorage.getItem('current_class'));
+                CourseStore.addChangeListener(self._onCourseCallBack.bind(self));
+                CourseActionCreator.createCourse(self.state.checkedLOids, store.get('current_class'));
             }
         });
 
-        var self = this;
         $('#select-all-los').change(function () {
             self._onCheckAll();
         });
 
     }
 
-    _onCourseCallBack() {
-
-        var payload = CourseStore.getPayload();
-        var result = payload.result;
-        if (payload.type == ActionTypes.CREATE_COURSE) {
-            if (result.retcode == 0) {
-                var classId = storage.get('current_class');
-                if (classId) {
-                    this.props.router.push(this.getPath('teacher/class/edit/' + classId));
-                } else {
-                    this.props.router.goBack();
-                }
-
-            } else {
-                alert(result.message);
-            }
-        }
-
-    }
-
-    _onLOCallBack() {
-
-        var payload = LOStore.getPayload();
-        var result = payload.result;
-        if (payload.type == ActionTypes.SEARCH_LO) {
-            if (result.retcode == 0) {
-                this.refs['lothumbContainer'].setLos(result.los);
-
-            } else {
-                alert(result.message);
-            }
-        }
-
-    }
-
-    _onCheckAll() {
-
-        if (!$('#select-all-los').is(':checked')) {
-            $('#select-all-los').prop('checked', false);
-
-            $('.checkbox-lo').prop('checked', false);
-            $('.checkbox-lo').val('');
-            this.state.checkAll = false;
-        } else {
-            $('#select-all-los').prop('checked', true);
-
-            $('.checkbox-lo').prop('checked', true);
-
-            this.state.checkAll = true;
-        }
-    }
-
-    componentWillUnmount() {
-        if ($.isFunction(this._onCourseCallBack)) {
-            CourseStore.removeChangeListener(this._onCourseCallBack);
-        }
-
-        if ($.isFunction(this._onLOCallBack)) {
-            LOStore.removeChangeListener(this._onLOCallBack);
-        }
-    }
-
-    getPath(path) {
-        var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
-        path = `/${dir}/${path}`;
-        return path;
-    }
-
     render() {
-
-        var lothumbContainer = React.createElement(LOThumb, {
-            ref: "lothumbContainer",
-            los: [],
-            parent: this,
-            allowAdd: false,
-            allowCheck: true
-        });
 
         return (
             <Grid>
@@ -198,69 +283,7 @@ export default class NewCourse extends React.Component {
                                         </Row>
                                     </Grid>
                                 </PanelHeader>
-                                <PanelBody>
-                                    <Form id='form-2'>
-                                        <div id='wizard-2'>
-                                            <h1>Name</h1>
-                                            <div>
-                                                <Grid>
-                                                    <Row>
-                                                        <Col sm={7} xs={12} collapseLeft xsOnlyCollapseRight>
-                                                            <FormGroup>
-                                                                <Label htmlFor='coursetitle'><Entity
-                                                                    entity='inputCourseName'/> *</Label>
-                                                                <Input type='text' id='coursetitle' name='title'
-                                                                       className='required'/>
-                                                            </FormGroup>
-                                                        </Col>
-                                                        <Col sm={4} xs={6} collapseRight>
-                                                            <p>
-                                                                <Entity entity='requiredField'/>
-                                                            </p>
-                                                        </Col>
-                                                    </Row>
-                                                </Grid>
-                                            </div>
-
-                                            <h1>Contents</h1>
-                                            <div>
-                                                <div className=''>
-                                                    <h4><Entity entity='selectLO'/></h4>
-                                                    <Grid>
-                                                        <Row>
-                                                            <Col sm={7} xs={12}>
-                                                                <input id='select-all-los' type="checkbox"/> <Entity
-                                                                entity='selectAllLO'/>
-                                                            </Col>
-                                                        </Row>
-                                                    </Grid>
-                                                    { lothumbContainer }
-                                                </div>
-                                            </div>
-                                            <h1>Confirm</h1>
-                                            <div>
-                                                <div className=''>
-                                                    <h3><Entity entity='createCourseConfirm'/></h3>
-                                                    <Table>
-                                                        <tbody>
-                                                        <tr>
-                                                            <th><Entity entity='courseName'/></th>
-                                                            <td id='showcoursename'>A Course Name</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th><Entity entity='losName'/></th>
-                                                            <td id='showlonames'>Otto</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th><Entity entity='author'/></th>
-                                                            <td id='showauthor'>Otto</td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </Table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </Form>
+                                <PanelBody id="createCourseForm">
                                 </PanelBody>
                             </Panel>
                         </PanelContainer>

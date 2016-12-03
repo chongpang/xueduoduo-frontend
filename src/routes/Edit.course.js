@@ -1,6 +1,6 @@
 import React from 'react';
 import {withRouter} from 'react-router';
-import l20n,{Entity} from '@sketchpixy/rubix/lib/L20n';
+import {Entity} from '@sketchpixy/rubix/lib/L20n';
 
 import CourseActionCreator from 'actions/CourseActionCreator';
 import CourseStore from 'stores/CourseStore';
@@ -13,15 +13,18 @@ import LOThumb from 'components/Lothumb';
 var XddConstants = require('constants/XddConstants');
 var ActionTypes = XddConstants.ActionTypes;
 
+var store = require('store');
 
 import {
     Row,
     Col,
     Grid,
-    Icon,
+    Checkbox,
     Button,
     Form,
     Panel,
+    Accordion,
+    BPanel,
     PanelBody,
     FormGroup,
     InputGroup,
@@ -43,7 +46,8 @@ export default class EditCourse extends React.Component {
         super(props);
         this.state = {
             courseLOs: [],
-            searchLOs: []
+            searchLOs: [],
+            checkedLOs: []
 
         };
     }
@@ -95,7 +99,7 @@ export default class EditCourse extends React.Component {
             return;
         }
 
-        var los = this.refs['courseLOContainer'].getLOs();
+        var los = self.state.courseLOs;
         var loids = [];
         for (var i = los.length - 1; i >= 0; i--) {
             loids.push(los[i].id);
@@ -104,11 +108,36 @@ export default class EditCourse extends React.Component {
         CourseActionCreator.updateCourse(self.state.course.id, loids);
     }
 
+    getLOIndex(los, loid) {
+
+        for (var i = los.length - 1; i >= 0; i--) {
+            if (los[i].id == loid) {
+                return i;
+            }
+        }
+    }
+
     _onAddLOToCourse() {
 
-        this.refs['courseLOContainer']._onLOChange(1);
+        var self = this;
 
-        this.refs['searchLOContainer']._onLOChange(0);
+        var checkedLos = self.state.checkedLOs;
+
+        var courseLOs = self.state.courseLOs;
+        var searchLOs = self.state.searchLOs;
+
+        courseLOs.push.apply(courseLOs, checkedLos);
+
+        for (var i = checkedLos.length - 1; i >= 0; i--) {
+            var loid = checkedLos[i].id;
+            var index = self.getLOIndex(searchLOs, loid);
+            if (index > -1) {
+                searchLOs.splice(index, 1);
+            }
+        }
+
+        self.setState({courseLOs: courseLOs, searchLOs: searchLOs});
+
 
     }
 
@@ -139,13 +168,15 @@ export default class EditCourse extends React.Component {
 
     _onLOCallBack() {
 
+        var self = this;
+
         var payload = LOStore.getPayload();
         var result = payload.result;
         if (payload.type == ActionTypes.GET_LO) {
             if (result.retcode == 0) {
 
-                if(this._isMounted){
-                    this.setState({courseLOs: result.los});
+                if (self._isMounted) {
+                    self.setState({courseLOs: result.los});
                 }
 
             } else {
@@ -156,8 +187,8 @@ export default class EditCourse extends React.Component {
         } else if (payload.type == ActionTypes.SEARCH_LO) {
             if (result.retcode == 0) {
 
-                if(this._isMounted){
-                    this.setState({searchLOs: result.los});
+                if (self._isMounted) {
+                    self.setState({searchLOs: result.los});
                 }
             } else {
                 alert(result.message);
@@ -167,9 +198,6 @@ export default class EditCourse extends React.Component {
     }
 
     componentWillUnmount() {
-        if ($.isFunction(this._onGetCourseCallBack)) {
-            CourseStore.removeChangeListener(this._onGetCourseCallBack);
-        }
 
         if ($.isFunction(this._onLOCallBack)) {
             LOStore.removeChangeListener(this._onLOCallBack);
@@ -202,76 +230,85 @@ export default class EditCourse extends React.Component {
                                     </Grid>
                                 </PanelHeader>
                                 <PanelBody className="triggerElement">
-                                    <Form id='form-course-edit' style={{paddingTop: 25}}>
+                                    <Form id='form-course-edit' style={{paddingTop: 25, marginBottom: 35}}>
                                         <Grid>
-                                            <Row>
-                                                <Col sm={6} xs={12}>
-                                                    <FormGroup>
-                                                        <Entity entity="courseName" />
-                                                        <FormControl type='text' id='coursetitle' name='title'
-                                                                     className='required'/>
-                                                    </FormGroup>
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col sm={12} xs={12}>
-                                                    <Entity entity="courseLos" />
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col sm={12} xs={12}>
-                                                    <LOThumb los= { self.state.courseLOs}
-                                                    parent= { self }
-                                                    allowAdd= { true }
-                                                    allowCheck={ false } />
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col xs={2} sm={1}>
-                                                    <Button bsStyle='xddgreen' className='update_course_btn'
-                                                            onClick={ self._onUpdateCourse.bind(self) }>
-                                                        { l20n.ctx.getSync('updateCourse') }</Button>
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col xs={12} sm={2} style={{paddingTop: 20, paddingBottom: 10}}>
-                                                    <Entity entity="addLO" />
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col sm={6} xs={12} className="col-sm-offset-3">
-                                                    <InputGroup>
-                                                        <FormControl type='text' id='searchlobtn'
-                                                                     placeholder='Enter keywords here ...'/>
-                                                        <Button bsStyle='xddgreen'
-                                                                onClick={ self._onSearchLO.bind(self) }>
-                                                            <span> { l20n.ctx.getSync('searchlo') }</span>
-                                                            <Icon bundle='fontello' glyph='search'/>
-                                                        </Button>
-                                                    </InputGroup>
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col sm={7} xs={12}>
-                                                    <FormControl id='select-all-los' type="checkbox"/>
-                                                    { l20n.ctx.getSync('selectAllLO') }
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col sm={12} xs={12}>
-                                                    <LOThumb los= { self.state.searchLOs}
-                                                             parent= { self }
-                                                             allowAdd= { false }
-                                                             allowCheck={ true } />
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col xs={2} sm={1}>
-                                                    <Button bsStyle='xddgreen' style={{marginTop: 10, marginBottom: 15}}
-                                                            onClick={ self._onAddLOToCourse.bind(self) }>
-                                                        { l20n.ctx.getSync('addToCourse') }</Button>
-                                                </Col>
-                                            </Row>
+                                            <Accordion>
+                                                <BPanel >
+                                                    <Row>
+                                                        <Col sm={6} xs={12}>
+                                                            <FormGroup>
+                                                                <Entity entity="courseName"/>
+                                                                <FormControl type='text' id='coursetitle' name='title'
+                                                                             className='required'/>
+                                                            </FormGroup>
+                                                        </Col>
+                                                    </Row>
+                                                    <Row>
+                                                        <Col sm={12} xs={12}>
+                                                            <Entity entity="courseLos"/>
+                                                        </Col>
+                                                    </Row>
+                                                    <Row>
+                                                        <Col sm={12} xs={12}>
+                                                            <LOThumb los={ self.state.courseLOs}
+                                                                     parent={ self }
+                                                                     allowAdd={ true }
+                                                                     allowCheck={ false }/>
+                                                        </Col>
+                                                    </Row>
+                                                    <Row>
+                                                        <Col xs={2} sm={1}>
+                                                            <Button bsStyle='xddgreen' className='update_course_btn'
+                                                                    onClick={ self._onUpdateCourse.bind(self) }>
+                                                                <Entity entity="updateCourse"/></Button>
+                                                        </Col>
+                                                    </Row>
+                                                </BPanel>
+                                                <BPanel>
+                                                    <Row>
+                                                        <Col xs={12} sm={2} style={{paddingTop: 20, paddingBottom: 10}}>
+                                                            <Entity entity="addLO"/>
+                                                        </Col>
+                                                    </Row>
+                                                    <Row>
+                                                        <Col sm={6} xs={12} className="col-sm-offset-3 text-center">
+                                                            <InputGroup>
+                                                                <FormControl id='searchlobtn' type="text"
+                                                                             placeholder='Keywords here ...'
+                                                                />
+                                                                <InputGroup.Button>
+                                                                    <Button bsStyle='xddgreen'
+                                                                            onClick={ self._onSearchLO.bind(self) }>
+                                                                        <Entity entity="searchlo"/></Button>
+                                                                </InputGroup.Button>
+                                                            </InputGroup>
+                                                        </Col>
+                                                    </Row>
+                                                    <Row>
+                                                        <Col sm={7} xs={12}>
+                                                            <Checkbox id='select-all-los'>
+                                                                <Entity entity="selectAllLO"/>
+                                                            </Checkbox>
+                                                        </Col>
+                                                    </Row>
+                                                    <Row>
+                                                        <Col sm={12} xs={12}>
+                                                            <LOThumb los={ self.state.searchLOs}
+                                                                     parent={ self }
+                                                                     allowAdd={ false }
+                                                                     allowCheck={ true }/>
+                                                        </Col>
+                                                    </Row>
+                                                    <Row>
+                                                        <Col xs={2} sm={1}>
+                                                            <Button bsStyle='xddgreen'
+                                                                    style={{marginTop: 10, marginBottom: 15}}
+                                                                    onClick={ self._onAddLOToCourse.bind(self) }>
+                                                                <Entity entity="addToCourse"/></Button>
+                                                        </Col>
+                                                    </Row>
+                                                </BPanel>
+                                            </Accordion>
                                         </Grid>
                                     </Form>
                                 </PanelBody>

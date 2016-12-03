@@ -1,5 +1,4 @@
 import React from 'react';
-import {withRouter} from 'react-router';
 import {Entity} from '@sketchpixy/rubix/lib/L20n';
 
 import {
@@ -14,8 +13,13 @@ import {
 
 } from '@sketchpixy/rubix';
 
-@withRouter
 export default class LOThumb extends React.Component {
+
+    back(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.props.router.goBack();
+    }
 
     constructor(props) {
         super(props);
@@ -35,32 +39,36 @@ export default class LOThumb extends React.Component {
 
         e.stopPropagation();
 
-        this.props.router.push(this.getPath('teacher/lo/new'));
+        this.props.parent.props.router.push('/teacher/lo/new');
 
     }
 
     _onChange(loid) {
 
-        var checkedlos = this.props.parent.state.checkedLOs;
+        var self = this;
+
+        var checkedLOs = self.props.parent.state.checkedLOs;
+
+        console.log(self.props);
 
         var v = $('#' + loid).val();
 
         if ($('#' + loid).is(':checked')) {
-            checkedlos.push(this.getLOObj(loid));
+            checkedLOs.push(self.getLOObj(loid));
 
         } else {
-            checkedlos.splice(this.getLOIndex(checkedlos, loid), 1);
+            checkedLOs.splice(self.getLOIndex(checkedLOs, loid), 1);
         }
-
-        this.props.parent.setState({checkedLOs: checkedlos});
-
-        if (this.props.los.length == this.props.parent.state.checkedLOs.length) {
+        var checkAll = false;
+        if (self.props.los.length == checkedLOs.length) {
             $('#select-all-los').prop('checked', true);
-            this.props.parent.setState({checkAll: true});
+            checkAll = true;
         } else {
             $('#select-all-los').prop('checked', false);
-            this.props.parent.setState({checkAll: false});
         }
+
+        self.props.parent.state.checkedLOs = checkedLOs;
+        self.props.parent.state.checkAll = checkAll;
 
     }
 
@@ -74,28 +82,6 @@ export default class LOThumb extends React.Component {
             }
         }
 
-        this.setState(st);
-    }
-
-    _onLOChange(flag) {
-
-        var checkedLos = this.props.parent.state.checkedLOs;
-        var st = this.state;
-        if (flag) {
-            // add to course
-            st.los.push.apply(st.los, checkedLos);
-
-        } else if (flag == 0) {
-
-            // remove from search result
-            for (var i = checkedLos.length - 1; i >= 0; i--) {
-                var loid = checkedLos[i].id;
-                var index = this.getLOIndex(st.los, loid);
-                if (index > -1) {
-                    st.los.splice(index, 1);
-                }
-            }
-        }
         this.setState(st);
     }
 
@@ -117,53 +103,38 @@ export default class LOThumb extends React.Component {
         }
     }
 
-    getLOs() {
-        return this.state.los;
-    }
-
-    setLos(los) {
-        var st = this.state;
-        st.los = los;
-        this.setState(st);
-    }
-
     _onEditLO(loid) {
-        this.props.router.push(this.getPath('teacher/lo/edit/' + loid));
-    }
-
-    getPath(path) {
-        var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
-        path = `/${dir}/${path}`;
-        return path;
+        this.props.parent.props.router.push('/teacher/lo/edit/' + loid);
     }
 
     render() {
 
-        if(this.props.los.length > 0){
-            this.state.los = this.props.los;
-        }
-
-        var len = this.state.los.length
-        if (typeof this.props.allowAdd !== 'undefined') {
-            this.state.allowAdd = this.props.allowAdd;
-        }
-        if (typeof this.props.allowCheck !== 'undefined') {
-            this.state.allowCheck = this.props.allowCheck;
-        }
-
         var self = this;
-        var lothumb = null;
+
+        console.log(self.props);
+
+        if (self.props.los.length > 0) {
+            self.state.los = self.props.los;
+        }
+
+        var len = self.state.los.length;
+        if (typeof self.props.allowAdd !== 'undefined') {
+            self.state.allowAdd = self.props.allowAdd;
+        }
+        if (typeof self.props.allowCheck !== 'undefined') {
+            self.state.allowCheck = self.props.allowCheck;
+        }
 
         if (len > 0) {
-            lothumb = this.state.los.map(function (mylo) {
+            var lothumb = self.state.los.map(function (mylo) {
                 if (self.state.allowCheck) {
                     return (
-                        <Col xs={12} sm={3} key= { mylo.id } >
+                        <Col xs={12} sm={3} key={ mylo.id }>
                             <PanelContainer>
                                 <Panel>
                                     <PanelBody>
                                         <Checkbox id={ mylo.id } className="checkbox-lo"
-                                                  onChange={self._onChange.bind(this, mylo.id)}>
+                                                  onChange={self._onChange.bind(self, mylo.id)}>
                                             <div className='bg-orange thumb'>
                                                 <a href="#"
                                                    onClick={ self._onEditLO.bind(self, mylo.id) }>{ mylo.title }</a>
@@ -176,13 +147,13 @@ export default class LOThumb extends React.Component {
                     );
                 } else {
                     return (
-                        <Col xs={12} sm={3} key={ mylo.id } >
+                        <Col xs={12} sm={3} key={ mylo.id }>
                             <PanelContainer>
                                 <Panel>
                                     <PanelBody>
                                         <div className='bg-orange thumb'>
                                             <a className="icon-ikons-close close-btn" href="#"
-                                               onClick={ self._onRemoveLO.bind(self, mylo.id) }></a>
+                                               onClick={ self._onRemoveLO.bind(self, mylo.id) }/>
                                             <a href="#" id={ mylo.id }
                                                onClick={ self._onEditLO.bind(self, mylo.id) }>{ mylo.title }</a>
                                         </div>
@@ -196,7 +167,7 @@ export default class LOThumb extends React.Component {
 
             });
         }
-        if (this.state.allowAdd) {
+        if (self.state.allowAdd) {
             return (
                 <Grid>
                     <Row>
@@ -205,7 +176,7 @@ export default class LOThumb extends React.Component {
                             <PanelContainer>
                                 <Panel>
                                     <PanelBody className='thumb thumbAdd text-center'>
-                                        <Button bsStyle='xddgreen' onClick={ this._onClick.bind(this) }><Entity
+                                        <Button bsStyle='xddgreen' onClick={ self._onClick.bind(self) }><Entity
                                             entity='addLO'/></Button>
                                     </PanelBody>
                                 </Panel>

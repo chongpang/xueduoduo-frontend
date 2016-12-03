@@ -7,6 +7,7 @@ import UserStore from 'stores/UserStore'
 import Message from 'components/Message';
 import l20n from '@sketchpixy/rubix/lib/L20n';
 
+var store = require('store');
 
 @withRouter
 export default class JoinClass extends React.Component {
@@ -47,7 +48,7 @@ export default class JoinClass extends React.Component {
         var result = UserStore.getPayload();
         var self = this;
         if (result.retcode == 1) {
-            self.props.router.push('signupviainvite', {user: result.userid})
+            self.props.router.push('/signupviainvite', {user: result.userid})
         } else {
 
             store.clear();
@@ -61,7 +62,7 @@ export default class JoinClass extends React.Component {
                 msg.className = "alert-success";
 
                 setTimeout(function () {
-                    self.props.router.push(self.getPath('learner/dashboard'));
+                    self.props.router.push('/learner/dashboard');
                 }, 5000);
 
             } else {
@@ -71,22 +72,14 @@ export default class JoinClass extends React.Component {
                 msg.link = "";
                 msg.className = "alert-danger";
             }
-            this.refs['msg'].setMessage(msg);
+            this.setState({message: msg});
         }
     }
 
-
-    getPath(path) {
-        var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
-        path = `/${dir}/${path}`;
-        return path;
-    }
-
     render() {
-        var msg = React.createElement(Message, {ref: "msg"});
         return (
             <div>
-                { msg }
+                <Message message={ this.state.message } />
             </div>
         );
     }

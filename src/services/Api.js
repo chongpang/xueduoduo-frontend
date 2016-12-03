@@ -3,11 +3,13 @@
  * Wrapper for calling a API
  */
 
+var XddConstants = require('constants/XddConstants');
+
 var NO_TOKEN_REQUIRED_REQ = ['/api/v1/sigininwithqq','/api/v1/signup', '/api/v1/signin','/api/v1/sendsms','/api/v1/confirm','/api/v1/class/join','/api/v1/updateuser'];
 
-/////////////prod////////////////////////
-//var API_HOST = "http://www.xueduoduo.cn:6060";
-var API_HOST = "http://localhost:8081";
+var store = require('store');
+
+var xGlobal = require('xGlobal');
 
 var Api = {
 
@@ -16,9 +18,7 @@ var Api = {
    */
   Call: function(url, data, callBack, method='post', async=true){
 
-      var no_token_found = false;
-
-      var token = localStorage.getItem('access_token');
+      var token = store.get('access_token');
 
       var required_token = this.isTokenRequired( url );
 
@@ -32,7 +32,8 @@ var Api = {
         
       }
 
-      var req_url = API_HOST + url;
+      var req_url = xGlobal.API_HOST + url;
+
       if( url.indexOf('get_user_info') != -1){
         req_url = url;
       }else if(url.indexOf('api.weixin') != -1){

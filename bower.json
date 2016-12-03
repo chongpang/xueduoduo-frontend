@@ -31,6 +31,8 @@
     "fakeLoader": "fakeloader#*",
     "filament-tablesaw": "tablesaw#^2.0.3",
     "jquery-tokeninput": "^1.7.0",
-    "bootstrap-tokenfield": "^0.12.1"
+    "bootstrap-tokenfield": "^0.12.1",
+    "vex": "^3.0.0",
+    "gsap": "^1.19.0"
   }
 }

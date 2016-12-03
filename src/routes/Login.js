@@ -7,6 +7,9 @@ import UserActionCreator from '../actions/UserActionCreator';
 import ActivityActionCreator from '../actions/ActivityActionCreator';
 import UserStore from '../stores/UserStore'
 
+var store = require('store');
+var xGlobal = require('xGlobal');
+
 import {
     Row,
     Col,
@@ -45,9 +48,9 @@ export default class Login extends React.Component {
 
         if(store.get('access_token')){
             if (store.get('user_type') == '1') {
-                this.props.router.push(this.getPath('teacher/dashboard'));
+                this.props.router.push('/teacher/dashboard');
             } else if (store.get('user_type') == '0') {
-                this.props.router.push(this.getPath('learner/dashboard'));
+                this.props.router.push('/learner/dashboard');
             } else if (store.get('user_type') == '2') {
                 alert('Parent dashboard is under developing. Thank you !')
             }
@@ -97,14 +100,14 @@ export default class Login extends React.Component {
 
         if (payload.retcode == 0) {
 
-            ActivityActionCreator.saveAcitivity(XDD_VERBS['signin'], XDD_OBJECTS['signin'], {"success": true});
+            ActivityActionCreator.saveAcitivity(xGlobal.XDD_VERBS['signin'], xGlobal.XDD_OBJECTS['signin'], {"success": true});
 
             if (payload.userType == '1') {
-                this.props.router.push(this.getPath('teacher/dashboard'));
+                this.props.router.push('/teacher/dashboard');
 
             } else if (payload.userType == '0') {
 
-                this.props.router.push(this.getPath('learner/dashboard'));
+                this.props.router.push('/learner/dashboard');
             } else if (payload.userType == '2') {
                 alert('Parent dashboard is under developing. Thank you !')
             }
@@ -117,20 +120,10 @@ export default class Login extends React.Component {
         }
     }
 
-    getPath(path) {
-        var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
-        path = `/${dir}/${path}`;
-        return path;
-    }
-
     render() {
 
-        var classes = classNames({
-            'container-open': this.props.open,
-        });
-
         return (
-            <MainContainer id='container' className={classes}>
+            <MainContainer id='container'>
                 <Col id="content" xs={12} sm={4} style={{padding: 10}} className="col-sm-offset-4">
                     <Grid>
                         <Row className='text-center'>
@@ -213,7 +206,7 @@ export default class Login extends React.Component {
                                                             <Grid>
                                                                 <Row>
                                                                     <Col xs={12} sm={12}>
-                                                                        <Button outlined lg type='button' id="signin"
+                                                                        <Button lg type='button' id="signin"
                                                                                 bsStyle='blue'
                                                                                 block
                                                                                 onClick={this.signin.bind(this)}><Entity
@@ -227,7 +220,7 @@ export default class Login extends React.Component {
                                                 <div className='bg-hoverblue fg-black50 text-center'>
                                                     <div style={{paddingBottom: 30}}>
                                                         <Entity entity='hasnotAccount'/><Link
-                                                        to={::this.getPath('signup')}><Entity
+                                                        to='/signup'><Entity
                                                         entity='signup'/></Link>
                                                     </div>
                                                 </div>

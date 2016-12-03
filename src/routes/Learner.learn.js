@@ -1,7 +1,6 @@
 import React from 'react';
 import {Link, withRouter} from 'react-router';
 
-
 import CourseStore from 'stores/CourseStore';
 import CourseActionCreator from 'actions/CourseActionCreator';
 
@@ -12,11 +11,16 @@ import ActivityActionCreator from 'actions/ActivityActionCreator';
 
 import LearningObject from 'components/Learningobject'
 
+var store = require('store');
+var xGlobal = require('xGlobal');
+
+
 import {
     Row,
     Col,
     Grid,
     Panel,
+    BPanel,
     PanelBody,
     PanelHeader,
     PanelContainer,
@@ -54,9 +58,15 @@ export default class LearnerDashboard extends React.Component {
 
         store.set('current_course', this.props.router.params.cid);
 
+        this._isMounted = true;
+
     }
 
     componentWillUnmount() {
+
+        this._isMounted = false;
+
+
         if (this._onCourseCallBack != null) {
             CourseStore.removeChangeListener(this._onCourseCallBack);
         }
@@ -73,9 +83,12 @@ export default class LearnerDashboard extends React.Component {
             var startLO = payload.lo;
             var lo_component = React.createElement(LearningObject, {LO: startLO, parent: self});
 
-            this.setState({lo_component: lo_component});
+            if (self._isMounted) {
+                self.setState({lo_component: lo_component});
 
-            ActivityActionCreator.saveAcitivity(XDD_VERBS['attempted'], getLearningObj(startLO), {});
+            }
+
+            ActivityActionCreator.saveAcitivity(xGlobal.XDD_VERBS['attempted'], ActivityActionCreator.getLearningObj(startLO), {});
 
         } else {
             $(".start-learn-btn").notify(payload.message, {
@@ -105,26 +118,29 @@ export default class LearnerDashboard extends React.Component {
         return (
             <Grid>
                 <Row>
-                    <Col xs={12} sm={10} className='col-sm-offset-1 padding-col'>
+                    <Col xs={12} sm={10} className='col-sm-offset-1 padding-col' style={{padding: 10}}>
                         <PanelContainer>
-                            <Panel>
-                                <PanelHeader>
-                                    <Grid>
-                                        <Row>
-                                            <Col xs={12} className='col-sm-offset-5'>
-                                                <h3 id="course-title"/>
-                                            </Col>
-                                        </Row>
-                                    </Grid>
-                                </PanelHeader>
-                                <PanelBody className="triggerElement">
+
+                            <PanelHeader>
+                                <Grid>
+                                    <Row>
+                                        <Col xs={12} className='col-sm-offset-5'>
+                                            <h3 id="course-title"/>
+                                        </Col>
+                                    </Row>
+                                </Grid>
+                            </PanelHeader>
+                            <PanelBody className="triggerElement" style={{padding: 25}}>
+                                <BPanel>
                                     <Grid>
                                         <Row>
                                             { this.state.lo_component }
                                         </Row>
                                     </Grid>
-                                </PanelBody>
-                            </Panel>
+                                </BPanel>
+
+                            </PanelBody>
+
                         </PanelContainer>
                     </Col>
                 </Row>

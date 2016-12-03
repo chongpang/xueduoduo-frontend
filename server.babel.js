@@ -4,6 +4,7 @@ import compression from 'compression';
 import cookieParser from 'cookie-parser';
 
 import React from 'react';
+import ReactDOMServer from 'react-dom/server';
 
 import routes from './src/routes';
 import { renderHTMLString } from '@sketchpixy/rubix/lib/node/router';
@@ -36,15 +37,7 @@ function renderHTML(req, res) {
   });
 }
 
-app.get('/', RubixAssetMiddleware('ltr'), (req, res, next) => {
-  renderHTML(req, res);
-});
-
-app.get('/ltr/*', RubixAssetMiddleware('ltr'), (req, res, next) => {
-  renderHTML(req, res);
-});
-
-app.get('/rtl/*', RubixAssetMiddleware('rtl'), (req, res, next) => {
+app.get('*', RubixAssetMiddleware('ltr'), (req, res, next) => {
   renderHTML(req, res);
 });
 

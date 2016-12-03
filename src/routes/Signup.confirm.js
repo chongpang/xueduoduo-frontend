@@ -6,15 +6,6 @@ import UserActionCreator from 'actions/UserActionCreator';
 import UserStore from 'stores/UserStore';
 import Message from 'components/Message';
 
-import {
-    Row,
-    Col,
-    Grid,
-    MainContainer,
-
-} from '@sketchpixy/rubix';
-
-
 @withRouter
 export default class SignupConfirm extends React.Component {
 
@@ -22,7 +13,13 @@ export default class SignupConfirm extends React.Component {
         super(props);
         this.state = {
             signup_ok: false,
-            message: {}
+            message: {
+                header: "",
+                body: "",
+                linktext: "",
+                link: "",
+                className: "alert-success"
+            }
         };
     }
 
@@ -32,32 +29,23 @@ export default class SignupConfirm extends React.Component {
         this.props.router.goBack();
     }
 
-    getInitialState() {
-        return {
-            message: {
-                header: "",
-                body: "",
-                linktext: "",
-                link: "",
-                className: "alert-success"
-            }
-        }
-    }
-
     componentDidMount() {
 
-        UserStore.addChangeListener(this._onSignupConfirmCallBack).bind(this);
+        UserStore.addChangeListener(this._onSignupConfirmCallBack.bind(this));
 
         UserActionCreator.confirm(this.props.router.location.query.token);
+
+        this._isMounted = true;
 
     }
 
     componentWillUnmount() {
 
-
         if ($.isFunction(this._onSignupConfirmCallBack)) {
             UserStore.removeChangeListener(this._onSignupConfirmCallBack);
         }
+
+        this._isMounted = false;
     }
 
     _onSignupConfirmCallBack() {
@@ -77,22 +65,19 @@ export default class SignupConfirm extends React.Component {
             msg.link = "";
             msg.className = "alert-danger";
         }
-        this.refs['msg'].setMessage(msg);
+
+        if(this._isMounted){
+            this.setState({message: msg});
+        }
+
     }
 
     render() {
         var msg = React.createElement(Message, {ref: "msg"});
         return (
-            <MainContainer id='container' className={classes}>
-                <Grid><Row>
-                    <Col xs={12} sm={4} style={{padding: 10}} className="col-sm-offset-4">
-                        <div>
-                            { msg }
-                        </div>
-                    </Col>
-                </Row>
-                </Grid>
-            </MainContainer>
+            <div>
+                <Message message={ this.state.message } />
+            </div>
         );
     }
 }

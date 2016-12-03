@@ -10,7 +10,7 @@ import ClassActionCreator from 'actions/ClassActionCreator';
 import ActivityActionCreator from 'actions/ActivityActionCreator';
 var XddConstants = require('constants/XddConstants');
 var ActionTypes = XddConstants.ActionTypes;
-
+var store = require('store');
 
 import {
     Row,
@@ -18,6 +18,7 @@ import {
     Grid,
     Button,
     Panel,
+    BPanel,
     MenuItem,
     PanelBody,
     PanelHeader,
@@ -50,17 +51,21 @@ export default class LearnerClass extends React.Component {
 
     componentDidMount() {
 
-        ClassStore.addChangeListener(this._onGetClassCallBack.bing(this));
+        ClassStore.addChangeListener(this._onGetClassCallBack.bind(this));
         ClassActionCreator.getClassInfo(this.props.router.params.cid);
 
         ClassActionCreator.getClasses();
 
         // keep selected classid
-        storage.set('current_class', this.props.router.params.cid);
+        store.set('current_class', this.props.router.params.cid);
+
+        this._isMounted = true;
 
     }
 
     componentWillUnmount() {
+
+        this._isMounted = false;
 
         if (this._onEnrollCourseCallBack != null)
             LearnerStore.removeChangeListener(this._onEnrollCourseCallBack);
@@ -77,7 +82,7 @@ export default class LearnerClass extends React.Component {
         course.id = cid;
         course.title = ctitle;
         this.state.selectedCourse = course;
-        LearnerStore.addChangeListener(this._onEnrollCourseCallBack);
+        LearnerStore.addChangeListener(this._onEnrollCourseCallBack.bind(this));
         LearnerActionCreator.enrollCourse(cid);
 
     }
@@ -94,11 +99,9 @@ export default class LearnerClass extends React.Component {
                 var courseThumbsAll = null;
                 var courses = [];
                 var allCourses = [];
-                var classInfo = null;
-                var self = this;
+                var classInfo = result;
                 var checkID = {};
 
-                classInfo = result;
                 if (classInfo != null) {
                     if (classInfo.retcode == 0) {
                         courses = classInfo.classInfo.courses;
@@ -108,20 +111,20 @@ export default class LearnerClass extends React.Component {
                                 courseThumbs = courses.map(function (c) {
                                     checkID[c.id] = true;
                                     return (
-                                        <Col sm={6}>
+                                        <Col sm={6} key={ "course-" + c.id }>
                                             <PanelContainer>
                                                 <Panel>
                                                     <PanelBody className='bg-orange classThumb'>
                                                         <Grid>
                                                             <Row>
                                                                 <Col xs={12}>
-                                                                    <a id={ c.id } herf="#">{ c.title }</a>
+                                                                    <a id={ c.id } href="#">{ c.title }</a>
                                                                 </Col>
                                                             </Row>
                                                             <Row>
                                                                 <Col xs={12} className="thumbBody">
                                                                     <Button className="start-learn-btn"
-                                                                            style={{marginBottom: 5}} outlined
+                                                                            style={{marginBottom: 5}} inverse outlined
                                                                             bsStyle='xddgreen'
                                                                             onClick={self._onStartLearn.bind(self, c.id)}><Entity
                                                                         entity='learnCourse'/></Button>{' '}
@@ -146,14 +149,14 @@ export default class LearnerClass extends React.Component {
                                         return null
                                     }
                                     return (
-                                        <Col sm={6}>
+                                        <Col sm={6} key={ "course-thumb-" + c.id }>
                                             <PanelContainer>
                                                 <Panel>
                                                     <PanelBody className='bg-orange classThumb'>
                                                         <Grid>
                                                             <Row>
                                                                 <Col xs={12}>
-                                                                    <a id={c.id} herf="#">{ c.title }</a>
+                                                                    <a id={c.id} href="#">{ c.title }</a>
                                                                 </Col>
                                                             </Row>
                                                             <Row>
@@ -175,7 +178,9 @@ export default class LearnerClass extends React.Component {
                         }
                     }
 
-                    this.setState({courseThumbs: courseThumbs, courseThumbsAll: courseThumbsAll});
+                    if (this._isMounted) {
+                        this.setState({courseThumbs: courseThumbs, courseThumbsAll: courseThumbsAll});
+                    }
                 }
             } else {
                 alert(result.message);
@@ -203,7 +208,10 @@ export default class LearnerClass extends React.Component {
                     );
                 });
 
-                this.setState({menuitems: menuitems, selected: selected});
+                if (this._isMounted) {
+                    this.setState({menuitems: menuitems, selected: selected});
+                }
+
             }
         }
     }
@@ -230,14 +238,8 @@ export default class LearnerClass extends React.Component {
         this.state.selected_course_id = cid;
         this.state.selected_course_title = ctitle;
 
-        this.props.router.push(this.getPath('learner/learn/' + this.state.selected_course_id));
+        this.props.router.push('/learner/learn/' + this.state.selected_course_id);
 
-    }
-
-    getPath(path) {
-        var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
-        path = `/${dir}/${path}`;
-        return path;
     }
 
     render() {
@@ -258,26 +260,30 @@ export default class LearnerClass extends React.Component {
                             </PanelHeader>
                             <PanelBody className="triggerElement">
                                 <Grid>
-                                    <Row>
-                                        <Col xs={12}>
-                                            <h4><Entity entity="jointCourse"/></h4>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col xs={12}>
-                                            { this.state.courseThumbs }
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col xs={12}>
-                                            <h4><Entity entity="allCourse"/></h4>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col xs={12}>
-                                            { this.state.courseThumbsAll }
-                                        </Col>
-                                    </Row>
+                                    <BPanel>
+                                        <Row>
+                                            <Col xs={12}>
+                                                <h4><Entity entity="jointCourse"/></h4>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col xs={12}>
+                                                { this.state.courseThumbs }
+                                            </Col>
+                                        </Row>
+                                    </BPanel>
+                                    <BPanel>
+                                        <Row>
+                                            <Col xs={12}>
+                                                <h4><Entity entity="allCourse"/></h4>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col xs={12}>
+                                                { this.state.courseThumbsAll }
+                                            </Col>
+                                        </Row>
+                                    </BPanel>
                                 </Grid>
                             </PanelBody>
                         </PanelContainer>
