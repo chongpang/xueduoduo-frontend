@@ -7,7 +7,7 @@ var xGlobal = {
 
     'HOST_NAME': os.hostname(),
 
-    'API_HOST': "http://localhost:8081",
+    'API_HOST': "http://www.xueduoduo.cn:8081",
 
     'XDD_VERBS': {
         "signin": {
