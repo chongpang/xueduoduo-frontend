@@ -122,12 +122,8 @@ export default class Login extends React.Component {
 
     render() {
 
-        var classes = classNames({
-            'container-open': this.props.open,
-        });
-
         return (
-            <MainContainer id='container' className={classes}>
+            <MainContainer id='container'>
                 <Col id="content" xs={12} sm={4} style={{padding: 10}} className="col-sm-offset-4">
                     <Grid>
                         <Row className='text-center'>

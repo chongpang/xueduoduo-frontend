@@ -20,6 +20,7 @@ import {
     Col,
     Grid,
     Panel,
+    BPanel,
     PanelBody,
     PanelHeader,
     PanelContainer,
@@ -117,26 +118,29 @@ export default class LearnerDashboard extends React.Component {
         return (
             <Grid>
                 <Row>
-                    <Col xs={12} sm={10} className='col-sm-offset-1 padding-col'>
+                    <Col xs={12} sm={10} className='col-sm-offset-1 padding-col' style={{padding: 10}}>
                         <PanelContainer>
-                            <Panel>
-                                <PanelHeader>
-                                    <Grid>
-                                        <Row>
-                                            <Col xs={12} className='col-sm-offset-5'>
-                                                <h3 id="course-title"/>
-                                            </Col>
-                                        </Row>
-                                    </Grid>
-                                </PanelHeader>
-                                <PanelBody className="triggerElement">
+
+                            <PanelHeader>
+                                <Grid>
+                                    <Row>
+                                        <Col xs={12} className='col-sm-offset-5'>
+                                            <h3 id="course-title"/>
+                                        </Col>
+                                    </Row>
+                                </Grid>
+                            </PanelHeader>
+                            <PanelBody className="triggerElement" style={{padding: 25}}>
+                                <BPanel>
                                     <Grid>
                                         <Row>
                                             { this.state.lo_component }
                                         </Row>
                                     </Grid>
-                                </PanelBody>
-                            </Panel>
+                                </BPanel>
+
+                            </PanelBody>
+
                         </PanelContainer>
                     </Col>
                 </Row>

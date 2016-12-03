@@ -49,6 +49,8 @@
 <createClasscomfirm '将为你创建以下班级'>
 <className '班级名称'>
 <coursesName '选中的课程'>
+<selectCourses '选择课程'>
+<confirmation '确认'>
 
 <addCourse '创建新课程'>
 <selectLO '选择知识点'>
@@ -57,7 +59,11 @@
 <createCourseConfirm '将为你创建以下课程'>
 <courseName '课程名称'>
 <losName '选中的知识点'>
+<selectLOs '选择知识点'>
 
+<newLOName '知识点名称'>
+<newLOContent '知识内容'>
+<newLOConf '确认'>
 <addLO '创建新知识点'>
 <addContent '学习内容'>
 <inputLOName '知识点名称'>
@@ -81,8 +87,10 @@
 <overviewStuName '学生姓名'>
 <overviewLastAccess '最近学习时间'>
 <inviteStudent '邀请学生'>
-<learnerId '输入电话号码或者电子邮件, 使用逗号分隔多个'>
+<learnerId '输入电子邮件地址, 使用逗号分隔多个'>
 <overvieStatus '学生状态'>
+<student ' 位学生已加入该班级'>
+<inviteInputHolder '邮件地址'>
 
 <!-- learner dashboard -->
 <joinNewClass '加入新班级'>

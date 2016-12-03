@@ -53,11 +53,12 @@ export default class ViewClass extends React.Component {
             selected: null,
             stuCount: 0,
             learner_rows: [],
-            strings:{
-                "classHome" : "Class Home",
-                "classCurriculum" : "Class Curriculum",
+            strings: {
+                "classHome": "Class Home",
+                "classCurriculum": "Class Curriculum",
                 "inviteStudent": "Invite Student",
-                "classManage": "Class Management"
+                "classManage": "Class Management",
+                "inviteInputHolder": "email address"
             }
         };
     }
@@ -69,11 +70,12 @@ export default class ViewClass extends React.Component {
             $('.tablesaw').table();
 
             self.setState({
-                strings:{
-                    "classHome" : l20n.ctx.getSync("classHome"),
-                    "classCurriculum" : l20n.ctx.getSync("classCurriculum"),
+                strings: {
+                    "classHome": l20n.ctx.getSync("classHome"),
+                    "classCurriculum": l20n.ctx.getSync("classCurriculum"),
                     "inviteStudent": l20n.ctx.getSync("inviteStudent"),
                     "classManage": l20n.ctx.getSync("classManage"),
+                    "inviteInputHolder": l20n.ctx.getSync("inviteInputHolder"),
                 }
             });
 
@@ -97,7 +99,7 @@ export default class ViewClass extends React.Component {
             ClassStore.removeChangeListener(this._onClassCallBack);
         }
 
-        this._isMounted =false;
+        this._isMounted = false;
 
     }
 
@@ -156,7 +158,7 @@ export default class ViewClass extends React.Component {
 
                 }
 
-                if(self._isMounted) {
+                if (self._isMounted) {
                     self.setState({courseThumbs: courseThumbs, learner_rows: learner_rows, stuCount: stuCount});
                 }
 
@@ -185,7 +187,7 @@ export default class ViewClass extends React.Component {
                     );
                 });
 
-                if(self._isMounted){
+                if (self._isMounted) {
                     self.setState({menuitems: menuitems, selected: selected});
                 }
             }
@@ -274,167 +276,168 @@ export default class ViewClass extends React.Component {
                                     <Grid>
                                         <Row>
                                             <Col xs={12} sm={12}>
-                                                <Accordion>
-                                                    <BPanel header={ self.state.strings.classHome } eventKey="1">
-                                                        <PanelContainer>
-                                                            <Panel>
-                                                                <PanelHeader className=''>
-                                                                    <Grid>
-                                                                        <Row>
-                                                                            <Col xs={12}>
-                                                                                <h4> {  self.state.stuCount }
-                                                                                    Student</h4>
-                                                                            </Col>
-                                                                        </Row>
-                                                                    </Grid>
-                                                                </PanelHeader>
-                                                                <PanelBody>
-
+                                                <BPanel header={ self.state.strings.classHome } defaultExpanded={true}
+                                                        eventKey="1">
+                                                    <PanelContainer>
+                                                        <Panel>
+                                                            <PanelHeader className=''>
+                                                                <Grid>
                                                                     <Row>
                                                                         <Col xs={12}>
-                                                                            <Table bordered striped className='tablesaw'
-                                                                                   data-mode='stack'>
-                                                                                <thead>
-                                                                                <tr>
-                                                                                    <th><Entity
-                                                                                        entity="overviewStuName"/></th>
-                                                                                    <th><Entity
-                                                                                        entity="overviewQuestionAnswered"/>
-                                                                                    </th>
-                                                                                    <th><Entity
-                                                                                        entity="overviewLastAccess"/>
-                                                                                    </th>
-                                                                                    <th><Entity entity="overvieStatus"/>
-                                                                                    </th>
-
-                                                                                </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                {  self.state.learner_rows }
-                                                                                </tbody>
-                                                                            </Table>
-
+                                                                            <h4> {  self.state.stuCount }
+                                                                                <Entity entity="student"/></h4>
                                                                         </Col>
                                                                     </Row>
+                                                                </Grid>
+                                                            </PanelHeader>
+                                                            <PanelBody>
 
-                                                                </PanelBody>
-                                                            </Panel>
-                                                        </PanelContainer>
-                                                    </BPanel>
-                                                    <BPanel header={ self.state.strings.classCurriculum } eventKey="2">
-                                                        <PanelContainer noOverflow>
-                                                            <Panel>
-                                                                <PanelHeader>
-                                                                    <Grid>
-                                                                        <Row>
-                                                                            <Col xs={8} sm={3}>
-                                                                                <h4><Entity entity="courses"/></h4>
-                                                                            </Col>
-                                                                        </Row>
-                                                                    </Grid>
-                                                                </PanelHeader>
-                                                                <PanelBody>
-                                                                    <Grid>
-                                                                        <Row>
-                                                                            { self.state.courseThumbs }
-                                                                            <Col xs={12} sm={3}>
-                                                                                <PanelContainer>
-                                                                                    <Panel>
-                                                                                        <PanelBody
-                                                                                            className='thumb thumbAdd text-center'>
+                                                                <Row>
+                                                                    <Col xs={12}>
+                                                                        <Table bordered striped className='tablesaw'
+                                                                               data-mode='stack'>
+                                                                            <thead>
+                                                                            <tr>
+                                                                                <th><Entity
+                                                                                    entity="overviewStuName"/></th>
+                                                                                <th><Entity
+                                                                                    entity="overviewQuestionAnswered"/>
+                                                                                </th>
+                                                                                <th><Entity
+                                                                                    entity="overviewLastAccess"/>
+                                                                                </th>
+                                                                                <th><Entity entity="overvieStatus"/>
+                                                                                </th>
+
+                                                                            </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            {  self.state.learner_rows }
+                                                                            </tbody>
+                                                                        </Table>
+
+                                                                    </Col>
+                                                                </Row>
+
+                                                            </PanelBody>
+                                                        </Panel>
+                                                    </PanelContainer>
+                                                </BPanel>
+                                                <BPanel header={ self.state.strings.classCurriculum }
+                                                        defaultExpanded={ true } eventKey="2">
+                                                    <PanelContainer noOverflow>
+                                                        <Panel>
+                                                            <PanelHeader>
+                                                                <Grid>
+                                                                    <Row>
+                                                                        <Col xs={8} sm={3}>
+                                                                            <h4><Entity entity="courses"/></h4>
+                                                                        </Col>
+                                                                    </Row>
+                                                                </Grid>
+                                                            </PanelHeader>
+                                                            <PanelBody>
+                                                                <Grid>
+                                                                    <Row>
+                                                                        { self.state.courseThumbs }
+                                                                        <Col xs={12} sm={3}>
+                                                                            <PanelContainer>
+                                                                                <Panel>
+                                                                                    <PanelBody
+                                                                                        className='thumb thumbAdd text-center'>
+                                                                                        <Button
+                                                                                            style={{marginTop: 15}}
+                                                                                            bsStyle='xddgreen'
+                                                                                            onClick={ self._onCreateCourse.bind(self) }><Entity
+                                                                                            entity='addCourse'/></Button>
+                                                                                    </PanelBody>
+                                                                                </Panel>
+                                                                            </PanelContainer>
+                                                                        </Col>
+                                                                    </Row>
+                                                                </Grid>
+                                                            </PanelBody>
+                                                        </Panel>
+                                                    </PanelContainer>
+                                                </BPanel>
+                                                <BPanel header={  self.state.strings.inviteStudent }
+                                                        defaultExpanded={ true } eventKey="3">
+                                                    <PanelContainer noOverflow>
+                                                        <Panel>
+                                                            <PanelBody>
+                                                                <Grid>
+                                                                    <Row>
+                                                                        <Col xs={12}>
+                                                                            <Form horizontal id="inviteForm"
+                                                                                  style={{paddingTop: 15}}>
+                                                                                <FormGroup>
+                                                                                    <Col xs={12}>
+                                                                                        <FormControl type='text'
+                                                                                                     name="students"
+                                                                                                     id='blockhelp'
+                                                                                                     required
+                                                                                                     placeholder={ self.state.strings.inviteInputHolder }/>
+                                                                                        <HelpBlock><Entity
+                                                                                            entity="learnerId"/></HelpBlock>
+                                                                                    </Col>
+                                                                                </FormGroup>
+                                                                                <FormGroup>
+                                                                                    <Col xs={12}>
+                                                                                        <br/>
+                                                                                        <div>
                                                                                             <Button
-                                                                                                style={{marginTop: 15}}
                                                                                                 bsStyle='xddgreen'
-                                                                                                onClick={ self._onCreateCourse.bind(self) }><Entity
-                                                                                                entity='addCourse'/></Button>
-                                                                                        </PanelBody>
-                                                                                    </Panel>
-                                                                                </PanelContainer>
-                                                                            </Col>
-                                                                        </Row>
-                                                                    </Grid>
-                                                                </PanelBody>
-                                                            </Panel>
-                                                        </PanelContainer>
-                                                    </BPanel>
-                                                    <BPanel header={  self.state.strings.inviteStudent } eventKey="3">
-                                                        <PanelContainer noOverflow>
-                                                            <Panel>
-                                                                <PanelBody>
-                                                                    <Grid>
-                                                                        <Row>
-                                                                            <Col xs={12}>
-                                                                                <Form horizontal id="inviteForm"
-                                                                                      style={{paddingTop: 15}}>
-                                                                                    <FormGroup>
-                                                                                        <Col xs={12}>
-                                                                                            <FormControl type='text'
-                                                                                                         name="students"
-                                                                                                         id='blockhelp'
-                                                                                                         required
-                                                                                                         placeholder='Email, Phone number'/>
-                                                                                            <HelpBlock><Entity
-                                                                                                entity="learnerId"/></HelpBlock>
-                                                                                        </Col>
-                                                                                    </FormGroup>
-                                                                                    <FormGroup>
-                                                                                        <Col xs={12}>
-                                                                                            <br/>
-                                                                                            <div>
-                                                                                                <Button
-                                                                                                    bsStyle='xddgreen'
-                                                                                                    onClick={ self._onInviteStudent.bind(self) }><Entity
-                                                                                                    entity='send'/></Button>
-                                                                                            </div>
-                                                                                            <br/>
-                                                                                        </Col>
-                                                                                    </FormGroup>
-                                                                                </Form>
-                                                                            </Col>
-                                                                        </Row>
-                                                                    </Grid>
-                                                                </PanelBody>
-                                                            </Panel>
-                                                        </PanelContainer>
-                                                    </BPanel>
-                                                    <BPanel header={ self.state.strings.classManage} eventKey="4">
-                                                        <PanelContainer noOverflow>
-                                                            <Panel>
-                                                                <PanelBody>
-                                                                    <Grid>
-                                                                        <Row style={{paddingTop: 15}}>
-                                                                            <Col key='icon-fontello-edit' xs={5} sm={2}
-                                                                                 className='text-center cursor-hand'
-                                                                                 onClick={ self._onEditClass.bind(self, self.state.currentClass.id) }>
-                                                                                <div>
-                                                                                    <Icon className={'fg-darkblue'}
-                                                                                          style={{fontSize: 48}}
-                                                                                          glyph='icon-fontello-edit'/>
-                                                                                </div>
-                                                                                <div>
-                                                                                    <Entity entity="editClassBtn"/>
-                                                                                </div>
-                                                                            </Col>
-                                                                            <Col key='icon-stroke-gap-icons-Delete'
-                                                                                 xs={5} sm={2}
-                                                                                 className='text-center delete_class_btn cursor-hand'
-                                                                                 onClick={ self._onDeleteClass.bind(self) }>
-                                                                                <div>
-                                                                                    <Icon className={'fg-darkblue'}
-                                                                                          style={{fontSize: 48}}
-                                                                                          glyph='icon-stroke-gap-icons-Delete'/>
-                                                                                </div>
-                                                                                <div>
-                                                                                    <Entity entity="deleteClass"/>
-                                                                                </div>
-                                                                            </Col>
-                                                                        </Row>
-                                                                    </Grid>
-                                                                </PanelBody>
-                                                            </Panel>
-                                                        </PanelContainer>
-                                                    </BPanel>
-                                                </Accordion>
+                                                                                                onClick={ self._onInviteStudent.bind(self) }><Entity
+                                                                                                entity='send'/></Button>
+                                                                                        </div>
+                                                                                        <br/>
+                                                                                    </Col>
+                                                                                </FormGroup>
+                                                                            </Form>
+                                                                        </Col>
+                                                                    </Row>
+                                                                </Grid>
+                                                            </PanelBody>
+                                                        </Panel>
+                                                    </PanelContainer>
+                                                </BPanel>
+                                                <BPanel header={ self.state.strings.classManage} eventKey="4">
+                                                    <PanelContainer noOverflow>
+                                                        <Panel>
+                                                            <PanelBody>
+                                                                <Grid>
+                                                                    <Row style={{paddingTop: 15}}>
+                                                                        <Col key='icon-fontello-edit' xs={5} sm={2}
+                                                                             className='text-center cursor-hand'
+                                                                             onClick={ self._onEditClass.bind(self, self.state.currentClass.id) }>
+                                                                            <div>
+                                                                                <Icon className={'fg-darkblue'}
+                                                                                      style={{fontSize: 48}}
+                                                                                      glyph='icon-fontello-edit'/>
+                                                                            </div>
+                                                                            <div>
+                                                                                <Entity entity="editClassBtn"/>
+                                                                            </div>
+                                                                        </Col>
+                                                                        <Col key='icon-stroke-gap-icons-Delete'
+                                                                             xs={5} sm={2}
+                                                                             className='text-center delete_class_btn cursor-hand'
+                                                                             onClick={ self._onDeleteClass.bind(self) }>
+                                                                            <div>
+                                                                                <Icon className={'fg-darkblue'}
+                                                                                      style={{fontSize: 48}}
+                                                                                      glyph='icon-stroke-gap-icons-Delete'/>
+                                                                            </div>
+                                                                            <div>
+                                                                                <Entity entity="deleteClass"/>
+                                                                            </div>
+                                                                        </Col>
+                                                                    </Row>
+                                                                </Grid>
+                                                            </PanelBody>
+                                                        </Panel>
+                                                    </PanelContainer>
+                                                </BPanel>
                                             </Col>
                                         </Row>
                                     </Grid>

@@ -18,6 +18,7 @@ import {
     Grid,
     Button,
     Panel,
+    BPanel,
     MenuItem,
     PanelBody,
     PanelHeader,
@@ -259,26 +260,30 @@ export default class LearnerClass extends React.Component {
                             </PanelHeader>
                             <PanelBody className="triggerElement">
                                 <Grid>
-                                    <Row>
-                                        <Col xs={12}>
-                                            <h4><Entity entity="jointCourse"/></h4>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col xs={12}>
-                                            { this.state.courseThumbs }
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col xs={12}>
-                                            <h4><Entity entity="allCourse"/></h4>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col xs={12}>
-                                            { this.state.courseThumbsAll }
-                                        </Col>
-                                    </Row>
+                                    <BPanel>
+                                        <Row>
+                                            <Col xs={12}>
+                                                <h4><Entity entity="jointCourse"/></h4>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col xs={12}>
+                                                { this.state.courseThumbs }
+                                            </Col>
+                                        </Row>
+                                    </BPanel>
+                                    <BPanel>
+                                        <Row>
+                                            <Col xs={12}>
+                                                <h4><Entity entity="allCourse"/></h4>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col xs={12}>
+                                                { this.state.courseThumbsAll }
+                                            </Col>
+                                        </Row>
+                                    </BPanel>
                                 </Grid>
                             </PanelBody>
                         </PanelContainer>

@@ -15,6 +15,11 @@ import {
 } from '@sketchpixy/rubix';
 
 export default class Quiz extends React.Component {
+    back(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.props.router.goBack();
+    }
 
     constructor(props) {
         super(props);
@@ -27,7 +32,6 @@ export default class Quiz extends React.Component {
 
     addChild() {
 
-        console.log("add");
         // State change will cause component re-render
         var quizs = this.state.quizs;
 
@@ -174,7 +178,7 @@ export default class Quiz extends React.Component {
                     <Row className="padding-topdown-20">
                         <ButtonGroup>
                             <Button bsStyle='darkorange'
-                                    onClick={self.addChild.bind(self)}>Add Quiz</Button>
+                                    onClick={self.addChild.bind(self)}><Entity entity="addQuiz" /></Button>
                         </ButtonGroup>
                     </Row>
                 </Grid>
