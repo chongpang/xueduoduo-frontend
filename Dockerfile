@@ -10,5 +10,6 @@ RUN bower install --allow-root
 RUN npm run build:prod -s
 RUN npm install -g pm2
 
-EXPOSE 8082
+EXPOSE 6062
 
+CMD ["pm2", "--no-daemon", "start", "server.js"]
