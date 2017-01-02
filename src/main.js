@@ -23,7 +23,7 @@ if (module.hot) {
 
 // xAPI
 var conf = {
-    "endpoint": "http://lrs/data/xAPI/",
+    "endpoint": "http://128.199.71.119:6061/lrs/data/xAPI/",
     "auth": "Basic " + toBase64('517a95278142c1ee3e9b81228097a32c0540f32d:0785215b8b4e446fdd887ef7d7995169a63a4d6b'),
 };
 //////////////////////////////////////////
