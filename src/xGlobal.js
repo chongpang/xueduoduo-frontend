@@ -58,7 +58,7 @@ var xGlobal = {
 
     'XDD_OBJECTS': {
         "signin": {
-            "id": os.hostname() + "/signin",
+            "id": "http://" + os.hostname() + "/signin",
             "objectType": "Activity",
             "definition": {
                 "name": {
@@ -73,7 +73,7 @@ var xGlobal = {
             }
         },
         "signup": {
-            "id": os.hostname() + "/signup",
+            "id": "http://" + os.hostname() + "/signup",
             "objectType": "Activity",
             "definition": {
                 "name": {
