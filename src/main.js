@@ -3,6 +3,7 @@ import React from 'react';
 import routes from './routes';
 import render from '@sketchpixy/rubix/lib/node/router';
 import l20n from '@sketchpixy/rubix/lib/L20n';
+var os = require("os");
 
 l20n.initializeLocales({
     'locales': ['en-US', 'ch'],
@@ -23,7 +24,7 @@ if (module.hot) {
 
 // xAPI
 var conf = {
-    "endpoint": "http://128.199.71.119:6061/data/xAPI/",
+    "endpoint": "http://" + os.hostname() + ":6061/data/xAPI/",
     "auth": "Basic " + toBase64('fd625428458e3fd93c50e17c981940f676756586:7669f08e404fbfd6433f53bd0ee5bd55046d0fce'),
 };
 //////////////////////////////////////////
