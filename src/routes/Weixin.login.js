@@ -7,6 +7,7 @@ import ActivityActionCreator from 'actions/ActivityActionCreator';
 import UserStore from 'stores/UserStore';
 
 var Api = require('services/Api');
+var xGlobal = require('xGlobal');
 
 
 import {
@@ -28,10 +29,10 @@ export default class WeinxinLogin extends React.Component {
 
     componentDidMount() {
 
-        UserStore.addChangeListener(this._onSignCallBack.bing(this));
+        UserStore.addChangeListener(this._onSignCallBack.bind(this));
 
-        var code = this.context.router.state.location.query.code;
-        var state = this.context.router.state.location.query.state;
+        var code = this.props.router.location.query.code;
+        var state = this.props.router.location.query.state;
 
         if (code && state) {
 
@@ -41,18 +42,19 @@ export default class WeinxinLogin extends React.Component {
     }
 
     _onSignCallBack() {
+        var self = this;
         var payload = UserStore.getPayload();
 
         if (payload.retcode == 0) {
 
-            ActivityActionCreator.saveAcitivity(XDD_VERBS['signin'], XDD_OBJECTS['signin'], {"success": true});
+            ActivityActionCreator.saveAcitivity(xGlobal.XDD_VERBS['signin'], xGlobal.XDD_OBJECTS['signin'], {"success": true});
 
             if (payload.userType == '1') {
 
-                this.transitionTo('/teacher/dashboard');
+                self.props.router.push('/teacher/dashboard');
 
             } else if (payload.userType == '0') {
-                this.transitionTo('/learner/dashboard')
+                self.props.router.push('/learner/dashboard')
             } else if (payload.userType == '2') {
                 alert('Parent dashboard is under developing. Thank you !')
             }

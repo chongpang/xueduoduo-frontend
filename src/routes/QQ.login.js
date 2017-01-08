@@ -6,6 +6,7 @@ import ActivityActionCreator from 'actions/ActivityActionCreator';
 import UserStore from 'stores/UserStore';
 
 var Api = require('services/Api');
+var xGlobal = require('xGlobal');
 
 import {
     Row,
@@ -44,7 +45,7 @@ export default class QQLogin extends React.Component {
 
         if (payload.retcode == 0) {
 
-            ActivityActionCreator.saveAcitivity(XDD_VERBS['signin'], XDD_OBJECTS['signin'], {"success": true});
+            ActivityActionCreator.saveAcitivity(xGlobal.XDD_VERBS['signin'], xGlobal.XDD_OBJECTS['signin'], {"success": true});
 
             if (payload.userType == '1') {
 

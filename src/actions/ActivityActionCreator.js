@@ -35,12 +35,12 @@ var ActivityActionCreator = {
 
             var uname = store.get("user_name");
             if (!uname) {
-                uname = store.get("user_id")
+                uname = store.get("user_id");
             }
 
             var mailto = store.get("user_id");
             if (!mailto.match(/^[A-Za-z0-9]+[\w-]+@[\w\.-]+\.\w{2,}$/)) {
-                mailto = uname + '@dumy.xueduoduo.io'
+                mailto = store.get("user_id") + '@xueduoduo.cn';
             }
             var stmt = {
                 "actor": {

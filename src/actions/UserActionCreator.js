@@ -69,16 +69,16 @@ var UserActionCreator = {
     Api.Call('/api/v1/signinwithweixin', param, function(result){
 
     if(result != null  && result.retcode == 0 ){
-      
-      store.set('access_token', result.token);
-      store.set('user_type', result.userType);
-      store.set('user_id', result.userId);
-      store.set('user_name', result.userName);
-      store.set('o_access_token', result.accessToken);
-      store.set('o_openid_type', result.openIdType);
 
-      store.set('o_nickname', result.userName);
-      store.set('o_charater', result.headimgurl);
+      localStorage.setItem('access_token', result.token);
+      localStorage.setItem('user_type', result.userType);
+      localStorage.setItem('user_id', result.userId);
+      localStorage.setItem('user_name', result.userName);
+      localStorage.setItem('o_access_token', result.accessToken);
+      localStorage.setItem('o_openid_type', result.openIdType);
+
+      localStorage.setItem('o_nickname', result.userName);
+      localStorage.setItem('o_charater', result.headimgurl);
     }
 
     XddAppDispatcher.dispatch({
@@ -99,15 +99,15 @@ var UserActionCreator = {
 
     if(result != null  && result.retcode == 0 ){
 
-      store.set('access_token', result.token);
-      store.set('user_type', result.userType);
-      store.set('user_id', result.userId);
-      store.set('user_name', result.userName);
-      store.set('o_access_token', result.accessToken);
-      store.set('o_openid_type', result.openIdType);
+      localStorage.setItem('access_token', result.token);
+      localStorage.setItem('user_type', result.userType);
+      localStorage.setItem('user_id', result.userId);
+      localStorage.setItem('user_name', result.userName);
+      localStorage.setItem('o_access_token', result.accessToken);
+      localStorage.setItem('o_openid_type', result.openIdType);
 
-      store.set('o_nickname', result.userName);
-      store.set('o_charater', result.headimgurl);
+      localStorage.setItem('o_nickname', result.userName);
+      localStorage.setItem('o_charater', result.headimgurl);
     }
 
     XddAppDispatcher.dispatch({
@@ -133,8 +133,8 @@ var UserActionCreator = {
       ret = result.ret;
       if(result != null  && ret == 0){
 
-        store.set('o_nickname', result.nickname);
-        store.set('o_charater', result.figureurl);
+          localStorage.setItem('o_nickname', result.nickname);
+          localStorage.setItem('o_charater', result.figureurl);
       }else{
         console.log('Failed to get user info from qq.')
       }
