@@ -14,6 +14,7 @@ import {
     Panel,
     Image,
     Button,
+    FormControl,
     PanelBody,
     FormGroup,
     PanelHeader,
@@ -141,21 +142,21 @@ export default class SignupViaInvite extends React.Component {
                                                 <div style={{marginTop: 15, marginBottom: 15}}>
                                                     <Form id="account_update_form" name="account_update_form">
                                                         <FormGroup style={{paddingLeft: 25, paddingRight: 25}}>
-                                                            <Input lg autoFocus type='text' id='userid' name="userid"
+                                                            <FormControl type='text' id='userid' name="userid"
                                                                    className='border-focus-blue' disabled/>
                                                         </FormGroup>
                                                         <FormGroup style={{paddingLeft: 25, paddingRight: 25}}>
-                                                            <Input lg autoFocus type='text' id='username'
+                                                            <FormControl type='text' id='username'
                                                                    name="userName" className='border-focus-blue'
                                                                    onKeyPress={self._handleKeyPress.bind(self)}/>
                                                         </FormGroup>
                                                         <FormGroup style={{paddingLeft: 25, paddingRight: 25}}>
-                                                            <Input lg autoFocus type='password' id='password'
+                                                            <FormControl type='password' id='password'
                                                                    name="password" className='border-focus-blue'
                                                                    onKeyPress={self._handleKeyPress.bind(self)}/>
                                                         </FormGroup>
                                                         <FormGroup style={{paddingLeft: 25, paddingRight: 25}}>
-                                                            <Input lg type='password' id='repeat_password'
+                                                            <FormControl type='password' id='repeat_password'
                                                                    name="repeatPassword" className='border-focus-blue'
                                                                    onKeyPress={self._handleKeyPress.bind(self)}/>
                                                         </FormGroup>
