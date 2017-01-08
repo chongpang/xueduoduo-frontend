@@ -27,17 +27,16 @@ export default class SignupViaInvite extends React.Component {
 
     componentDidMount() {
 
-        //$('html.default body').css('background','#499ed7');
-        UserStore.addChangeListener(this._onUpdateAccountCallBack.bind(this));
-
         var self = this;
+        //$('html.default body').css('background','#499ed7');
+        UserStore.addChangeListener(self._onUpdateAccountCallBack.bind(self));
 
         setTimeout(function () {
             var passwordPlaceholder = l20n.ctx.getSync('password');
             var passwordRepeatPlaceholder = l20n.ctx.getSync('repeatPassword');
             var userNamePlaceholder = l20n.ctx.getSync('userName');
 
-            $('#userid').val(self.context.router.state.location.query.user)
+            $('#userid').val(self.props.router.location.query.user)
 
             $('#password').attr("placeholder", passwordPlaceholder);
             $('#repeat_password').attr("placeholder", passwordRepeatPlaceholder);
@@ -80,29 +79,33 @@ export default class SignupViaInvite extends React.Component {
 
     _handleKeyPress(e) {
 
+        var self = this;
         if (e.charCode == 13) {
-            this._updateAccount();
+            self._updateAccount();
         }
 
     }
 
     componentWillUnmount() {
+
         UserStore.removeChangeListener(this._onUpdateAccountCallBack);
     }
 
     _onUpdateAccountCallBack() {
 
+        var self = this;
         var res = UserStore.getPayload();
         if (res.retcode == 0) {
-            this.props.router.push('/learner/joinclass?token=' + res.token);
+            self.props.router.push('/learner/joinclass?token=' + res.token);
         } else {
             alert(res.message);
         }
     }
 
     render() {
+        var self = this;
         return (
-            <MainContainer id='container' className={classes}>
+            <MainContainer id='container'>
                 <Col xs={12} sm={4} style={{padding: 10}} className="col-sm-offset-4">
                     <Grid>
                         <Row className='text-center'>
@@ -140,17 +143,17 @@ export default class SignupViaInvite extends React.Component {
                                                         <FormGroup style={{paddingLeft: 25, paddingRight: 25}}>
                                                             <Input lg autoFocus type='text' id='username'
                                                                    name="userName" className='border-focus-blue'
-                                                                   onKeyPress={this._handleKeyPress.bind(this)}/>
+                                                                   onKeyPress={self._handleKeyPress.bind(self)}/>
                                                         </FormGroup>
                                                         <FormGroup style={{paddingLeft: 25, paddingRight: 25}}>
                                                             <Input lg autoFocus type='password' id='password'
                                                                    name="password" className='border-focus-blue'
-                                                                   onKeyPress={this._handleKeyPress.bind(this)}/>
+                                                                   onKeyPress={self._handleKeyPress.bind(self)}/>
                                                         </FormGroup>
                                                         <FormGroup style={{paddingLeft: 25, paddingRight: 25}}>
                                                             <Input lg type='password' id='repeat_password'
                                                                    name="repeatPassword" className='border-focus-blue'
-                                                                   onKeyPress={this._handleKeyPress.bind(this)}/>
+                                                                   onKeyPress={self._handleKeyPress.bind(self)}/>
                                                         </FormGroup>
                                                         <FormGroup>
                                                             <Grid>
@@ -159,7 +162,7 @@ export default class SignupViaInvite extends React.Component {
                                                                          style={{paddingBottom: 15}}>
                                                                         <Button id="signin" lg type='button'
                                                                                 bsStyle='xddgreen'
-                                                                                onClick={this._updateAccount.bind(this)}><Entity
+                                                                                onClick={self._updateAccount.bind(self)}><Entity
                                                                             entity='submit'/></Button>
                                                                     </Col>
                                                                 </Row>
