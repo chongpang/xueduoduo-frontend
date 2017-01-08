@@ -11,6 +11,7 @@ import ActivityActionCreator from 'actions/ActivityActionCreator';
 var XddConstants = require('constants/XddConstants');
 var ActionTypes = XddConstants.ActionTypes;
 var store = require('store');
+var xGlobal = require('xGlobal');
 
 import {
     Row,
@@ -218,13 +219,14 @@ export default class LearnerClass extends React.Component {
 
     _onEnrollCourseCallBack() {
         var payload = LearnerStore.getPayload();
+        var self = this;
         if (payload.retcode == 0) {
 
-            ClassActionCreator.getClassInfo(this.props.router.params.cid);
+            ClassActionCreator.getClassInfo(self.props.router.params.cid);
 
             ClassActionCreator.getClasses();
 
-            ActivityActionCreator.saveAcitivity(XDD_VERBS['attempted'], getCourseObj(this.state.selectedCourse), {});
+            ActivityActionCreator.saveAcitivity(xGlobal.XDD_VERBS['attempted'], ActivityActionCreator.getCourseObj(self.state.selectedCourse), {});
 
 
         } else {
