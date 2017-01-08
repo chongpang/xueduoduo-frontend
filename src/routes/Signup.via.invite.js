@@ -10,7 +10,15 @@ import {
     Row,
     Col,
     Grid,
+    Form,
+    Panel,
+    Image,
+    Button,
+    PanelBody,
+    FormGroup,
+    PanelHeader,
     MainContainer,
+    PanelContainer,
 
 } from '@sketchpixy/rubix';
 
@@ -106,21 +114,17 @@ export default class SignupViaInvite extends React.Component {
         var self = this;
         return (
             <MainContainer id='container'>
-                <Col xs={12} sm={4} style={{padding: 10}} className="col-sm-offset-4">
+                <Col id="content" xs={12} sm={4} style={{padding: 10}} className="col-sm-offset-4">
                     <Grid>
                         <Row className='text-center'>
-                            <Col xs={4} sm={12} className='col-center'>
-                                <NavHeader>
-                                    <NavBrand>
-                                        <Img src='/imgs/xdd.png' style={{marginLeft: 15}} alt='xueduoduo' width={240}/>
-                                    </NavBrand>
-                                </NavHeader>
+                            <Col sm={5} smOffset={3} xs={6} xsOffset={3} collapseLeft collapseRight>
+                                <Image src='/imgs/logo.png' className='img-responsive' alt='xueduoduo'/>
                             </Col>
                         </Row>
                         <Row style={{marginTop: 35}}>
                             <Col sm={12}>
-                                <PanelContainer noControls>
-                                    <Panel className='bg-hoverblue' style={{marginBottom: -15}}>
+                                <PanelContainer>
+                                    <Panel className='bg-hoverblue'>
                                         <PanelHeader>
                                             <Grid>
                                                 <Row>
@@ -132,7 +136,7 @@ export default class SignupViaInvite extends React.Component {
                                                 </Row>
                                             </Grid>
                                         </PanelHeader>
-                                        <PanelBody style={{padding: 0}}>
+                                        <PanelBody>
                                             <div>
                                                 <div style={{marginTop: 15, marginBottom: 15}}>
                                                     <Form id="account_update_form" name="account_update_form">
