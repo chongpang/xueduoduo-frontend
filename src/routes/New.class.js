@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {withRouter} from 'react-router';
-import l20n, {Entity} from '@sketchpixy/rubix/lib/L20n';
+import {Entity} from '@sketchpixy/rubix/lib/L20n';
 
 
 import CourseActionCreator from 'actions/CourseActionCreator';

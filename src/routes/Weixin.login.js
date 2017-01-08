@@ -67,7 +67,7 @@ export default class WeinxinLogin extends React.Component {
 
     render() {
         return (
-            <MainContainer id='container' className={classes}>
+            <MainContainer id='container'>
                 <Col xs={12} sm={4} style={{padding: 10}} className="col-sm-offset-4">
 
                     <a>Success!</a>

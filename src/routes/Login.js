@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 import {Link, withRouter} from 'react-router';
 import l20n, {Entity} from '@sketchpixy/rubix/lib/L20n';
 

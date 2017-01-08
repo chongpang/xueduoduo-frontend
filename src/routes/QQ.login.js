@@ -66,7 +66,7 @@ export default class QQLogin extends React.Component {
 
     render() {
         return (
-            <MainContainer id='container' className={classes}>
+            <MainContainer id='container'>
                 <Grid>
                     <Row>
                         <Col xs={12} sm={4} style={{padding: 10}} className="col-sm-offset-4">

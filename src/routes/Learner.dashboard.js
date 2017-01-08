@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link, withRouter} from 'react-router';
+import {withRouter} from 'react-router';
 import {Entity} from '@sketchpixy/rubix/lib/L20n';
 
 import ClassThumb from 'components/Classthumb';
