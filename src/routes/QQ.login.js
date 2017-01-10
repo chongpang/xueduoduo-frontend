@@ -1,6 +1,6 @@
 import React from 'react';
 import {withRouter} from 'react-router';
-
+import {Entity} from '@sketchpixy/rubix/lib/L20n';
 import UserActionCreator from 'actions/UserActionCreator';
 import ActivityActionCreator from 'actions/ActivityActionCreator';
 import UserStore from 'stores/UserStore';
