@@ -1,7 +1,7 @@
 import React from 'react';
 import {withRouter} from 'react-router';
 
-
+import {Entity} from '@sketchpixy/rubix/lib/L20n';
 import UserActionCreator from 'actions/UserActionCreator';
 import ActivityActionCreator from 'actions/ActivityActionCreator';
 import UserStore from 'stores/UserStore';
@@ -84,10 +84,13 @@ export default class WeinxinLogin extends React.Component {
     render() {
         return (
             <MainContainer id='container'>
-                <Col xs={12} sm={4} style={{padding: 10}} className="col-sm-offset-4">
-
-                    <a>Success!</a>
-                </Col>
+                <Grid>
+                    <Row>
+                        <Col xs={12} sm={4} style={{padding: 10}} className="col-sm-offset-4">
+                            <a><Entity entity="redirecting" /></a>
+                        </Col>
+                    </Row>
+                </Grid>
             </MainContainer>
         );
     }

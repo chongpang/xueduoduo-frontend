@@ -84,7 +84,7 @@ export default class QQLogin extends React.Component {
                     <Row>
                         <Col xs={12} sm={4} style={{padding: 10}} className="col-sm-offset-4">
                             <div>
-                                <a>Success!</a>
+                                <a><Entity entity="redirecting" /></a>
                             </div>
                         </Col>
                     </Row>

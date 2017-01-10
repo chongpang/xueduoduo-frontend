@@ -167,5 +167,6 @@
 <finishCourse '您已经学完课程：{0},要重新开始吗？'>
 
 <updateUTypeError '更新用户类型失败。请稍后再试！'>
+<redirecting '正在跳转，请稍后...'>
 
 
