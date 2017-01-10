@@ -36,6 +36,7 @@
 <tel '手机号码'>
 <email '电子邮件'>
 <hasnotAccount '还没有帐号？'>
+<selectUserType '请问您是？'>
 
 <!-- Teacher dashboard -->
 <myclasses '我的班级'>
@@ -164,5 +165,7 @@
 <joinError '加入班级过程中出错了，请稍后再试或是联系班级管理员'>
 <joinSuccess '您已成功加入班級，您可以马上'>
 <finishCourse '您已经学完课程：{0},要重新开始吗？'>
+
+<updateUTypeError '更新用户类型失败。请稍后再试！'>
 
 

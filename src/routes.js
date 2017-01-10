@@ -35,6 +35,8 @@ import ViewLO from 'routes/New.lo';
 import WeixinLogin from 'routes/Weixin.login';
 import QQLogin from 'routes/QQ.login';
 
+import UpdateUserType from 'routes/Set.user.type';
+
 class App extends React.Component {
     render() {
         return (
@@ -88,6 +90,7 @@ const basicRoutes = (
         <Route path='weixinlogin' component={WeixinLogin} />
         <Route path='qqlogin' component={QQLogin} />
         <Route path='learner/joinclass' component={JoinClass} />
+        <Route path='usertype' component={UpdateUserType} />
     </Route>
 );
 

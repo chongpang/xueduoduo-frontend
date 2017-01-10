@@ -32,6 +32,7 @@ module.exports = {
     UPDATE_CLASS: null,
     GET_ACTIVITIES:null,
     UPDATE_ACCOUNT:null,
+    UPDATE_USER_TYPE:null,
   })
 
 };

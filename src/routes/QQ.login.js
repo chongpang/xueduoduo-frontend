@@ -5,6 +5,7 @@ import UserActionCreator from 'actions/UserActionCreator';
 import ActivityActionCreator from 'actions/ActivityActionCreator';
 import UserStore from 'stores/UserStore';
 
+
 var Api = require('services/Api');
 var xGlobal = require('xGlobal');
 
@@ -38,6 +39,13 @@ export default class QQLogin extends React.Component {
 
     }
 
+    componentWillUnmount() {
+
+        if ($.isFunction(this._onSignCallBack)) {
+            UserStore.removeChangeListener(this._onSignCallBack);
+        }
+    }
+
     _onSignCallBack() {
 
         var self = this;
@@ -47,7 +55,11 @@ export default class QQLogin extends React.Component {
 
             ActivityActionCreator.saveAcitivity(xGlobal.XDD_VERBS['signin'], xGlobal.XDD_OBJECTS['signin'], {"success": true});
 
-            if (payload.userType == '1') {
+            if (payload.userType == '-1') {
+
+                self.props.router.push('/usertype');
+
+            } else if (payload.userType == '1') {
 
                 self.props.router.push('/teacher/dashboard');
 

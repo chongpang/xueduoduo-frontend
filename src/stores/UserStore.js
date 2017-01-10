@@ -70,9 +70,12 @@ UserStore.dispatchToken = XddAppDispatcher.register(function(action) {
     case ActionTypes.SIGNUP_CONFIRM:
       console.log("action type: " + action.type);
       payload = action.result;
-      UserStore.emitChange();    
-      
-    default:
+      UserStore.emitChange();
+    case ActionTypes.UPDATE_USER_TYPE:
+        console.log("action type: " + action.type);
+        payload = action.result;
+        UserStore.emitChange();
+      default:
       // do nothing
   }
 

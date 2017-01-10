@@ -41,6 +41,13 @@ export default class WeinxinLogin extends React.Component {
 
     }
 
+    componentWillUnmount() {
+
+        if ($.isFunction(this._onSignCallBack)) {
+            UserStore.removeChangeListener(this._onSignCallBack);
+        }
+    }
+
     _onSignCallBack() {
         var self = this;
         var payload = UserStore.getPayload();
@@ -49,13 +56,20 @@ export default class WeinxinLogin extends React.Component {
 
             ActivityActionCreator.saveAcitivity(xGlobal.XDD_VERBS['signin'], xGlobal.XDD_OBJECTS['signin'], {"success": true});
 
-            if (payload.userType == '1') {
+            if (payload.userType == '-1') {
+
+                self.props.router.push('/usertype');
+
+            } else if (payload.userType == '1') {
 
                 self.props.router.push('/teacher/dashboard');
 
             } else if (payload.userType == '0') {
-                self.props.router.push('/learner/dashboard')
+
+                self.props.router.push('/learner/dashboard');
+
             } else if (payload.userType == '2') {
+
                 alert('Parent dashboard is under developing. Thank you !')
             }
 
