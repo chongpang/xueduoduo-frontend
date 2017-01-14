@@ -112,8 +112,12 @@ export default class Login extends React.Component {
             }
 
         } else {
+            var message = payload.message;
+            if(payload.retcode == -2){
+                message = l20n.ctx.getSync('loginError')
+            }
 
-            $("#user_id").notify(payload.message, {
+            $("#user_id").notify(message, {
                 position: 'top', className: "error", autoHideDelay: 7000
             });
         }

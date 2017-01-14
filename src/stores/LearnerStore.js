@@ -45,12 +45,10 @@ LearnerStore.dispatchToken = XddAppDispatcher.register(function(action) {
   switch(action.type) {
 
     case ActionTypes.LEARNER_ENROLL:
-      console.log("action type: " + action.type);
       payload = action.result;
       LearnerStore.emitChange();
       break;
     case ActionTypes.START_LEARN:
-      console.log("action type: " + action.type);
       startLO = action.result;
       LearnerStore.emitChange();
       break;  

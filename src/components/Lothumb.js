@@ -49,8 +49,6 @@ export default class LOThumb extends React.Component {
 
         var checkedLOs = self.props.parent.state.checkedLOs;
 
-        console.log(self.props);
-
         var v = $('#' + loid).val();
 
         if ($('#' + loid).is(':checked')) {
@@ -110,8 +108,6 @@ export default class LOThumb extends React.Component {
     render() {
 
         var self = this;
-
-        console.log(self.props);
 
         if (self.props.los.length > 0) {
             self.state.los = self.props.los;

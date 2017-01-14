@@ -2,6 +2,7 @@
 /**
  * Wrapper for calling a API
  */
+import l20n from '@sketchpixy/rubix/lib/L20n';
 
 var XddConstants = require('constants/XddConstants');
 
@@ -53,32 +54,25 @@ var Api = {
           // 通信成功時の処理
           success: function(result, textStatus, xhr) {
               // 入力値を初期化
-              //$form[0].reset();
-              console.log("Request:")
-              console.log(url);
-              if(data){
-                if(url.indexOf('signin') < 0){
-                  console.log(data);
-                }
-   
+
+              if(result.retcode == -404){
+                  $.notify(l20n.ctx.getSync('error404'),{
+                      position:'bottom', className: "error" ,autoHideDelay: 5000});
+
+                  return;
+              }else if( result.retcode == -17 ){
+                  $.notify(l20n.ctx.getSync('userNotExists'),{
+                      position:'bottom', className: "error" ,autoHideDelay: 5000});
+
+                  return;
               }
-              console.log("Server response:")
-              console.log(result);
 
               return callBack(result);
           },
           
           // 通信失敗時の処理
-          error: function(xhr, ajaxOptions, thrownErro) {
-              console.log("Request:")
-              console.log(url);
-              if(data){
-                if(url.indexOf('signin') < 0){
-                  console.log(data);
-                }
-              }
-
-            $.notify("Disconnected with api server, please try later.",{
+          error: function(xhr, textStatus, errorThrown) {
+            $.notify(errorThrown,{
             position:'bottom', className: "error" ,autoHideDelay: 5000
           }); 
           }

@@ -116,7 +116,7 @@ var UserActionCreator = {
         });
     },
 
-    updateUserType: function ( ) {
+    updateUserType: function () {
 
         var $form = $("#user_type_form");
 
@@ -152,7 +152,7 @@ var UserActionCreator = {
         var ret = -1;
 
         Api.Call(req, null, function (result) {
-            console.log(result);
+
             result = $.parseJSON(result);
             ret = result.ret;
             if (result != null && ret == 0) {
@@ -219,6 +219,19 @@ var UserActionCreator = {
             });
 
         });
+    },
+
+    applyClass: function (cid) {
+
+        Api.Call('/api/v1/class/apply?cid=' + cid, null,
+            function (result) {
+
+                XddAppDispatcher.dispatch({
+                    type: ActionTypes.APPLY_CLASS,
+                    result: result,
+                });
+
+            }, 'get');
     },
 
     sendSMS: function () {

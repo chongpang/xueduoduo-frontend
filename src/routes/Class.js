@@ -53,6 +53,7 @@ export default class ViewClass extends React.Component {
             selected: null,
             stuCount: 0,
             learner_rows: [],
+            pending_learners_rows: [],
             strings: {
                 "classHome": "Class Home",
                 "classCurriculum": "Class Curriculum",
@@ -93,10 +94,59 @@ export default class ViewClass extends React.Component {
 
     }
 
+    _onApproveStudentJoin( learnerId , userId){
+
+        var self = this;
+
+        vex.defaultOptions.className = 'vex-theme-default';
+        vex.dialog.confirm({
+            message: $.validator.format(l20n.ctx.getSync('approveJoinConfirm'), userId),
+            showCloseButton: true,
+            callback: (value) => {
+                if (value) {
+
+                    ClassStore.addChangeListener(self._onApproveCallBack.bind(self));
+
+                    ClassActionCreator.approveStudentJoin(self.state.currentClass.id, learnerId);
+                } else {
+                    $('.vex').remove();
+                }
+            }
+        });
+    }
+
+    _onApproveCallBack(){
+
+        var payload = ClassStore.getPayload();
+        var result = payload.result;
+
+        if (payload.type == ActionTypes.APPROVE_STU_JOIN) {
+
+            if(result.retcode == 0){
+
+                $("#show_student_count").notify(l20n.ctx.getSync("approveSuccess"), {
+                    position: 'bottom', className: "success", autoHideDelay: 5000
+                });
+
+                ClassActionCreator.getClassInfo(this.props.router.params.cid);
+
+            }else{
+
+                $("#show_student_count").notify(l20n.ctx.getSync("approveError"), {
+                    position: 'bottom', className: "error", autoHideDelay: 5000
+                });
+            }
+        }
+
+    }
     componentWillUnmount() {
 
         if ($.isFunction(this._onClassCallBack)) {
             ClassStore.removeChangeListener(this._onClassCallBack);
+        }
+
+        if ($.isFunction(this._onApproveCallBack)) {
+            ClassStore.removeChangeListener(this._onApproveCallBack);
         }
 
         this._isMounted = false;
@@ -114,6 +164,8 @@ export default class ViewClass extends React.Component {
             var courseThumbs = [];
             var courses = [];
             var learners = [];
+            var pending_learners = [];
+            var pending_learners_rows = [];
             var stuCount = 0;
             var learner_rows = [];
             var classInfo = result;
@@ -142,8 +194,28 @@ export default class ViewClass extends React.Component {
                     }
                     //
                     learners = classInfo.classInfo.learners;
-                    stuCount = learners.length;
-                    if (stuCount > 0) {
+                    pending_learners = classInfo.classInfo.pendingLearners;
+                    stuCount = learners.length + pending_learners.length;
+                    if (pending_learners.length > 0) {
+                        pending_learners_rows = pending_learners.map(function (learner) {
+                            return (
+                                <tr key={ "row-" + learner.userId}>
+                                    <td>{ learner.userId }</td>
+                                    <td>1</td>
+                                    <td>1 minitue ago</td>
+                                    <td>Pending
+                                        <Button
+                                        style={{margin: 5}}
+                                        bsStyle='xddgreen'
+                                        onClick={ self._onApproveStudentJoin.bind(self, learner.id, learner.userId) }><Entity
+                                        entity='approve'/>
+                                        </Button>
+                                    </td>
+                                </tr>
+                            );
+                        });
+                    }
+                    if (learners.length > 0) {
                         learner_rows = learners.map(function (learner) {
                             return (
                                 <tr key={ "row-" + learner.userId}>
@@ -159,7 +231,7 @@ export default class ViewClass extends React.Component {
                 }
 
                 if (self._isMounted) {
-                    self.setState({courseThumbs: courseThumbs, learner_rows: learner_rows, stuCount: stuCount});
+                    self.setState({courseThumbs: courseThumbs, learner_rows: learner_rows, pending_learners_rows: pending_learners_rows, stuCount: stuCount});
                 }
 
             }
@@ -284,14 +356,13 @@ export default class ViewClass extends React.Component {
                                                                 <Grid>
                                                                     <Row>
                                                                         <Col xs={12}>
-                                                                            <h4> {  self.state.stuCount }
+                                                                            <h4 id="show_student_count"> {  self.state.stuCount }
                                                                                 <Entity entity="student"/></h4>
                                                                         </Col>
                                                                     </Row>
                                                                 </Grid>
                                                             </PanelHeader>
                                                             <PanelBody>
-
                                                                 <Row>
                                                                     <Col xs={12}>
                                                                         <Table bordered striped className='tablesaw'
@@ -312,7 +383,8 @@ export default class ViewClass extends React.Component {
                                                                             </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                            {  self.state.learner_rows }
+                                                                            {  self.state.pending_learners_rows }
+                                                                            { self.state.learner_rows }
                                                                             </tbody>
                                                                         </Table>
 

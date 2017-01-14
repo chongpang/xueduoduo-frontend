@@ -39,7 +39,6 @@ TeacherStore.dispatchToken = XddAppDispatcher.register(function(action) {
   switch(action.type) {
 
     case ActionTypes.INVITE_STUDENT:
-      console.log("action type: " + action.type);
       payload = action.result;
       TeacherStore.emitChange();
       break;

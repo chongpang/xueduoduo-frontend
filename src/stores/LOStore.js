@@ -40,36 +40,29 @@ LOStore.dispatchToken = XddAppDispatcher.register(function(action) {
   switch(action.type) {
 
     case ActionTypes.SEARCH_LO:
-      console.log("action type " + action.type);
       payload = action;
       LOStore.emitChange();
       break;
  
     case ActionTypes.CREATE_LO:
-      console.log("action type " + action.type);
       payload = action;
       LOStore.emitChange();
       break; 
 
     case ActionTypes.ADAPT:
-      console.log("action type " + action.type);
-      console.log(action);
       payload = action;
       LOStore.emitChange();
       break;   
 
     case ActionTypes.GET_LO:
-      console.log("action type " + action.type);
       payload = action;
       LOStore.emitChange();
       break;      
     case ActionTypes.UPDATE_LO:
-      console.log("action type " + action.type);
       payload = action;
       LOStore.emitChange();
       break;      
     case ActionTypes.GET_LO_DETAILS:
-      console.log("action type " + action.type);
       payload = action;
       LOStore.emitChange();
       break;            

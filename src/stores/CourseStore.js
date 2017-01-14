@@ -39,31 +39,26 @@ CourseStore.dispatchToken = XddAppDispatcher.register(function(action) {
   switch(action.type) {
 
     case ActionTypes.GET_COURSES:
-      console.log("action type " + action.type);
       payload = action;
       CourseStore.emitChange();
       break;
 
      case ActionTypes.GET_COURSE:
-      console.log("action type " + action.type);
       payload = action;
       CourseStore.emitChange();
       break;     
  
     case ActionTypes.CREATE_COURSE:
-      console.log("action type " + action.type);
       payload = action;
       CourseStore.emitChange();
       break; 
 
     case ActionTypes.UPDATE_COURSE:
-      console.log("action type " + action.type);
       payload = action;
       CourseStore.emitChange();
       break; 
 
     case ActionTypes.SEARCH_COURSE:
-      console.log("action type " + action.type);
       payload = action;
       CourseStore.emitChange();
       break;

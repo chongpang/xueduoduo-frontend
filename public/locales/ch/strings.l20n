@@ -100,7 +100,14 @@
 <enrollThisCourse '学习此课程'>
 <learnCourse '开始学习'>
 <continueLO '继续'>
-
+<searchClass '搜索班级'>
+<applyClass '申请加入'>
+<applying '等待中'>
+<approve '接受'>
+<approveSuccess '已成功加入班级！'>
+<approveError '处理接受加入失败，请稍后再试！'>
+<approveJoinConfirm '确认接受{0}的加入班级请求吗？'>
+<applySucceeded '已成功申请加入班级: {0}, 等待班级管理员批准。'>
 
 <!-- common  -->
 <author '作成者'>
@@ -168,5 +175,10 @@
 
 <updateUTypeError '更新用户类型失败。请稍后再试！'>
 <redirecting '正在跳转，请稍后...'>
+<noresposeError '服务器未能正常返回数据，请尝试刷新页面后再试。'>
+<connectionError '网络连接错误，请稍后再试。'>
+<error404 '没有找到对应数据或资源。请稍后再试！'>
+<userNotExists '未能连接网络或是该用户不存在。'>
+<loginError '登录失败，请检查您的登录信息是否正确。'>
 
 
