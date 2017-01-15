@@ -1,5 +1,5 @@
 import React from 'react';
-import {Entity} from '@sketchpixy/rubix/lib/L20n';
+import l20n, {Entity} from '@sketchpixy/rubix/lib/L20n';
 
 import {
     Row,
@@ -66,16 +66,29 @@ export default class ClassThumb extends React.Component {
     _onRemoveCourse(cid) {
 
         var self = this;
-        var courses = this.state.courses;
-        // remove from search result
-        for (var i = courses.length - 1; i >= 0; i--) {
-            var index = self.getCourseIndex(courses, cid);
-            if (index > -1) {
-                courses.splice(index, 1);
-            }
-        }
 
-        self.setState({courses: courses});
+        vex.defaultOptions.className = 'vex-theme-default';
+        vex.dialog.confirm({
+            message: l20n.ctx.getSync('removeCourseConfirm'),
+            showCloseButton: true,
+            callback: (value) => {
+                if (value) {
+
+                    var courses = this.state.courses;
+                    // remove from search result
+                    for (var i = courses.length - 1; i >= 0; i--) {
+                        var index = self.getCourseIndex(courses, cid);
+                        if (index > -1) {
+                            courses.splice(index, 1);
+                        }
+                    }
+
+                    self.setState({courses: courses});
+                } else {
+                    $('.vex').remove();
+                }
+            }
+        });
     }
 
     getCourseById(cid) {

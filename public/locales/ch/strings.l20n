@@ -92,6 +92,7 @@
 <overvieStatus '学生状态'>
 <student ' 位学生已加入该班级'>
 <inviteInputHolder '邮件地址'>
+<joint '已加入'>
 
 <!-- learner dashboard -->
 <joinNewClass '加入新班级'>
@@ -147,6 +148,8 @@
 <question '问题'>
 <confirm '提交'>
 <send '发送'>
+<removeCourseConfirm '确认要删除所选课程吗？'>
+<removeLOConfirm '确认要删除所选知识点吗?'>
 <!- footer -->
 <companyName '学多多（深圳）信息科技有限公司'>
 

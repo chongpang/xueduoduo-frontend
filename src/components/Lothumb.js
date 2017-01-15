@@ -1,5 +1,5 @@
 import React from 'react';
-import {Entity} from '@sketchpixy/rubix/lib/L20n';
+import l20n, {Entity} from '@sketchpixy/rubix/lib/L20n';
 
 import {
     Row,
@@ -71,16 +71,32 @@ export default class LOThumb extends React.Component {
     }
 
     _onRemoveLO(loid) {
-        var st = this.state;
-        // remove from search result
-        for (var i = st.los.length - 1; i >= 0; i--) {
-            var index = this.getLOIndex(st.los, loid);
-            if (index > -1) {
-                st.los.splice(index, 1);
-            }
-        }
 
-        this.setState(st);
+        var self = this;
+
+        vex.defaultOptions.className = 'vex-theme-default';
+        vex.dialog.confirm({
+
+            message: l20n.ctx.getSync('removeLOConfirm'),
+            showCloseButton: true,
+            callback: (value) => {
+                if (value) {
+
+                    var st = self.state;
+                    // remove from search result
+                    for (var i = st.los.length - 1; i >= 0; i--) {
+                        var index = self.getLOIndex(st.los, loid);
+                        if (index > -1) {
+                            st.los.splice(index, 1);
+                        }
+                    }
+
+                    this.setState(st);
+                } else {
+                    $('.vex').remove();
+                }
+            }
+        });
     }
 
     getLOObj(loid) {

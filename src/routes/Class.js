@@ -94,13 +94,13 @@ export default class ViewClass extends React.Component {
 
     }
 
-    _onApproveStudentJoin( learnerId , userId){
+    _onApproveStudentJoin( learnerId , userName){
 
         var self = this;
 
         vex.defaultOptions.className = 'vex-theme-default';
         vex.dialog.confirm({
-            message: $.validator.format(l20n.ctx.getSync('approveJoinConfirm'), userId),
+            message: $.validator.format(l20n.ctx.getSync('approveJoinConfirm'), userName),
             showCloseButton: true,
             callback: (value) => {
                 if (value) {
@@ -200,14 +200,14 @@ export default class ViewClass extends React.Component {
                         pending_learners_rows = pending_learners.map(function (learner) {
                             return (
                                 <tr key={ "row-" + learner.userId}>
-                                    <td>{ learner.userId }</td>
+                                    <td>{ learner.userName }</td>
                                     <td>1</td>
                                     <td>1 minitue ago</td>
                                     <td>Pending
                                         <Button
                                         style={{margin: 5}}
                                         bsStyle='xddgreen'
-                                        onClick={ self._onApproveStudentJoin.bind(self, learner.id, learner.userId) }><Entity
+                                        onClick={ self._onApproveStudentJoin.bind(self, learner.id, learner.userName) }><Entity
                                         entity='approve'/>
                                         </Button>
                                     </td>
@@ -219,10 +219,10 @@ export default class ViewClass extends React.Component {
                         learner_rows = learners.map(function (learner) {
                             return (
                                 <tr key={ "row-" + learner.userId}>
-                                    <td>{ learner.userId }</td>
+                                    <td>{ learner.userName }</td>
                                     <td>1</td>
                                     <td>1 minitue ago</td>
-                                    <td>Joint</td>
+                                    <td><Entity entity="joint" /></td>
                                 </tr>
                             );
                         });

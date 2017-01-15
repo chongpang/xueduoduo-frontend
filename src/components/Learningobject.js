@@ -91,14 +91,12 @@ export default class Learningobject extends React.Component {
         if (res != null && res.retcode == 0) {
             if (res.lo.id == self.state.currentLO.id) {
                 // finished
+                vex.defaultOptions.className = 'vex-theme-default';
                 vex.dialog.confirm({
                     message: $.validator.format(l20n.ctx.getSync('finishCourse'), $('#course-title').html()),
                     showCloseButton: false,
-                    //appendLocation: $('#lo-content'),
                     callback: (value) => {
-                        //vex.dialog.alert(value ? 'Successfully destroyed the planet.' : 'Chicken.');
                         if (value) {
-                            //self.props.parent.transitionTo('/learner/learn/' + localStorage.getItem('current_course'));
                             location.reload();
                         } else {
                             $('.vex').remove();
