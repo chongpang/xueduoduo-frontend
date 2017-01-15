@@ -100,7 +100,7 @@ export default class Learningobject extends React.Component {
                             location.reload();
                         } else {
                             $('.vex').remove();
-                            self.props.parent.transitionTo('/learner/class/' + store.get('current_class'));
+                            self.props.parent.props.router.push('/learner/class/' + store.get('current_class'));
                         }
                     }
                 });

@@ -18,7 +18,7 @@ import {
     Panel,
     Image,
     Button,
-    ButtonGroup,
+    Radio,
     PanelBody,
     FormGroup,
     FormControl,
@@ -35,10 +35,11 @@ export default class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            signup_ok:  false,
+            signup_ok: false,
             message: {}
         };
     }
+
     back(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -128,9 +129,8 @@ export default class Login extends React.Component {
 
             var self = this;
             setTimeout(function () {
-                self.transitionTo('/signin');
+                self.props.router.push('/signin');
             }, 5000);
-
 
         } else {
             $("#user_id").notify(payload.message, {
@@ -257,27 +257,21 @@ export default class Login extends React.Component {
                                                             </Grid>
                                                         </FormGroup>
                                                         <FormGroup>
-                                                            <div className='text-center'>
-                                                                <ButtonGroup>
-                                                                    <Button outlined bsStyle='darkblue' data-title="0"
-                                                                            onClick={this._onSelect.bind(this, 0)}
-                                                                            onKeyPress={this._handleKeyPress}><Entity
-                                                                        entity='learner'/></Button>
-                                                                    <Button outlined bsStyle='darkblue'
-                                                                            data-toggle="user_type"
-                                                                            data-title="1"
-                                                                            onClick={this._onSelect.bind(this, 1)}
-                                                                            onKeyPress={this._handleKeyPress}><Entity
-                                                                        entity='teacher'/></Button>
-                                                                    <Button outlined bsStyle='darkblue'
-                                                                            data-toggle="user_type"
-                                                                            data-title="2"
-                                                                            onClick={this._onSelect.bind(this, 2)}
-                                                                            onKeyPress={this._handleKeyPress}><Entity
-                                                                        entity='parent'/></Button>
-                                                                </ButtonGroup>
-                                                                <input type="hidden" name="userType" id="user_type"/>
-                                                            </div>
+                                                            <Grid>
+                                                                <Row>
+                                                                    <Col xs={12} sm={12} className="text-center">
+                                                                        <Radio name="userType" value="0" inline>
+                                                                            <Entity entity='learner'/>
+                                                                        </Radio>
+                                                                        <Radio name="userType" value="1" inline>
+                                                                            <Entity entity='teacher'/>
+                                                                        </Radio>
+                                                                        <Radio name="userType" value="2" inline disabled>
+                                                                            <Entity entity='parent'/>
+                                                                        </Radio>
+                                                                    </Col>
+                                                                </Row>
+                                                            </Grid>
                                                         </FormGroup>
                                                         <FormGroup>
                                                             <Grid>
