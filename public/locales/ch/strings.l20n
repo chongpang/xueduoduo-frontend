@@ -37,6 +37,7 @@
 <email '电子邮件'>
 <hasnotAccount '还没有帐号？'>
 <selectUserType '请问您是？'>
+<userTypeRequired '请选择用户类型。'>
 
 <!-- Teacher dashboard -->
 <myclasses '我的班级'>

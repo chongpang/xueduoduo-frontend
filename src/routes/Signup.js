@@ -77,6 +77,9 @@ export default class Login extends React.Component {
                     repeatPassword: {
                         required: true,
                         equalTo: "#password"
+                    },
+                    userType:{
+                        required: true
                     }
                 },
                 messages: {
@@ -95,6 +98,9 @@ export default class Login extends React.Component {
                     repeatPassword: {
                         required: l20n.ctx.getSync('repeatPasswordRequired'),
                         equalTo: l20n.ctx.getSync('repeatPasswordNotSame')
+                    },
+                    userType:{
+                        required: l20n.ctx.getSync('userTypeRequired'),
                     }
                 }
             });
@@ -260,7 +266,7 @@ export default class Login extends React.Component {
                                                             <Grid>
                                                                 <Row>
                                                                     <Col xs={12} sm={12} className="text-center">
-                                                                        <Radio name="userType" value="0" inline>
+                                                                        <Radio name="userType" value="0" inline required>
                                                                             <Entity entity='learner'/>
                                                                         </Radio>
                                                                         <Radio name="userType" value="1" inline>
