@@ -29,7 +29,8 @@ export default class Learningobject extends React.Component {
         super(props);
         this.state = {
             currentLO: null,
-            userAnwser: []
+            userAnwser: [],
+            isInit: true
         };
 
 
@@ -323,20 +324,21 @@ export default class Learningobject extends React.Component {
 
     render() {
 
-        this.state.userAnwser = [];
+        var self = this;
+        self.state.userAnwser = [];
         var lo = null;
 
-        if (this.props.LO) {
-            lo = this.props.LO;
-            this.state.currentLO = lo;
-            //this.props.LO = null;
+        if (self.state.isInit && self.props.LO != null) {
+            lo = self.props.LO;
+            self.state.currentLO = lo;
+            self.state.isInit = false;
         } else {
-            lo = this.state.currentLO;
+            lo = self.state.currentLO;
         }
-        var quizs = this._getQuizesComponent(lo.quizs);
+        var quizs = self._getQuizesComponent(lo.quizs);
 
         for (var i = 0; i < lo.quizs.length; i++) {
-            this.state.userAnwser.push({id: i + 1, qtype: lo.quizs[i].qtype, answer: "0", choices: []});
+            self.state.userAnwser.push({id: i + 1, qtype: lo.quizs[i].qtype, answer: "0", choices: []});
         }
         return (
             <Grid id="lo-content">
@@ -358,7 +360,7 @@ export default class Learningobject extends React.Component {
                                     <Row>
                                         <Col xs={12} className="text-center">
                                             <Button bsStyle='xddgreen'
-                                                    onClick={ this._onAdapt.bind(this, lo.id, lo.title) }><Entity
+                                                    onClick={ self._onAdapt.bind(self, lo.id, lo.title) }><Entity
                                                 entity='continueLO'/></Button>
                                         </Col>
                                     </Row>
