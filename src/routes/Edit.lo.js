@@ -49,19 +49,19 @@ export default class EditLO extends React.Component {
 
         var self = this;
 
-        self.renderLOEditControl(self);
+        //self.renderLOEditControl(self);
 
         var loid = self.props.router.params.loid;
 
         LOStore.addChangeListener(self._onLOCallBack.bind(self));
 
-        LOActionCreator.getLOById(loid);
+        LOActionCreator.getLOById(loid); // GET_LO_DETAILS
 
         self._isMounted = true;
 
-        setTimeout(function () {
-            self.loadData();
-        }, 200);
+        //setTimeout(function () {
+        self.loadData();
+        //}, 200);
 
     }
 
@@ -84,23 +84,32 @@ export default class EditLO extends React.Component {
                     position: 'right', className: "error"
                 });
             }
-        } else if (payload.type == ActionTypes.SEARCH_LO) {
+        } else if (payload.type == ActionTypes.GET_LO) {
 
             if (result.retcode == 0) {
                 if (result.los.length == 1) {
 
                     if (self._isMounted) {
-                        self.setState({lo: result.los[0]});
 
-                        self.setContent();
-                        self._getLODetails(result.los[0]);
+                        self.state.lo = result.los[0];
+                        //
+                        // self.setState({lo: result.los[0]});
 
-                        // show saved tags
-                        var tags = result.los[0].tags;
-                        $("#tagsContainer").tokenfield('setTokens', tags);
-                        $("#categoryContainer").tokenInput("add", {"id": "1", "title": "Math"});
+                        self.renderLOEditControl(self);
 
-                        $("#lotitle").val(result.los[0].title);
+                        self.getPreLOs(result.los[0]);
+
+                        self.loadData();
+
+                        setTimeout(function () {
+                            self.setContent();
+                            // show saved tags
+                            var tags = result.los[0].tags;
+                            $("#tagsContainer").tokenfield('setTokens', tags);
+                            //$("#categoryContainer").tokenInput("add", {"id": "1", "title": "Math"});
+
+                            $("#lotitle").val(result.los[0].title);
+                        }, 200);
 
                     }
 
@@ -109,13 +118,16 @@ export default class EditLO extends React.Component {
             } else {
                 alert(result.message);
             }
-        } else if (payload.type == ActionTypes.GET_LO_DETAILS) {
+        } else if (payload.type == ActionTypes.GET_LOS) {
 
             if (result.retcode == 0) {
 
                 $("#prerequistitsContainer").tokenInput("clear");
                 for (var i = result.los.length - 1; i >= 0; i--) {
-                    $("#prerequistitsContainer").tokenInput("add", {"id": result.los[i].id, "title": result.los[i].title});
+                    $("#prerequistitsContainer").tokenInput("add", {
+                        "id": result.los[i].id,
+                        "title": result.los[i].title
+                    });
                 }
 
             } else {
@@ -137,11 +149,11 @@ export default class EditLO extends React.Component {
 
     }
 
-    _getLODetails(lo) {
+    getPreLOs(lo) {
 
         LOStore.addChangeListener(this._onLOCallBack.bind(this));
 
-        LOActionCreator.getLODetails(lo.prerequisites);
+        LOActionCreator.getLOsByIds(lo.prerequisites);
     }
 
     componentWillUnmount() {
@@ -278,10 +290,10 @@ export default class EditLO extends React.Component {
                                         <Grid>
                                             <Row>
                                                 <Col xs={12}>
-                                                                              <textarea name="description"
-                                                                                        className="lo-description"
-                                                                                        value={ self.state.lo.description || ""}>
-                                                                              </textarea>
+                                                      <textarea name="description"
+                                                                className="lo-description"
+                                                                defaultValue={ self.state.lo.description || ""}>
+                                                      </textarea>
                                                 </Col>
                                             </Row>
                                         </Grid>
@@ -308,7 +320,7 @@ export default class EditLO extends React.Component {
                                         <Grid>
                                             <Row>
                                                 <Col xs={12}>
-                                                    <input id="prerequistitsContainer" name="prerequisites" />
+                                                    <input id="prerequistitsContainer" name="prerequisites"/>
                                                 </Col>
                                             </Row>
                                         </Grid>
@@ -335,7 +347,7 @@ export default class EditLO extends React.Component {
                                         <Grid>
                                             <Row>
                                                 <Col xs={12}>
-                                                    <input id="categoryContainer" name="category" />
+                                                    <input id="categoryContainer" name="category"/>
                                                 </Col>
                                             </Row>
                                         </Grid>
@@ -420,6 +432,7 @@ export default class EditLO extends React.Component {
     }
 
     loadData() {
+
         this.setContent();
 
         $('#tagsContainer').tokenfield();
@@ -454,7 +467,7 @@ export default class EditLO extends React.Component {
                     //for (var i = results.length - 1; i >= 0; i--) {
                     var tmp = {};
                     tmp['id'] = "1";//results[i].id;
-                    tmp['title'] = "Math";//results[i].title;
+                    tmp['title'] = "Waiting for update.";//results[i].title;
                     result.push(tmp);
                     //};
 

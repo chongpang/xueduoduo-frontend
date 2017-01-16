@@ -23,6 +23,7 @@ module.exports = {
         SEARCH_LO: null,
         GET_LO_DETAILS: null,
         GET_LO: null,
+        GET_LOS: null,
         UPDATE_LO: null,
         ADAPT: null,
         INVITE_STUDENT: null,

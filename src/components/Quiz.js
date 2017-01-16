@@ -119,7 +119,6 @@ export default class Quiz extends React.Component {
 
         if (self.state.quizs.length > 0) {
 
-
             return (
                 <div>
                     {
@@ -131,7 +130,7 @@ export default class Quiz extends React.Component {
                                         <Row>
                                             <Col>
                                                 <div className="question-editor" id={ 'quiz-' + (index + 1) }
-                                                     name={'quiz-' + (index + 1) }>{ self.setQuestion.bind(self, 'quiz-' + (index + 1), quiz.question) }</div>
+                                                     name={'quiz-' + (index + 1) }>{ self.setQuestion('quiz-' + (index + 1), quiz.question) }</div>
                                             </Col>
                                         </Row>
                                         <Row>

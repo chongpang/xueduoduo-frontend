@@ -30,10 +30,10 @@ export default class Yesno extends React.Component {
 
         return (
             <Col xs={9}>
-                <Radio value='Yes' defaultChecked={ checked_yes } name={ this.props['answerTo'] + '-answeryesno' }>
+                <Radio defaultValue='Yes' defaultChecked={ checked_yes } name={ this.props['answerTo'] + '-answeryesno' }>
                     Yes
                 </Radio>
-                <Radio value='No' defaultChecked={ checked_no } name={ this.props['answerTo'] + '-answeryesno' }>
+                <Radio defaultValue='No' defaultChecked={ checked_no } name={ this.props['answerTo'] + '-answeryesno' }>
                     No
                 </Radio>
             </Col>
