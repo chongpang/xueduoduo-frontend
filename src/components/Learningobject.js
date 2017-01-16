@@ -343,7 +343,7 @@ export default class Learningobject extends React.Component {
         return (
             <Grid id="lo-content">
                 <Row>
-                    <Col xs={12} sm={10}>
+                    <Col xs={12} sm={12}>
                         <PanelContainer>
                             <Panel>
                                 <PanelBody>
