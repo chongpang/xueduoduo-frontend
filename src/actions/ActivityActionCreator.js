@@ -62,7 +62,7 @@ var ActivityActionCreator = {
     getCourseObj: function (course) {
         var course = xGlobal.XDD_OBJECTS['course'];
 
-        course.id = xGlobal.HOST_NAME + '/learner/course/' + course.id;
+        course.id = "http://" + xGlobal.HOST_NAME + '/learner/course/' + course.id;
         course.definition.name['en-US'] = "课程: " + course.title;
         course.definition.name['zh-CN'] = "course: " + course.title;
         course.definition.description['en-US'] = course.description;
@@ -75,7 +75,7 @@ var ActivityActionCreator = {
     getClassObj: function (c) {
         var oClass = xGlobal.XDD_OBJECTS['class'];
 
-        oClass.id = xGlobal.HOST_NAME + '/learner/class/' + c.id;
+        oClass.id = "http://" + xGlobal.HOST_NAME + '/learner/class/' + c.id;
         oClass.definition.name['en-US'] = "班级: " + c.title;
         oClass.definition.name['zh-CN'] = "Class: " + c.title;
         oClass.definition.description['en-US'] = c.description;
@@ -87,7 +87,7 @@ var ActivityActionCreator = {
     getLearningObj: function (lo) {
         var learningbj = xGlobal.XDD_OBJECTS['learningobj'];
 
-        learningbj.id = xGlobal.HOST_NAME + '/learner/learn/' + lo.id;
+        learningbj.id = "http://" + xGlobal.HOST_NAME + '/learner/learn/' + lo.id;
         learningbj.definition.name['en-US'] = "learning object : " + lo.title;
         learningbj.definition.name['zh-CN'] = "知识点: " + lo.title;
         learningbj.definition.description['en-US'] = lo.description;
@@ -98,7 +98,7 @@ var ActivityActionCreator = {
     getQuestionObj: function (qid, q) {
         var qest = xGlobal.XDD_OBJECTS['question'];
 
-        qest.id = xGlobal.HOST_NAME + '/learner/learn/' + qid; // learning object + qindex
+        qest.id = "http://" + xGlobal.HOST_NAME + '/learner/learn/' + qid; // learning object + qindex
         qest.definition.name['en-US'] = q;
         qest.definition.name['zh-CN'] = q;
         qest.definition.description['en-US'] = '';
