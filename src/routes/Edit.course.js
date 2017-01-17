@@ -184,23 +184,35 @@ export default class EditCourse extends React.Component {
                     position: 'top', className: "error", autoHideDelay: 7000
                 });
             }
-        } else if (payload.type == ActionTypes.SEARCH_LO) {
-            if (result.retcode == 0) {
-
-                if (self._isMounted) {
-                    self.setState({searchLOs: result.los});
-                }
-            } else {
-                alert(result.message);
-            }
         }
 
     }
+    _onSearchLOCallBack() {
 
+        var self = this;
+
+        var payload = LOStore.getPayload();
+        var result = payload.result;
+
+        if (result.retcode == 0) {
+
+            if (self._isMounted) {
+                self.setState({searchLOs: result.los});
+            }
+        } else {
+            alert(result.message);
+        }
+
+
+    }
     componentWillUnmount() {
 
         if ($.isFunction(this._onLOCallBack)) {
             LOStore.removeChangeListener(this._onLOCallBack);
+        }
+
+        if ($.isFunction(this._onSearchLOCallBack)) {
+            LOStore.removeChangeListener(this._onSearchLOCallBack);
         }
 
         this._isMounted = false;
@@ -209,6 +221,7 @@ export default class EditCourse extends React.Component {
 
     _onSearchLO() {
 
+        LOStore.addChangeListener(this._onSearchLOCallBack.bind(this));
         LOActionCreator.getLOs($('#searchlobtn').val());
     }
 

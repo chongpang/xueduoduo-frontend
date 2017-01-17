@@ -28,7 +28,6 @@ var LOActionCreator = {
      */
     getLOs: function (keywords) {
 
-        var param = null;
         var url = '/api/v1/searchlo';
         var type = ActionTypes.SEARCH_LO;
         if (keywords) {
