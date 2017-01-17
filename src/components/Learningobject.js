@@ -17,6 +17,7 @@ import {
     Radio,
     Panel,
     Button,
+    InputGroup,
     FormControl,
     PanelBody,
     PanelContainer
@@ -269,7 +270,7 @@ export default class Learningobject extends React.Component {
                     );
                 } else if (q.qtype == "2") {
                     answerComponent = (
-                        <Row key={ "lo-answer-" + i } style={{padding: 25}}>
+                        <Row key={ "lo-answer-" + i } style={{padding: 12.5}}>
                             <Col xs={9} id={ "lo-answer-" + i} >
                                 <Radio value='Yes' name="answeryesno"
                                        onClick={ self._onChooseAnswer.bind(this, q.qtype, i, 'yes', q.answer, q.question) }>
@@ -283,15 +284,18 @@ export default class Learningobject extends React.Component {
                         </Row>);
                 } else if (q.qtype == "3") {
                     answerComponent = (
-                        <Row key={ "lo-answer-" + i } style={{padding: 25}}>
-                            <Col xs={10} className="" id={ "lo-answer-" + i} >
-                                <FormControl type='text' id='textAnswerInput' name='comment'
-                                             placeholder="Please input your comment here!" className='required'/>
-                            </Col>
-                            <Col xs={2}>
-                                <Button bsStyle='xddgreen'
-                                        onClick={ self._onChooseAnswer.bind(this, q.qtype, i, '', q.answer, q.question) }><Entity
-                                    entity='confirm'/></Button>
+                        <Row key={ "lo-answer-" + i } style={{padding: 12.5}}>
+                            <Col xs={12} sm={12} className="" id={ "lo-answer-" + i} >
+                                <InputGroup>
+                                    <FormControl id='textAnswerInput' type="text" name='comment'
+                                                 placeholder='Please input your comment here!' className='required'
+                                    />
+                                    <InputGroup.Button>
+                                        <Button bsStyle='xddgreen'
+                                                onClick={ self._onChooseAnswer.bind(this, q.qtype, i, '', q.answer, q.question)  }>
+                                            <Entity entity="confirm"/></Button>
+                                    </InputGroup.Button>
+                                </InputGroup>
                             </Col>
                         </Row>
                     );
@@ -301,7 +305,7 @@ export default class Learningobject extends React.Component {
                 return (
                     <Panel key={ "question-" + i }>
                         <PanelBody>
-                            <Row style={{padding: 25}}>
+                            <Row style={{padding: 12.5}}>
                                 <Col xs={12}>
                                     <Entity entity="question"/>: {i}:
                                     <div dangerouslySetInnerHTML={{__html: q.question}}/>
@@ -341,9 +345,9 @@ export default class Learningobject extends React.Component {
             self.state.userAnwser.push({id: i + 1, qtype: lo.quizs[i].qtype, answer: "0", choices: []});
         }
         return (
-            <Grid id="lo-content">
-                <Row>
-                    <Col xs={12} sm={12}>
+            <Grid id="lo-content" className="padding-left-right-5">
+                <Row className="padding-left-right-5">
+                    <Col xs={12} sm={12} className="padding-left-right-5">
                         <PanelContainer>
                             <Panel>
                                 <PanelBody>

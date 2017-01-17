@@ -234,7 +234,7 @@ export default class Login extends React.Component {
                             </Col>
                         </Row>
                         <Row className='text-center'>
-                            <Col xs={4} sm={12} className='col-center beian_info'>
+                            <Col xs={12} sm={12} className='text-center beian_info'>
                                 <a target="_blank" href="http://www.xueduoduo.io/"><Entity
                                     entity='companyName'/></a><br/>
                                 <a target="_blank" href="http://www.miibeian.gov.cn/">粤ICP备16072087号</a>
